@@ -11,12 +11,13 @@ function petfinderCall() {
     var pf = new petfinder.Client({ apiKey: apiKey, secret: secret });
     pf.animal.search({
         location: userLocation,
-        type: "dog",
         distance: 15
     })
         .then(function (response) {
             //response object from api
-            console.log(response.data.animals[0]);
+            for (let index = 0; index < response.data.animals.length; index++) {
+                console.log(response.data.animals[index]);
+            }
         })
         .catch(function (error) {
             // Handle the error
