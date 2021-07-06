@@ -22,12 +22,12 @@ function petfinderCall() {
             for (let index = 0; index < response.data.animals.length; index++) {
                 console.log(response.data.animals[index]);
 
-                //Appends pet name and age    
+                //Appends pet name and age
                 petName.textContent = `${response.data.animals[0].name}`;
                 petAge.textContent = `Age: ${response.data.animals[0].age}`;
                 nameAndAge.append(petName);
                 nameAndAge.append(petAge);
-                
+
                 //Appends secondary pet characteristics
                 petType.textContent = `Species: ${response.data.animals[0].type}`;
                 petGender.textContent = `Gender: ${response.data.animals[0].gender}`;
@@ -48,4 +48,3 @@ function petfinderCall() {
 }
 
 petfinderCall()
-
