@@ -31,11 +31,11 @@ function petfinderCall() {
                 nameAndAge.append(`Age: ${petAge}`);
                 
                 //Appends secondary characteristics to document
-                var petType = document.createElement("p");
-                var petGender = document.createElement("p");
-                var petBreed = document.createElement("p");
-                var petSize = document.createElement("p");
-                var petDescription = document.getElementById("p");
+                var petType = document.getElementById("petType");
+                var petGender = document.getElementById("petGender");
+                var petBreed = document.getElementById("petBreed");
+                var petSize = document.getElementById("petSize");
+                var petDescription = document.getElementById("petDescription");
                 petType = response.data.animals[0].type;
                 petGender = response.data.animals[0].gender;
                 petBreed = response.data.animals[0].breeds;
