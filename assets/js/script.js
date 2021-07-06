@@ -9,8 +9,7 @@ const dogapiKey = 'c8cd1d33-b825-4d0b-aeca-b35206aec201';
 var userLocation = `austin, texas`
 
 //Name and Characteristic variables
-var nameAndAge = document.getElementById("media-content");
-var petCharacteristics = document.getElementById("content");
+
 
 function petfinderCall() {
     var pf = new petfinder.Client({ apiKey: apiKey, secret: secret });
@@ -22,25 +21,31 @@ function petfinderCall() {
             //response object from api
             // for (let index = 0; index < response.data.animals.length; index++) {
                 // console.log(response.data.animals[0]);
+                var petCharacteristics = document.getElementById("petData"); //parent
 
                 //Appends pet name and age
                 petName.textContent = `${response.data.animals[0].name}`;
                 petAge.textContent = `Age: ${response.data.animals[0].age}`;
-                nameAndAge.append(petName);
-                nameAndAge.append(petAge);
+                /* petCharacteristics.append(petName);
+                petCharacteristics.append(petAge); */
 
                 //Appends secondary pet characteristics
+                var petType = document.getElementById("petType")
+                var petGender = document.getElementById("petGender")
+                var petBreed = document.getElementById("petBreed")
+                var petSize = document.getElementById("petSize")
+                var petDescription = document.getElementById("petDescription")
+                document.getElementById("petPhoto").setAttribute("src",response.data.animals[0].photos[0].large)
                 petType.textContent = `Species: ${response.data.animals[0].type}`;
                 petGender.textContent = `Gender: ${response.data.animals[0].gender}`;
-                petBreed.textContent = `Breed: ${response.data.animals[0].breeds}`;
+                petBreed.textContent = `Breed: ${response.data.animals[0].breeds.primary}`;
                 petSize.textContent = `Size: ${response.data.animals[0].size}`;
                 petDescription.textContent = `Description: ${response.data.animals[0].description}`;
-                petCharacteristics.append(petType);
+                /* petCharacteristics.append(petType);
                 petCharacteristics.append(petGender);
                 petCharacteristics.append(petBreed);
                 petCharacteristics.append(petSize);
-                petCharacteristics.append(petDescription);
-                console.log(response.data.animals[0].breeds)
+                petCharacteristics.append(petDescription); */
                 dogApiCall(response.data.animals[0].breeds);
         })
         .catch(function (error) {
@@ -50,7 +55,6 @@ function petfinderCall() {
 }
 
 function dogApiCall(petBreed) {
-    console.log(petBreed)
     var dogApiUrl = `https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`;
     fetch(dogApiUrl,{
     headers: {
