@@ -49,6 +49,7 @@ function petfinderCall() {
         });
 }
 
+//Calls Dog API and provides info on the breed
 function dogApiCall(petBreed) {
     console.log(petBreed)
     var dogApiUrl = `https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`;
@@ -60,25 +61,20 @@ function dogApiCall(petBreed) {
     .then(response => response.json())
     .then(result => {
     console.log('Success:', result);
+    console.log(result[0].life_span);
+    console.log(result[0].temperament);
+    console.log(result[0].weight.metric);
+    var weightStr = result[0].weight.metric;
+    weighArr = weightStr.split(" - ");
+    console.log(weighArr);
+    var usWeightArr = weighArr.map(Number);
+    for(var i = 0;i < usWeightArr.length;i++){
+        usWeightArr[i] *= 2.2046;
+    }
+    console.log(Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
     })
+    
 
-        // if (response.ok) {
-        //     response.json().then(function(data) {
-            //     var heatIndex = parseInt(data.current.feels_like);
-            //     heatIndex = Math.round((heatIndex - 273.15) * 9/5 + 32);
-            //     heatindexLabel.textContent = "Heat Index: " + heatIndex + "°F";
-            //     if (heatIndex> 90) {
-            //         heatindexLabel.style.backgroundColor = "red";
-            //     } else if (heatIndex > 70) {
-            //         heatindexLabel.style.backgroundColor = "orange";
-            //     } else {
-            //         heatindexLabel.style.backgroundColor = "green";
-            //     }
-            // });
-        // } else {
-        //     alert('Error: ' + response.statusText);
-        // }
-    // })
     .catch (function (error) {
         alert('Unable to connect to the Dog API' + error);
     })
