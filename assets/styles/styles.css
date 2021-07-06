@@ -23,3 +23,7 @@ button {
     width:fit-content;
     transition: all 1.0s ease-out;
 }
+
+#main-2 {
+    display: none;
+}
