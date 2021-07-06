@@ -7,6 +7,10 @@ const url = `https://api.petfinder.com/v2/types`
 //string must either be `city, state` or `zipcode`
 var userLocation = `austin, texas`
 
+//Name and Characteristic variables
+var nameAndAge = document.getElementById("media-content");
+var petCharacteristics = document.getElementById("content");
+
 function petfinderCall() {
     var pf = new petfinder.Client({ apiKey: apiKey, secret: secret });
     pf.animal.search({
@@ -17,6 +21,31 @@ function petfinderCall() {
             //response object from api
             for (let index = 0; index < response.data.animals.length; index++) {
                 console.log(response.data.animals[index]);
+
+                //Appends pet name and age to document
+                var petName = document.getElementById("petName");
+                var petAge = document.getElementById("petAge");
+                petName = response.data.animals[0].name;
+                petAge = response.data.animals[0].age;
+                nameAndAge.append(`${petName}`);
+                nameAndAge.append(`Age: ${petAge}`);
+                
+                //Appends secondary characteristics to document
+                var petType = document.getElementById("petType");
+                var petGender = document.getElementById("petGender");
+                var petBreed = document.getElementById("petBreed");
+                var petSize = document.getElementById("petSize");
+                var petDescription = document.getElementById("petDescription");
+                petType = response.data.animals[0].type;
+                petGender = response.data.animals[0].gender;
+                petBreed = response.data.animals[0].breeds;
+                petSize = response.data.animals[0].size;
+                petDescription = response.data.animals[0].description;
+                petCharacteristics.append(`Type: ${petType}`);
+                petCharacteristics.append(`Gender: ${petGender}`);
+                petCharacteristics.append(`Breed: ${petBreed}`);
+                petCharacteristics.append(`Size: ${petSize}`);
+                petCharacteristics.append(`${petDescription}`);
             }
         })
         .catch(function (error) {
@@ -26,3 +55,4 @@ function petfinderCall() {
 }
 
 petfinderCall()
+
