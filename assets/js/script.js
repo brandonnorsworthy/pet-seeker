@@ -49,3 +49,11 @@ function petfinderCall() {
 
 petfinderCall()
 
+//Swipe animation
+
+function slideShow(n) {
+    var slides = document.getElementById("hero-image");
+    var swipeLeft = document.getElementById("x");
+    var swipeRight = document.getElementById("heart");
+    if (n > slides.length)
+}
