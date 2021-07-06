@@ -23,12 +23,12 @@ function petfinderCall() {
             // for (let index = 0; index < response.data.animals.length; index++) {
                 // console.log(response.data.animals[0]);
 
-                //Appends pet name and age    
+                //Appends pet name and age
                 petName.textContent = `${response.data.animals[0].name}`;
                 petAge.textContent = `Age: ${response.data.animals[0].age}`;
                 nameAndAge.append(petName);
                 nameAndAge.append(petAge);
-                
+
                 //Appends secondary pet characteristics
                 petType.textContent = `Species: ${response.data.animals[0].type}`;
                 petGender.textContent = `Gender: ${response.data.animals[0].gender}`;
@@ -42,15 +42,12 @@ function petfinderCall() {
                 petCharacteristics.append(petDescription);
                 console.log(response.data.animals[0].breeds)
                 dogApiCall(response.data.animals[0].breeds);
-                
         })
         .catch(function (error) {
             // Handle the error
             console.log(error);
         });
 }
-
-
 
 function dogApiCall(petBreed) {
     console.log(petBreed)
@@ -66,9 +63,7 @@ function dogApiCall(petBreed) {
     })
 
         // if (response.ok) {
-            
         //     response.json().then(function(data) {
-                
             //     var heatIndex = parseInt(data.current.feels_like);
             //     heatIndex = Math.round((heatIndex - 273.15) * 9/5 + 32);
             //     heatindexLabel.textContent = "Heat Index: " + heatIndex + "°F";
@@ -89,4 +84,9 @@ function dogApiCall(petBreed) {
     })
 }
 
-petfinderCall()
+//sets up js file when page loads put events and calls in here
+function init() {
+    petfinderCall()
+}
+
+init() //calls when page starts up leave at bottom
