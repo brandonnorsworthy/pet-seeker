@@ -22,30 +22,23 @@ function petfinderCall() {
             for (let index = 0; index < response.data.animals.length; index++) {
                 console.log(response.data.animals[index]);
 
-                //Appends pet name and age to document
-                var petName = document.getElementById("petName");
-                var petAge = document.getElementById("petAge");
-                petName = response.data.animals[0].name;
-                petAge = response.data.animals[0].age;
-                nameAndAge.append(`${petName}`);
-                nameAndAge.append(`Age: ${petAge}`);
+                //Appends pet name and age    
+                petName.textContent = `${response.data.animals[0].name}`;
+                petAge.textContent = `Age: ${response.data.animals[0].age}`;
+                nameAndAge.append(petName);
+                nameAndAge.append(petAge);
                 
-                //Appends secondary characteristics to document
-                var petType = document.getElementById("petType");
-                var petGender = document.getElementById("petGender");
-                var petBreed = document.getElementById("petBreed");
-                var petSize = document.getElementById("petSize");
-                var petDescription = document.getElementById("petDescription");
-                petType = response.data.animals[0].type;
-                petGender = response.data.animals[0].gender;
-                petBreed = response.data.animals[0].breeds;
-                petSize = response.data.animals[0].size;
-                petDescription = response.data.animals[0].description;
-                petCharacteristics.append(`Type: ${petType}`);
-                petCharacteristics.append(`Gender: ${petGender}`);
-                petCharacteristics.append(`Breed: ${petBreed}`);
-                petCharacteristics.append(`Size: ${petSize}`);
-                petCharacteristics.append(`${petDescription}`);
+                //Appends secondary pet characteristics
+                petType.textContent = `Species: ${response.data.animals[0].type}`;
+                petGender.textContent = `Gender: ${response.data.animals[0].gender}`;
+                petBreed.textContent = `Breed: ${response.data.animals[0].breed}`;
+                petSize.textContent = `Size: ${response.data.animals[0].size}`;
+                petDescription.textContent = `Description: ${response.data.animals[0].description}`;
+                petCharacteristics.append(petType);
+                petCharacteristics.append(petGender);
+                petCharacteristics.append(petBreed);
+                petCharacteristics.append(petSize);
+                petCharacteristics.append(petDescription);
             }
         })
         .catch(function (error) {
