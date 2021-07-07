@@ -79,6 +79,7 @@ swipeRight.addEventListener("click", function() {
 
 //Calls Dog API and provides info on the breed
 function dogApiCall(petBreed) {
+
     var dogApiUrl = `https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`;
     fetch(dogApiUrl,{
     headers: {
@@ -107,6 +108,7 @@ function dogApiCall(petBreed) {
     })
 }
 
+// petfinderCall()
 //sets up js file when page loads put events and calls in here
 function init() {
     petfinderCall()

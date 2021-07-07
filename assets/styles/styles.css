@@ -18,3 +18,12 @@ button {
     width: 70px;
     height: 30px;
 }
+
+.card-image {
+    width:fit-content;
+    transition: all 1.0s ease-out;
+}
+
+#main-2 {
+    display: none;
+}
