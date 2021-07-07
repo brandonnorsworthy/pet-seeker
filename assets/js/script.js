@@ -16,8 +16,11 @@ var arrayOfCurrentPets = [];
 var currentPet = {};
 var likedPets = [];
 
-// (For clearing local storage) 
-//var searchButton = document.getElementById("search-button")
+//For clearing local storage
+//replace "search-button" with the new search button ID
+//var searchButton = document.getElementById("search-button");
+//Variable to include all of the search preference options. Replace "preferences" with whatever ID
+//var preferences = document.getElementById("preferences");
 
 //Name and Characteristic variables
 
@@ -130,24 +133,19 @@ function dogApiCall(petBreed) {
     })
 }
 
+//TODO: use local storage to store preferences, display liked dogs
+
 //Clears local storage upon new search
 // searchButton.addEventListener("click", function {
 //     localStorage.clear();
 // });
 
+
+
 // petfinderCall()
 //sets up js file when page loads put events and calls in here
 function init() {
     petFinderCall()
-}
-
-
-//Swipe animation
-function slideShow(n) {
-    var slides = document.getElementById("hero-image");
-    var swipeLeft = document.getElementById("dislike");
-    var swipeRight = document.getElementById("heart");
-    // if (n > slides.length)
-}
+};
 //test
 init() //calls when page starts up leave at bottom
