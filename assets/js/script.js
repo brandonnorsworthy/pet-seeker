@@ -87,10 +87,10 @@ function dogApiCall(petBreed) {
     })
     .then(response => response.json())
     .then(result => {
-    console.log("dogCallApi: ", 'Success:', result);
-    console.log("dogCallApi: ", result[0].life_span);
-    console.log("dogCallApi: ", result[0].temperament);
-    console.log("dogCallApi: ", result[0].weight.metric);
+    // console.log("dogCallApi: ", 'Success:', result);
+    // console.log("dogCallApi: ", result[0].life_span);
+    // console.log("dogCallApi: ", result[0].temperament);
+    // console.log("dogCallApi: ", result[0].weight.metric);
     var weightStr = result[0].weight.metric;
     weighArr = weightStr.split(" - ");
     console.log("dogCallApi: ", weighArr);
@@ -98,7 +98,14 @@ function dogApiCall(petBreed) {
     for(var i = 0;i < usWeightArr.length;i++){
         usWeightArr[i] *= 2.2046;
     }
-    console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
+    // console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
+    usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
+    // var tempStr = 
+    // if (result[0].life_span != null || result[0].life_span != undefined)
+
+    // [address, city, state, zip].filter(Boolean).join(', ');
+
+    document.getElementById("petBreed").setAttribute("data-tooltip","Life Span: " + result[0].life_span + "\n" + "Weight (pounds): " + usWeightStr + "\n" + "Temperament: " + result[0].temperament);    
     })
     
 
@@ -115,7 +122,6 @@ function init() {
 
 
 //Swipe animation
-
 function slideShow(n) {
     var slides = document.getElementById("hero-image");
     var swipeLeft = document.getElementById("dislike");
