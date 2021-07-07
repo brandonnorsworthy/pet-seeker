@@ -123,5 +123,5 @@ function slideShow(n) {
     var swipeRight = document.getElementById("heart");
     // if (n > slides.length)
 }
-
+//test
 init() //calls when page starts up leave at bottom
