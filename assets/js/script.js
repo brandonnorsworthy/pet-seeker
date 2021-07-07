@@ -17,8 +17,6 @@ var likedPets = [];
 
 //Name and Characteristic variables
 
-
-
 function petfinderCall() {
     var pf = new petfinder.Client({ apiKey: apiKey, secret: secret });
     pf.animal.search({
@@ -30,15 +28,34 @@ function petfinderCall() {
             // for (let index = 0; index < response.data.animals.length; index++) {
                 // console.log(response.data.animals[0]);
                 var petCharacteristics = document.getElementById("petData"); //parent
-
+                currentPet = response.data.animals[petCard];
                 //Appends pet name and age
-                petName.textContent = `${response.data.animals[0].name}`;
-                petAge.textContent = `Age: ${response.data.animals[0].age}`;
+                petName.textContent = `${response.data.animals[petCard].name}`;
+                petAge.textContent = `Age: ${response.data.animals[petCard].age}`;
                 /* petCharacteristics.append(petName);
                 petCharacteristics.append(petAge); */
 
                 //Appends secondary pet characteristics
+<<<<<<< HEAD
                 displayAnimalData(response.data.animals[0])
+=======
+                var petType = document.getElementById("petType")
+                var petGender = document.getElementById("petGender")
+                var petBreed = document.getElementById("petBreed")
+                var petSize = document.getElementById("petSize")
+                var petDescription = document.getElementById("petDescription")
+                document.getElementById("petPhoto").setAttribute("src",response.data.animals[petCard].photos[petCard].large)
+                petType.textContent = `Species: ${response.data.animals[petCard].type}`;
+                petGender.textContent = `Gender: ${response.data.animals[petCard].gender}`;
+                petBreed.textContent = `Breed: ${response.data.animals[petCard].breeds.primary}`;
+                petSize.textContent = `Size: ${response.data.animals[petCard].size}`;
+                petDescription.textContent = `Description: ${response.data.animals[petCard].description}`;
+                /* petCharacteristics.append(petType);
+                petCharacteristics.append(petGender);
+                petCharacteristics.append(petBreed);
+                petCharacteristics.append(petSize);
+                petCharacteristics.append(petDescription); */
+>>>>>>> 8ab7c36e31a2ba52bd3c6963e1e4f7ac57ef30fe
                 dogApiCall(response.data.animals[0].breeds);
         })
         .catch(function (error) {
