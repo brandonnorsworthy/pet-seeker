@@ -11,8 +11,70 @@
 	</head>
   <body>
     <div class="columns">
-        <div class="column is-3" style="background: rgb(0, 207, 214);">
-            <p>hgoijrgoijgr</p>
+        <div class="column is-3" style="background: rgb(0, 207, 214);
+        margin-left: 10px;">
+            <div class="tabs is-medium">
+                <ul>
+                  <li class="is-active"><a>Preferences</a></li>
+                  <li><a>Past Likes</a></li>
+                </ul>
+            </div>
+            <div>
+                <section class="tab-content"></section>
+                <div class="field">
+                    <label class="label">City Search: </label>
+                    <div class="control">
+                      <input class="input" type="text" placeholder="Text input">
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Age:</label>
+                    <div class="control">
+                      <div class="select">
+                        <select>
+                          <option>Baby</option>
+                          <option>Young</option>
+                          <option>Adult</option>
+                          <option>Senior</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Size:</label>
+                    <div class="control">
+                      <div class="select">
+                        <select>
+                          <option>Small</option>
+                          <option>Medium</option>
+                          <option>Large</option>
+                          <option>XLarge</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="control">
+                      <label class="radio"> <strong>Gender:</strong> </label>
+                        <label>
+                        <input type="radio" name="question">
+                        Male
+                      </label>
+                      <label class="radio">
+                        <input type="radio" name="question">
+                        Female
+                      </label>
+                    </div>
+                  </div>
+                  <div class="field is-grouped">
+                    <div class="control">
+                      <button class="button is-link">Submit</button>
+                    </div>
+                    <div class="control">
+                      <button class="button is-link is-light">Cancel</button>
+                    </div>
+                  </div>
+            </div>
         </div>
         <div class="column is-9"> <!-- main content -->
             <div class="columns is-vcentered "><!-- HEADER -->
