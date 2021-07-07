@@ -43,10 +43,11 @@ function petFinderCall() {
 function displayAnimalData (animalData) {
     //sets elements in the card to current pet
     console.log("displayAnimalData: ", arrayOfCurrentPets)
+    console.log(petCard)
 
     document.getElementById("petName").textContent = `${animalData.name}`;
     document.getElementById("petAge").textContent = `Age: ${animalData.age}`;
-    document.getElementById("petPhoto").setAttribute("src",animalData.photos[0].large)
+    document.getElementById("petPhoto").setAttribute("src", animalData.photos[0].large)
     document.getElementById("petType").textContent = `Species: ${animalData.type}`;
     document.getElementById("petGender").textContent = `Gender: ${animalData.gender}`;
     document.getElementById("petBreed").textContent = `Breed: ${animalData.breeds.primary}`;
@@ -60,7 +61,7 @@ function displayAnimalData (animalData) {
 swipeLeft.addEventListener("click", function() {
     petCard ++;
     arrayOfCurrentPets.shift();
-    displayAnimalData(arrayOfCurrentPets[petCard]);
+    displayAnimalData(arrayOfCurrentPets[0]);
 });
 
 //Saves pet to local storage
@@ -69,7 +70,7 @@ swipeRight.addEventListener("click", function() {
     localStorage.setItem("likedPets",JSON.stringify(likedPets));
     petCard ++;
     arrayOfCurrentPets.shift();
-    displayAnimalData(arrayOfCurrentPets[petCard]);
+    displayAnimalData(arrayOfCurrentPets[0]);
 });
 
 //Calls Dog API and provides info on the breed
@@ -83,23 +84,21 @@ function dogApiCall(petBreed) {
     })
     .then(response => response.json())
     .then(result => {
-    console.log("dogCallApi: ", 'Success:', result);
-    console.log("dogCallApi: ", result[0].life_span);
-    console.log("dogCallApi: ", result[0].temperament);
-    console.log("dogCallApi: ", result[0].weight.metric);
-    var weightStr = result[0].weight.metric;
-    weighArr = weightStr.split(" - ");
-    console.log("dogCallApi: ", weighArr);
-    var usWeightArr = weighArr.map(Number);
-    for(var i = 0;i < usWeightArr.length;i++){
-        usWeightArr[i] *= 2.2046;
-    }
-    console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
+        //console.log("dogCallApi: Success:", result);
+        //console.log("dogCallApi: ", result[0].life_span);
+        //console.log("dogCallApi: ", result[0].temperament);
+        //console.log("dogCallApi: ", result[0].weight.metric);
+        var weightStr = result[0].weight.metric;
+        weighArr = weightStr.split(" - ");
+        //console.log("dogCallApi: ", weighArr);
+        var usWeightArr = weighArr.map(Number);
+        for(var i = 0;i < usWeightArr.length;i++){
+            usWeightArr[i] *= 2.2046;
+        }
+        //console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
     })
-    
-
     .catch (function (error) {
-        alert('Unable to connect to the Dog API' + error);
+        console.log('Unable to connect to the Dog API' + error);
     })
 }
 
