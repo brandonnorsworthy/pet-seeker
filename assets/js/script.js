@@ -8,6 +8,14 @@ const dogapiKey = 'c8cd1d33-b825-4d0b-aeca-b35206aec201';
 //string must either be `city, state` or `zipcode`
 var userLocation = `austin, texas`
 
+//Button variables
+var swipeLeft = document.getElementById("x");
+var swipeRight = document.getElementById("heart");
+var petCard = 0;
+var currentPet = {};
+var likedPets = [];
+console.log(swipeLeft);
+
 //Name and Characteristic variables
 
 
@@ -54,8 +62,28 @@ function petfinderCall() {
         });
 }
 
+//Swipe animations
+swipeLeft.onclick = function() {
+    petCard ++;
+    petfinderCall();
+};
+
+//Saves pet to local storage
+swipeRight.onclick = function() {
+    likedPets.push(currentPet);
+    localStorage.setItem("likedPets",JSON.stringify(likedPets));
+    petCard ++;
+    petfinderCall();
+};
+
+//if petCard = 21,
+//show that they are out of matches
+//else
+//display petCard
+
 //Calls Dog API and provides info on the breed
 function dogApiCall(petBreed) {
+
     var dogApiUrl = `https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`;
     fetch(dogApiUrl,{
     headers: {
@@ -84,6 +112,7 @@ function dogApiCall(petBreed) {
     })
 }
 
+// petfinderCall()
 //sets up js file when page loads put events and calls in here
 function init() {
     petfinderCall()
