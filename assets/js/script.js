@@ -9,16 +9,13 @@ const dogapiKey = 'c8cd1d33-b825-4d0b-aeca-b35206aec201';
 var userLocation = `austin, texas`
 
 //Button variables
-var swipeLeft = document.getElementById("dislike");
-var swipeRight = document.getElementById("heart");
+var swipeLeft = document.getElementById("dislikeBtn");
+var swipeRight = document.getElementById("likeBtn");
 var petCard = 0;
 var currentPet = {};
 var likedPets = [];
-console.log(swipeLeft);
 
 //Name and Characteristic variables
-
-
 
 function petfinderCall() {
     var pf = new petfinder.Client({ apiKey: apiKey, secret: secret });
@@ -33,8 +30,8 @@ function petfinderCall() {
                 var petCharacteristics = document.getElementById("petData"); //parent
                 currentPet = response.data.animals[petCard];
                 //Appends pet name and age
-                petName.textContent = `${response.data.animals[0].name}`;
-                petAge.textContent = `Age: ${response.data.animals[0].age}`;
+                petName.textContent = `${response.data.animals[petCard].name}`;
+                petAge.textContent = `Age: ${response.data.animals[petCard].age}`;
                 /* petCharacteristics.append(petName);
                 petCharacteristics.append(petAge); */
 
@@ -44,12 +41,12 @@ function petfinderCall() {
                 var petBreed = document.getElementById("petBreed")
                 var petSize = document.getElementById("petSize")
                 var petDescription = document.getElementById("petDescription")
-                document.getElementById("petPhoto").setAttribute("src",response.data.animals[0].photos[0].large)
-                petType.textContent = `Species: ${response.data.animals[0].type}`;
-                petGender.textContent = `Gender: ${response.data.animals[0].gender}`;
-                petBreed.textContent = `Breed: ${response.data.animals[0].breeds.primary}`;
-                petSize.textContent = `Size: ${response.data.animals[0].size}`;
-                petDescription.textContent = `Description: ${response.data.animals[0].description}`;
+                document.getElementById("petPhoto").setAttribute("src",response.data.animals[petCard].photos[petCard].large)
+                petType.textContent = `Species: ${response.data.animals[petCard].type}`;
+                petGender.textContent = `Gender: ${response.data.animals[petCard].gender}`;
+                petBreed.textContent = `Breed: ${response.data.animals[petCard].breeds.primary}`;
+                petSize.textContent = `Size: ${response.data.animals[petCard].size}`;
+                petDescription.textContent = `Description: ${response.data.animals[petCard].description}`;
                 /* petCharacteristics.append(petType);
                 petCharacteristics.append(petGender);
                 petCharacteristics.append(petBreed);
@@ -59,7 +56,7 @@ function petfinderCall() {
         })
         .catch(function (error) {
             // Handle the error
-            console.log(error);
+            console.log("PetFinderAPI Error: ", error);
         });
 }
 
@@ -88,18 +85,18 @@ function dogApiCall(petBreed) {
     })
     .then(response => response.json())
     .then(result => {
-    console.log('Success:', result);
-    console.log(result[0].life_span);
-    console.log(result[0].temperament);
-    console.log(result[0].weight.metric);
+    console.log("dogCallApi: ", 'Success:', result);
+    console.log("dogCallApi: ", result[0].life_span);
+    console.log("dogCallApi: ", result[0].temperament);
+    console.log("dogCallApi: ", result[0].weight.metric);
     var weightStr = result[0].weight.metric;
     weighArr = weightStr.split(" - ");
-    console.log(weighArr);
+    console.log("dogCallApi: ", weighArr);
     var usWeightArr = weighArr.map(Number);
     for(var i = 0;i < usWeightArr.length;i++){
         usWeightArr[i] *= 2.2046;
     }
-    console.log(Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
+    console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
     })
     
 
@@ -123,5 +120,5 @@ function slideShow(n) {
     var swipeRight = document.getElementById("heart");
     // if (n > slides.length)
 }
-
+//test
 init() //calls when page starts up leave at bottom

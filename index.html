@@ -5,54 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pet Seeker</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.css">
+    <link href="~bulma-carousel/dist/css/bulma-carousel.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./assets/styles/styles.css">
     <link rel="shortcut icon" href="./assets/images/favicon.ico?" type="image/x-icon">
 	</head>
   <body>
-        <div class="columns">
-            <div class="column is-2" style="background: rgb(0, 207, 214);">
-                <p>hgoijrgoijgr</p>
-            </div>
-            <div class="column is-fourth-fifths"> <!-- main content -->
-                <div class="columns is-vcentered "><!-- HEADER -->
-                    <div class="column is-11">
-                        <p class="subtitle is-3 has-text-centered" style="color: rgb(0, 207, 214);">Pet Seeker</p>
-                    </div>
-                    <div class="column is-1 is-flex is-justify-content-flex-end"> <!-- figure out how to align this to the end of the top header row -->
-                        <img class="image is-64x64" src="./assets/images/logo/petseeker_logo.png" alt="petseeker logo">
-                    </div>
-                  </div>
-                  <div class="columns is-vcentered">
-                    <div class="column is-2 is-vcentered is-flex is-justify-content-flex-end">
-                      <img class="button is-info" id="dislike" src="./assets/images/dislike.png" alt="" srcset="">
-                        <!-- dislike -->
-                    </div>
-                    <div class="column is-8">
-                        <!-- card -->
-                        <div class="card">
-                            <div class="card-image">
-                                <img class="is-1280x960" id="petPhoto" src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                            </div>
-                            <div class="card-content">
-                              <div class="content" id="petData">
-                                <p class="title is-4" id="petName"></p>
-                                <p class="subtitle is-6"id = "petAge"></p>
-                                <p id="petType"></p>
-                                <p id="petGender"></p>
-                                <p id="petBreed"></p>
-                                <p id="petSize"></p>
-                                <p id="petDescription"></p>
-                              </div>
-                            </div>
+    <div class="columns">
+        <div class="column is-2" style="background: rgb(0, 207, 214);">
+            <p>hgoijrgoijgr</p>
+        </div>
+        <div class="column is-fourth-fifths"> <!-- main content -->
+            <div class="columns is-vcentered "><!-- HEADER -->
+                <div class="column is-11">
+                    <p class="subtitle is-3 has-text-centered" style="color: rgb(0, 207, 214);">Pet Seeker</p>
+                </div>
+                <div class="column is-1 is-flex is-justify-content-flex-end"> <!-- figure out how to align this to the end of the top header row -->
+                    <img class="image is-64x64" src="./assets/images/logo/petseeker_logo.png" alt="petseeker logo">
+                </div>
+              </div>
+              <div class="columns is-vcentered">
+                <div class="column is-2 is-vcentered is-flex is-justify-content-flex-end">
+                  <img class="button is-info" id="dislikeBtn" src="./assets/images/dislike.png" alt="" srcset="">
+                    <!-- dislike -->
+                </div>
+                <div class="column is-8">
+                    <!-- card -->
+                    <div class="card">
+                        <div class="card-image">
+                            <img class="is-1280x960" id="petPhoto" src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                        </div>
+                        <div class="card-content">
+                          <div class="content" id="petData">
+                            <p class="title is-4" id="petName"></p>
+                            <p class="subtitle is-6"id = "petAge"></p>
+                            <p id="petType"></p>
+                            <p id="petGender"></p>
+                            <p><span  class="has-tooltip-arrow has-tooltipl-multiline" id="petBreed" data-tooltip="Multiline&#10;Content&#10;World!"></span></p>
+                            <p id="petSize"></p>
+                            <p id="petDescription"></p>
                           </div>
-                    </div>
-                    <div class="column is-2 is-vcentered">
-                        <!-- like -->
-                        <img class="button is-danger" id="heart" src="./assets/images/like.png" alt="" srcset="">
-                    </div>
+                        </div>
+                      </div>
+                </div>
+                <div class="column is-2 is-vcentered">
+                    <!-- like -->
+                    <img class="button is-danger" id="likeBtn" src="./assets/images/like.png" alt="" srcset="">
                 </div>
             </div>
         </div>
+    </div>
+    <script src="~bulma-carousel/dist/js/bulma-carousel.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/@petfinder/petfinder-js/dist/petfinder.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js" integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
