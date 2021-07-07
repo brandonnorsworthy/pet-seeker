@@ -87,6 +87,8 @@ function dogApiCall(petBreed) {
     // console.log("dogCallApi: ", result[0].life_span);
     // console.log("dogCallApi: ", result[0].temperament);
     // console.log("dogCallApi: ", result[0].weight.metric);
+    // var lifeSpan = result[0].life_span;
+    // var temperament = result[0].temperament
     var weightStr = result[0].weight.metric;
     weighArr = weightStr.split(" - ");
     console.log("dogCallApi: ", weighArr);
@@ -96,17 +98,32 @@ function dogApiCall(petBreed) {
     }
     // console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
     usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
-    // var tempStr = 
-    // if (result[0].life_span != null || result[0].life_span != undefined)
+    // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
+    // console.log(tempStr)
 
-    // [address, city, state, zip].filter(Boolean).join(', ');
+    var tempStr = "";
+    if (result[0].life_span != null || result[0].life_span != undefined) {
+        // document.getElementById("petBreed").setAttribute("data-tooltip","Life Span: " + result[0].life_span + "\n") 
+        tempStr += "Life Span: " + result[0].life_span;
+    }
 
-    document.getElementById("petBreed").setAttribute("data-tooltip","Life Span: " + result[0].life_span + "\n" + "Weight (pounds): " + usWeightStr + "\n" + "Temperament: " + result[0].temperament);    
+    if (result[0].temperament != null || result[0].temperament != undefined) {
+        // document.getElementById("petBreed").setAttribute("data-tooltip","Temperament: " + result[0].temperament + "\n") 
+        tempStr += "\n" + "Temperament: " + result[0].temperament;
+    }
+
+    if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
+        // document.getElementById("petBreed").setAttribute("data-tooltip","Weight (pounds): " + usWeightStr + "\n") 
+        tempStr += "\n" + "Weight (pounds): " + usWeightStr;
+    }
+
+    document.getElementById("petBreed").setAttribute("data-tooltip",tempStr);    
     })
     
 
     .catch (function (error) {
-        alert('Unable to connect to the Dog API' + error);
+        console.log('Unable to connect to the Dog API' + error);
+        document.getElementById("petBreed").setAttribute("data-tooltip", "  ")
     })
 }
 
