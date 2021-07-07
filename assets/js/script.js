@@ -38,28 +38,27 @@ function petfinderCall() {
                 petCharacteristics.append(petAge); */
 
                 //Appends secondary pet characteristics
-                var petType = document.getElementById("petType")
-                var petGender = document.getElementById("petGender")
-                var petBreed = document.getElementById("petBreed")
-                var petSize = document.getElementById("petSize")
-                var petDescription = document.getElementById("petDescription")
-                document.getElementById("petPhoto").setAttribute("src",response.data.animals[0].photos[0].large)
-                petType.textContent = `Species: ${response.data.animals[0].type}`;
-                petGender.textContent = `Gender: ${response.data.animals[0].gender}`;
-                petBreed.textContent = `Breed: ${response.data.animals[0].breeds.primary}`;
-                petSize.textContent = `Size: ${response.data.animals[0].size}`;
-                petDescription.textContent = `Description: ${response.data.animals[0].description}`;
-                /* petCharacteristics.append(petType);
-                petCharacteristics.append(petGender);
-                petCharacteristics.append(petBreed);
-                petCharacteristics.append(petSize);
-                petCharacteristics.append(petDescription); */
+                displayAnimalData(response.data.animals[0])
                 dogApiCall(response.data.animals[0].breeds);
         })
         .catch(function (error) {
             // Handle the error
             console.log("PetFinderAPI Error: ", error);
         });
+}
+
+function displayAnimalData (animalData) {
+    var petType = document.getElementById("petType")
+    var petGender = document.getElementById("petGender")
+    var petBreed = document.getElementById("petBreed")
+    var petSize = document.getElementById("petSize")
+    var petDescription = document.getElementById("petDescription")
+    document.getElementById("petPhoto").setAttribute("src",response.data.animals[0].photos[0].large)
+    petType.textContent = `Species: ${response.data.animals[0].type}`;
+    petGender.textContent = `Gender: ${response.data.animals[0].gender}`;
+    petBreed.textContent = `Breed: ${response.data.animals[0].breeds.primary}`;
+    petSize.textContent = `Size: ${response.data.animals[0].size}`;
+    petDescription.textContent = `Description: ${response.data.animals[0].description}`;
 }
 
 //Button functionality
