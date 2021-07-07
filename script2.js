@@ -9,7 +9,7 @@ const dogapiKey = 'c8cd1d33-b825-4d0b-aeca-b35206aec201';
 var userLocation = `austin, texas`
 
 //Button variables
-var swipeLeft = document.getElementById("dislike");
+var swipeLeft = document.getElementById("x");
 var swipeRight = document.getElementById("heart");
 var petCard = 0;
 var currentPet = {};
@@ -17,7 +17,6 @@ var likedPets = [];
 console.log(swipeLeft);
 
 //Name and Characteristic variables
-
 
 
 function petfinderCall() {
@@ -31,7 +30,7 @@ function petfinderCall() {
             // for (let index = 0; index < response.data.animals.length; index++) {
                 // console.log(response.data.animals[0]);
                 var petCharacteristics = document.getElementById("petData"); //parent
-                currentPet = response.data.animals[petCard];
+
                 //Appends pet name and age
                 petName.textContent = `${response.data.animals[0].name}`;
                 petAge.textContent = `Age: ${response.data.animals[0].age}`;
@@ -63,19 +62,24 @@ function petfinderCall() {
         });
 }
 
-//Button functionality
-swipeLeft.addEventListener("click", function() {
+//Swipe animations
+swipeLeft.onclick = function() {
     petCard ++;
     petfinderCall();
-});
+};
 
 //Saves pet to local storage
-swipeRight.addEventListener("click", function() {
+swipeRight.onclick = function() {
     likedPets.push(currentPet);
     localStorage.setItem("likedPets",JSON.stringify(likedPets));
     petCard ++;
     petfinderCall();
-});
+};
+
+//if petCard = 21,
+//show that they are out of matches
+//else
+//display petCard
 
 //Calls Dog API and provides info on the breed
 function dogApiCall(petBreed) {
@@ -112,16 +116,6 @@ function dogApiCall(petBreed) {
 //sets up js file when page loads put events and calls in here
 function init() {
     petfinderCall()
-}
-
-
-//Swipe animation
-
-function slideShow(n) {
-    var slides = document.getElementById("hero-image");
-    var swipeLeft = document.getElementById("dislike");
-    var swipeRight = document.getElementById("heart");
-    // if (n > slides.length)
 }
 
 init() //calls when page starts up leave at bottom
