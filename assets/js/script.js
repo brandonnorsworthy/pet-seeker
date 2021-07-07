@@ -17,8 +17,7 @@ var likedPets = [];
 console.log(swipeLeft);
 
 //Name and Characteristic variables
-var nameAndAge = document.getElementById("media-content");
-var petCharacteristics = document.getElementById("content");
+
 
 function petfinderCall() {
     var pf = new petfinder.Client({ apiKey: apiKey, secret: secret });
@@ -30,26 +29,32 @@ function petfinderCall() {
             //response object from api
             // for (let index = 0; index < response.data.animals.length; index++) {
                 // console.log(response.data.animals[0]);
-                currentPet = response.data.animals[petCard];
+                var petCharacteristics = document.getElementById("petData"); //parent
+
                 //Appends pet name and age
-                petName.textContent = `${response.data.animals[petCard].name}`;
-                petAge.textContent = `Age: ${response.data.animals[petCard].age}`;
-                nameAndAge.append(petName);
-                nameAndAge.append(petAge);
+                petName.textContent = `${response.data.animals[0].name}`;
+                petAge.textContent = `Age: ${response.data.animals[0].age}`;
+                /* petCharacteristics.append(petName);
+                petCharacteristics.append(petAge); */
 
                 //Appends secondary pet characteristics
-                petType.textContent = `Species: ${response.data.animals[petCard].type}`;
-                petGender.textContent = `Gender: ${response.data.animals[petCard].gender}`;
-                petBreed.textContent = `Breed: ${response.data.animals[petCard].breeds}`;
-                petSize.textContent = `Size: ${response.data.animals[petCard].size}`;
-                petDescription.textContent = `Description: ${response.data.animals[petCard].description}`;
-                petCharacteristics.append(petType);
+                var petType = document.getElementById("petType")
+                var petGender = document.getElementById("petGender")
+                var petBreed = document.getElementById("petBreed")
+                var petSize = document.getElementById("petSize")
+                var petDescription = document.getElementById("petDescription")
+                document.getElementById("petPhoto").setAttribute("src",response.data.animals[0].photos[0].large)
+                petType.textContent = `Species: ${response.data.animals[0].type}`;
+                petGender.textContent = `Gender: ${response.data.animals[0].gender}`;
+                petBreed.textContent = `Breed: ${response.data.animals[0].breeds.primary}`;
+                petSize.textContent = `Size: ${response.data.animals[0].size}`;
+                petDescription.textContent = `Description: ${response.data.animals[0].description}`;
+                /* petCharacteristics.append(petType);
                 petCharacteristics.append(petGender);
                 petCharacteristics.append(petBreed);
                 petCharacteristics.append(petSize);
-                petCharacteristics.append(petDescription);
-                console.log(response.data.animals[petCard].breeds)
-                dogApiCall(response.data.animals[petCard].breeds);
+                petCharacteristics.append(petDescription); */
+                dogApiCall(response.data.animals[0].breeds);
         })
         .catch(function (error) {
             // Handle the error
@@ -78,7 +83,7 @@ swipeRight.onclick = function() {
 
 //Calls Dog API and provides info on the breed
 function dogApiCall(petBreed) {
-    console.log(petBreed)
+
     var dogApiUrl = `https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`;
     fetch(dogApiUrl,{
     headers: {
