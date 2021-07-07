@@ -15,6 +15,9 @@ var petCard = 0;
 var currentPet = {};
 var likedPets = [];
 
+// (For clearing local storage) 
+//var searchButton = document.getElementById("search-button")
+
 //Name and Characteristic variables
 
 function petfinderCall() {
@@ -104,6 +107,11 @@ function dogApiCall(petBreed) {
         alert('Unable to connect to the Dog API' + error);
     })
 }
+
+//Clears local storage upon new search
+// searchButton.addEventListener("click", function {
+//     localStorage.clear();
+// });
 
 // petfinderCall()
 //sets up js file when page loads put events and calls in here
