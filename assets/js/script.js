@@ -12,12 +12,13 @@ var userLocation = `austin, texas`
 var swipeLeft = document.getElementById("dislikeBtn");
 var swipeRight = document.getElementById("likeBtn");
 var petCard = 0;
+var arrayOfCurrentPets = [];
 var currentPet = {};
 var likedPets = [];
 
 //Name and Characteristic variables
 
-function petfinderCall() {
+function petFinderCall() {
     var pf = new petfinder.Client({ apiKey: apiKey, secret: secret });
     pf.animal.search({
         location: userLocation,
@@ -27,32 +28,11 @@ function petfinderCall() {
             //response object from api
             // for (let index = 0; index < response.data.animals.length; index++) {
                 // console.log(response.data.animals[0]);
-                var petCharacteristics = document.getElementById("petData"); //parent
-                currentPet = response.data.animals[petCard];
-                //Appends pet name and age
-                petName.textContent = `${response.data.animals[petCard].name}`;
-                petAge.textContent = `Age: ${response.data.animals[petCard].age}`;
-                /* petCharacteristics.append(petName);
-                petCharacteristics.append(petAge); */
+                arrayOfCurrentPets = response.data.animals;
+                console.log("perfinderCall: ", arrayOfCurrentPets)
+                //Appends pet name and age;
 
-                //Appends secondary pet characteristics
-                var petType = document.getElementById("petType")
-                var petGender = document.getElementById("petGender")
-                var petBreed = document.getElementById("petBreed")
-                var petSize = document.getElementById("petSize")
-                var petDescription = document.getElementById("petDescription")
-                document.getElementById("petPhoto").setAttribute("src",response.data.animals[petCard].photos[petCard].large)
-                petType.textContent = `Species: ${response.data.animals[petCard].type}`;
-                petGender.textContent = `Gender: ${response.data.animals[petCard].gender}`;
-                petBreed.textContent = `Breed: ${response.data.animals[petCard].breeds.primary}`;
-                petSize.textContent = `Size: ${response.data.animals[petCard].size}`;
-                petDescription.textContent = `Description: ${response.data.animals[petCard].description}`;
-                /* petCharacteristics.append(petType);
-                petCharacteristics.append(petGender);
-                petCharacteristics.append(petBreed);
-                petCharacteristics.append(petSize);
-                petCharacteristics.append(petDescription); */
-                dogApiCall(response.data.animals[0].breeds);
+                displayAnimalData(response.data.animals[petCard])
         })
         .catch(function (error) {
             // Handle the error
@@ -60,10 +40,27 @@ function petfinderCall() {
         });
 }
 
+function displayAnimalData (animalData) {
+    //sets elements in the card to current pet
+    console.log("displayAnimalData: ", arrayOfCurrentPets)
+
+    document.getElementById("petName").textContent = `${animalData.name}`;
+    document.getElementById("petAge").textContent = `Age: ${animalData.age}`;
+    document.getElementById("petPhoto").setAttribute("src",animalData.photos[0].large)
+    document.getElementById("petType").textContent = `Species: ${animalData.type}`;
+    document.getElementById("petGender").textContent = `Gender: ${animalData.gender}`;
+    document.getElementById("petBreed").textContent = `Breed: ${animalData.breeds.primary}`;
+    document.getElementById("petSize").textContent = `Size: ${animalData.size}`;
+    document.getElementById("petDescription").textContent = `Description: ${animalData.description}`;
+
+    dogApiCall(animalData.breeds);
+}
+
 //Button functionality
 swipeLeft.addEventListener("click", function() {
     petCard ++;
-    petfinderCall();
+    arrayOfCurrentPets.shift();
+    displayAnimalData(arrayOfCurrentPets[petCard]);
 });
 
 //Saves pet to local storage
@@ -71,7 +68,8 @@ swipeRight.addEventListener("click", function() {
     likedPets.push(currentPet);
     localStorage.setItem("likedPets",JSON.stringify(likedPets));
     petCard ++;
-    petfinderCall();
+    arrayOfCurrentPets.shift();
+    displayAnimalData(arrayOfCurrentPets[petCard]);
 });
 
 //Calls Dog API and provides info on the breed
@@ -105,10 +103,10 @@ function dogApiCall(petBreed) {
     })
 }
 
-// petfinderCall()
+// petFinderCall()
 //sets up js file when page loads put events and calls in here
 function init() {
-    petfinderCall()
+    petFinderCall()
 }
 
 
