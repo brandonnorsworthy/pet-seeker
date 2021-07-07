@@ -9,12 +9,11 @@ const dogapiKey = 'c8cd1d33-b825-4d0b-aeca-b35206aec201';
 var userLocation = `austin, texas`
 
 //Button variables
-var swipeLeft = document.getElementById("dislike");
-var swipeRight = document.getElementById("heart");
+var swipeLeft = document.getElementById("dislikeBtn");
+var swipeRight = document.getElementById("likeBtn");
 var petCard = 0;
 var currentPet = {};
 var likedPets = [];
-console.log(swipeLeft);
 
 //Name and Characteristic variables
 
@@ -59,7 +58,7 @@ function petfinderCall() {
         })
         .catch(function (error) {
             // Handle the error
-            console.log(error);
+            console.log("PetFinderAPI Error: ", error);
         });
 }
 
@@ -88,18 +87,18 @@ function dogApiCall(petBreed) {
     })
     .then(response => response.json())
     .then(result => {
-    console.log('Success:', result);
-    console.log(result[0].life_span);
-    console.log(result[0].temperament);
-    console.log(result[0].weight.metric);
+    console.log("dogCallApi: ", 'Success:', result);
+    console.log("dogCallApi: ", result[0].life_span);
+    console.log("dogCallApi: ", result[0].temperament);
+    console.log("dogCallApi: ", result[0].weight.metric);
     var weightStr = result[0].weight.metric;
     weighArr = weightStr.split(" - ");
-    console.log(weighArr);
+    console.log("dogCallApi: ", weighArr);
     var usWeightArr = weighArr.map(Number);
     for(var i = 0;i < usWeightArr.length;i++){
         usWeightArr[i] *= 2.2046;
     }
-    console.log(Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
+    console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
     })
     
 
