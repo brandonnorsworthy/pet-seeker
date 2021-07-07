@@ -84,21 +84,45 @@ function dogApiCall(petBreed) {
     })
     .then(response => response.json())
     .then(result => {
-        //console.log("dogCallApi: Success:", result);
-        //console.log("dogCallApi: ", result[0].life_span);
-        //console.log("dogCallApi: ", result[0].temperament);
-        //console.log("dogCallApi: ", result[0].weight.metric);
-        var weightStr = result[0].weight.metric;
-        weighArr = weightStr.split(" - ");
-        //console.log("dogCallApi: ", weighArr);
-        var usWeightArr = weighArr.map(Number);
-        for(var i = 0;i < usWeightArr.length;i++){
-            usWeightArr[i] *= 2.2046;
-        }
-        //console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
+    // console.log("dogCallApi: ", 'Success:', result);
+    // console.log("dogCallApi: ", result[0].life_span);
+    // console.log("dogCallApi: ", result[0].temperament);
+    // console.log("dogCallApi: ", result[0].weight.metric);
+    // var lifeSpan = result[0].life_span;
+    // var temperament = result[0].temperament
+    var weightStr = result[0].weight.metric;
+    weighArr = weightStr.split(" - ");
+    console.log("dogCallApi: ", weighArr);
+    var usWeightArr = weighArr.map(Number);
+    for(var i = 0;i < usWeightArr.length;i++){
+        usWeightArr[i] *= 2.2046;
+    }
+    // console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
+    usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
+    // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
+    // console.log(tempStr)
+
+    var tempStr = "";
+    if (result[0].life_span != null || result[0].life_span != undefined) {
+        // document.getElementById("petBreed").setAttribute("data-tooltip","Life Span: " + result[0].life_span + "\n") 
+        tempStr += "Life Span: " + result[0].life_span;
+    }
+
+    if (result[0].temperament != null || result[0].temperament != undefined) {
+        // document.getElementById("petBreed").setAttribute("data-tooltip","Temperament: " + result[0].temperament + "\n") 
+        tempStr += "\n" + "Temperament: " + result[0].temperament;
+    }
+
+    if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
+        // document.getElementById("petBreed").setAttribute("data-tooltip","Weight (pounds): " + usWeightStr + "\n") 
+        tempStr += "\n" + "Weight (pounds): " + usWeightStr;
+    }
+
+    document.getElementById("petBreed").setAttribute("data-tooltip",tempStr);    
     })
     .catch (function (error) {
         console.log('Unable to connect to the Dog API' + error);
+        document.getElementById("petBreed").setAttribute("data-tooltip", "  ")
     })
 }
 
@@ -110,7 +134,6 @@ function init() {
 
 
 //Swipe animation
-
 function slideShow(n) {
     var slides = document.getElementById("hero-image");
     var swipeLeft = document.getElementById("dislike");
