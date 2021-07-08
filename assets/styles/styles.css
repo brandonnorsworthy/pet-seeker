@@ -22,3 +22,18 @@ button {
 /* #tooltipBtn {
     border-radius: 50%;
 } */
+
+.past-likes {
+    display: flex;
+    padding: 10px;
+}
+
+.past-likes img {
+    margin-right: 10px;
+    display: block;
+}
+
+.past-likes span {
+    vertical-align: middle; 
+    padding-left: 10px;
+}
