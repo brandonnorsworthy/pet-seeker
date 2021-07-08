@@ -9,10 +9,10 @@ var likeBtnEl = document.getElementById("likeBtn");
 
 //! GLOBAL VARIABLES
 var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 everytime it goes to next pet
-var currentPetId = 0; //id of currently displayed pet INTEGER
+var currentPetId = 0; //id of currently displayed pet INTEGER used for local storage can possibly be removed
 
 //! TEMPORARY PRESETS
-var userLocation = `houston, texas`; //implement grabbing users location
+var userLocation = `austin, texas`; //implement grabbing users location
 
 //sets up js file when page loads put events and calls in here
 function init() {
@@ -65,9 +65,9 @@ function displayAnimalData (animalData) {
         document.getElementById("petSize").textContent = `Size: ${animalData.size}`;
         document.getElementById("petDescription").textContent = `Description: ${animalData.description}`;
 
-        dogApiCall(animalData.breeds);
-    } else {
-        displayNextAnimal(); //if there is no image on file just skip this animal
+        dogApiCall(animalData.breeds); //calls dogApi to display facts about the breed
+    } else {  //if there is no image on file just skip this animal
+        displayNextAnimal();
     }
 }
 
@@ -84,49 +84,52 @@ function animalHasImage (animalData) {
 }
 
 function displayNextAnimal() {
+    if (arrayOfPetsInQueue.length < 5) {
+        petFinderCall()
+    }
     arrayOfPetsInQueue.shift();
     displayAnimalData(arrayOfPetsInQueue[0]);
 }
 
 //Calls Dog API and provides info on the breed
 function dogApiCall(petBreed) {
-    fetch(`https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`,{
+    fetch(`https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`, {
     headers: {
         'X-Api-Key': 'c8cd1d33-b825-4d0b-aeca-b35206aec201'
-    }
-    })
+    }})
     .then(response => response.json())
     .then(result => {
-    // var lifeSpan = result[0].life_span;
-    // var temperament = result[0].temperament
-    var weightStr = result[0].weight.metric;
-    weighArr = weightStr.split(" - ");
-    var usWeightArr = weighArr.map(Number);
-    for(var i = 0;i < usWeightArr.length;i++){
-        usWeightArr[i] *= 2.2046;
-    }
-    // console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
-    usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
-    // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
+        // var lifeSpan = result[0].life_span;
+        // var temperament = result[0].temperament
+        var weightStr = result[0].weight.metric;
+        weighArr = weightStr.split(" - ");
+        var usWeightArr = weighArr.map(Number);
+        for(var i = 0;i < usWeightArr.length;i++){
+            usWeightArr[i] *= 2.2046;
+        }
+        // console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
+        usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
+        // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
 
-    var tempStr = "";
-    if (result[0].life_span != null || result[0].life_span != undefined) {
-        tempStr += "Life Span: " + result[0].life_span;
-    }
+        var tempStr = "";
+        if (result[0].life_span != null || result[0].life_span != undefined) {
+            tempStr += "Life Span: " + result[0].life_span;
+        }
 
-    if (result[0].temperament != null || result[0].temperament != undefined) {
-        tempStr += "\n" + "Temperament: " + result[0].temperament;
-    }
+        if (result[0].temperament != null || result[0].temperament != undefined) {
+            tempStr += "\n" + "Temperament: " + result[0].temperament;
+        }
 
-    if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
-        tempStr += "\n" + "Weight (pounds): " + usWeightStr;
-    }
+        if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
+            tempStr += "\n" + "Weight (pounds): " + usWeightStr;
+        }
 
-    document.getElementById("petBreed").setAttribute("data-tooltip",tempStr);
+        document.getElementById("petBreed").setAttribute("data-tooltip",tempStr);
     })
     .catch (function (error) {
         console.log('Unable to connect to the Dog API' + error);
-        document.getElementById("petBreed").setAttribute("data-tooltip", "  ")
+        document.getElementById("petBreed").setAttribute("data-tooltip", "")
+        //document.getElementById("petBreed").setAttribute("") need to hide tooltip if empty
     })
 }
 
