@@ -68,7 +68,6 @@ function petFinderCall() {
         .then(function (response) { //response object from api
             arrayOfPetsInQueue = arrayOfPetsInQueue.concat(response.data.animals);
             displayAnimalData(arrayOfPetsInQueue[0]); //display first animal in queue
-            console.log(`petFinderCall:`, arrayOfPetsInQueue.length)
         })
         .catch(function (error) { //catches errors and prints it to console
             console.log("PetFinderAPI Error: ", error);
@@ -109,9 +108,7 @@ function animalHasImage (animalData) {
 }
 
 function displayNextAnimal() {
-    console.log("displayNextAnimal array length: ", arrayOfPetsInQueue.length)
     if (arrayOfPetsInQueue.length == presetArrayLength / 2) {
-        console.log("displayNextAnimal, arrayOfPetsInQueue.length under half refilling")
         petFinderCall()
     }
     arrayOfPetsInQueue.shift();
@@ -135,7 +132,6 @@ function dogApiCall(petBreed) {
             for(var i = 0;i < usWeightArr.length;i++){
                 usWeightArr[i] *= 2.2046;
             }
-            // console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
             usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
             // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
 
