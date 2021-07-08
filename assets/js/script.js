@@ -8,11 +8,21 @@ var dislikeBtnEl = document.getElementById("dislikeBtn");
 var likeBtnEl = document.getElementById("likeBtn");
 
 //! GLOBAL VARIABLES
+var preferences = document.getElementById("preferenceDiv"); 
+var pastLikes = document.getElementById("pastLikesDiv");
+var pastLikesbtn = document.getElementById("past-likes-button");
+var preferencesbtn = document.getElementById("preferences-button");
 var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 everytime it goes to next pet
 var currentPetId = 0; //id of currently displayed pet INTEGER
+var cityFormEl = document.getElementById('user-city');
+var ageEl = document.getElementById('user-age');
+var sizeEl = document.getElementById('user-size');
+var genderMaleEl = document.getElementById('user-gender-male');
+var genderFemaleEl = document.getElementById('user-gender-female')
+var SearchButton = document.getElementById('searchButton');
 
 //! TEMPORARY PRESETS
-var userLocation = `houston, texas`; //implement grabbing users location
+// var userLocation = `houston, texas`; //implement grabbing users location
 
 //sets up js file when page loads put events and calls in here
 function init() {
@@ -21,27 +31,39 @@ function init() {
     likeBtnEl.addEventListener("click", likeCurrentPet);
 
     //CALL INITIAL FUNCTIONS
-    petFinderCall(); //call upon start to load up on api data
+    // petFinderCall(); //call upon start to load up on api data
 }
 
 function petFinderCall() {
+    //Clears array each time the Submit button is clicked by user so that we aren't getting previous searches
+    arrayOfPetsInQueue = [];
+
     //object that calls the petfiner api
     var pf = new petfinder.Client({
         apiKey: petFinderAPIKey, //private api key (required)
         secret: petFinderSecret //private secret key (required)
     });
 
+    var userLocation = cityFormEl.value.trim();
+    var userAge = ageEl.value;
+    var userSize = sizeEl.value;
+    if (genderMaleEl === "Male") {
+        var userGender = "Male"; 
+    } else {
+        var userGender = "Female";
+    }
+
     pf.animal.search({ //
-        //distance: 50, //miles range 1-500 default:100
+        distance: 50, //miles range 1-500 default:100
         status: "adoptable", //preset to only show adoptable pets
         type: "dog", //preset to only show dogs so works with dogAPI
-        //TODO CONNECT PREFERENCE VALUES TO THESE SETTINGS
         location: userLocation,
-        /* age: "baby",
-        size: "small",
-        gender: "male", */
+        age: userAge,
+        size: userSize,
+        gender: userGender
     })
         .then(function (response) { //response object from api
+            console.log(response);
             arrayOfPetsInQueue = arrayOfPetsInQueue.concat(response.data.animals);
             displayAnimalData(arrayOfPetsInQueue[0]); //display first animal in queue
         })
@@ -149,11 +171,6 @@ function likeCurrentPet() {
 }
 
 //Click event to switch between Preferences and Past Likes tabs
-var preferences = document.getElementById("preferenceDiv");
-var pastLikes = document.getElementById("pastLikesDiv");
-var pastLikesbtn = document.getElementById("past-likes-button");
-var preferencesbtn = document.getElementById("preferences-button");
-
 pastLikesbtn.onclick = function() {
     preferences.style.display = "none";
     pastLikes.style.display = "block";
@@ -166,5 +183,8 @@ preferencesbtn.onclick = function() {
 
 //Add past likes from local storage to Past Likes tab
 
+//Search button event listener
+//If you hit submit button, clear out array first and then do petfinder call
+SearchButton.addEventListener('click', petFinderCall);
 
 init() //calls when page starts up leave at bottom
