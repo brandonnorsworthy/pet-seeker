@@ -11,6 +11,11 @@ var likeBtnEl = document.getElementById("likeBtn");
 var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 everytime it goes to next pet
 var currentPetId = 0; //id of currently displayed pet INTEGER
 
+//Preference Buttons
+// var entireForm = document.getElementById("preferenceDiv");
+var submitButton = document.getElementById("submitButton");
+var cancelButton = document.getElementById("cancelButton");
+
 //! TEMPORARY PRESETS
 var userLocation = `houston, texas`; //implement grabbing users location
 
@@ -164,6 +169,16 @@ preferencesbtn.onclick = function() {
     preferences.style.display = "block";
 }
 
+//Functionality for submit and cancel buttons
+cancelButton.onclick = function() {
+    document.getElementByClassName('control').reset(); //Not working
+};
+
+submitButton.onclick = function() {
+    localStorage.clear("likedPets");
+    //likedPetsArray = []; --Clears array of previously liked pets. Need to create variable for this
+    
+}
 //Add past likes from local storage to Past Likes tab
 
 
