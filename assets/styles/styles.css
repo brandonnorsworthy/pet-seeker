@@ -23,16 +23,17 @@ button {
     border-radius: 50%;
 } */
 
-.content {
+.past-likes {
     display: flex;
+    padding: 10px;
 }
 
-.content img {
+.past-likes img {
     margin-right: 10px;
     display: block;
 }
 
-/* .content h3,
-.content p {
-    margin: 0;
-} */
+.past-likes span {
+    vertical-align: middle; 
+    padding-left: 10px;
+}
