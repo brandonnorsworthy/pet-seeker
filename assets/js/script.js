@@ -151,4 +151,23 @@ function likeCurrentPet() {
     displayNextAnimal();
 }
 
+//Click event to switch between Preferences and Past Likes tabs
+var preferences = document.getElementById("preferenceDiv");
+var pastLikes = document.getElementById("pastLikesDiv");
+var pastLikesbtn = document.getElementById("past-likes-button");
+var preferencesbtn = document.getElementById("preferences-button");
+
+pastLikesbtn.onclick = function() {
+    preferences.style.display = "none";
+    pastLikes.style.display = "block";
+}
+
+preferencesbtn.onclick = function() {
+    pastLikes.style.display = "none";
+    preferences.style.display = "block";
+}
+
+//Add past likes from local storage to Past Likes tab
+
+
 init() //calls when page starts up leave at bottom
