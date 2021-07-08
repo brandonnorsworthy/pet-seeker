@@ -6,25 +6,25 @@ const petFinderSecret = '5FxTpncHn5lzFXtfQykl1xpBtDX1O3q6QC8KWhrS';
 //! HTML ELEMENTS
 var dislikeBtnEl = document.getElementById("dislikeBtn");
 var likeBtnEl = document.getElementById("likeBtn");
-var petBreedToolTipEl = document.getElementById("petBreed");
+
+//! GLOBAL VARIABLES
+var preferences = document.getElementById("preferenceDiv"); 
+var pastLikes = document.getElementById("pastLikesDiv");
+var pastLikesbtn = document.getElementById("past-likes-button");
+var preferencesbtn = document.getElementById("preferences-button");
+var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 everytime it goes to next pet
+var currentPetId = 0; //id of currently displayed pet INTEGER
 var cityFormEl = document.getElementById('user-city');
 var ageEl = document.getElementById('user-age');
 var sizeEl = document.getElementById('user-size');
 var genderMaleEl = document.getElementById('user-gender-male');
-var genderFemaleEl = document.getElementById('user-gender-female');
+var genderFemaleEl = document.getElementById('user-gender-female')
 var searchBtnEl = document.getElementById('searchButton');
-var preferences = document.getElementById("preferenceDiv");
-var pastLikes = document.getElementById("pastLikesDiv");
-var pastLikesbtn = document.getElementById("past-likes-button");
-var preferencesbtn = document.getElementById("preferences-button");
-
-//! GLOBAL VARIABLES
-var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 everytime it goes to next pet
-var currentPetId = 0; //id of currently displayed pet INTEGER
+var descriptionEl = document.getElementById('petDescription');
 
 //Preference Buttons
 // var entireForm = document.getElementById("preferenceDiv");
-var searchButton = document.getElementById("submitButton");
+var submitButton = document.getElementById("submitButton");
 var cancelButton = document.getElementById("cancelButton");
 
 //! TEMPORARY PRESETS
@@ -41,6 +41,9 @@ function init() {
 }
 
 function petFinderCall() {
+    //Clears array each time the Submit button is clicked by user so that we aren't getting previous searches
+    arrayOfPetsInQueue = [];
+
     //object that calls the petfiner api
     var pf = new petfinder.Client({
         apiKey: petFinderAPIKey, //private api key (required)
@@ -88,11 +91,14 @@ function displayAnimalData (animalData) {
         document.getElementById("petGender").textContent = `Gender: ${animalData.gender}`;
         document.getElementById("petBreed").textContent = `Breed: ${animalData.breeds.primary}`;
         document.getElementById("petSize").textContent = `Size: ${animalData.size}`;
-        document.getElementById("petDescription").textContent = `Description: ${animalData.description}`;
 
-        dogApiCall(animalData.breeds); //calls dogApi to display facts about the breed
-    } else {  //if there is no image on file just skip this animal
-        displayNextAnimal();
+        if (animalData.description !== null) {
+            document.getElementById("petDescription").textContent = `Description: ${animalData.description}`;
+        };
+
+        dogApiCall(animalData.breeds);
+    } else {
+        displayNextAnimal(); //if there is no image on file just skip this animal
     }
 }
 
@@ -109,61 +115,60 @@ function animalHasImage (animalData) {
 }
 
 function displayNextAnimal() {
-    if (arrayOfPetsInQueue.length < 5) {
-        petFinderCall()
-    }
     arrayOfPetsInQueue.shift();
     displayAnimalData(arrayOfPetsInQueue[0]);
 }
 
 //Calls Dog API and provides info on the breed
 function dogApiCall(petBreed) {
-    fetch(`https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`, {
+    fetch(`https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`,{
     headers: {
         'X-Api-Key': 'c8cd1d33-b825-4d0b-aeca-b35206aec201'
-    }})
+    }
+    })
     .then(response => response.json())
     .then(result => {
-        // var lifeSpan = result[0].life_span;
-        // var temperament = result[0].temperament
-        var weightStr = result[0].weight.metric;
-        weighArr = weightStr.split(" - ");
-        var usWeightArr = weighArr.map(Number);
-        for(var i = 0;i < usWeightArr.length;i++){
-            usWeightArr[i] *= 2.2046;
-        }
-        // console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
-        usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
-        // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
+    // var lifeSpan = result[0].life_span;
+    // var temperament = result[0].temperament
+    var weightStr = result[0].weight.metric;
+    weighArr = weightStr.split(" - ");
+    var usWeightArr = weighArr.map(Number);
+    for(var i = 0;i < usWeightArr.length;i++){
+        usWeightArr[i] *= 2.2046;
+    }
+    // console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
+    usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
+    // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
 
-        var tempStr = "";
-        if (result[0].life_span != null || result[0].life_span != undefined) {
-            tempStr += "Life Span: " + result[0].life_span;
-        }
+    var tempStr = "";
+    if (result[0].life_span != null || result[0].life_span != undefined) {
+        tempStr += "Life Span: " + result[0].life_span;
+    }
 
-        if (result[0].temperament != null || result[0].temperament != undefined) {
-            tempStr += "\n" + "Temperament: " + result[0].temperament;
-        }
+    if (result[0].temperament != null || result[0].temperament != undefined) {
+        tempStr += "\n" + "Temperament: " + result[0].temperament;
+    }
 
-        if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
-            tempStr += "\n" + "Weight (pounds): " + usWeightStr;
-        }
+    if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
+        tempStr += "\n" + "Weight (pounds): " + usWeightStr;
+    }
 
-        petBreedToolTipEl.setAttribute("data-tooltip", tempStr);
+    document.getElementById("petBreed").setAttribute("data-tooltip",tempStr);
     })
     .catch (function (error) {
         console.log('Unable to connect to the Dog API' + error);
-        delete petBreedToolTipEl.dataset.tooltip
+        document.getElementById("petBreed").setAttribute("data-tooltip", "  ")
     })
 }
 
 //############################### Events #################################
-
 function dislikeCurrentPet() {
+    document.getElementById("petDescription").textContent = ``;
     displayNextAnimal();
 }
 
 function likeCurrentPet() {
+    document.getElementById("petDescription").textContent = ``;
     tempArr = JSON.parse(localStorage.getItem("likedPets"));
     if(tempArr != null) { //if there is already items in local storage
         tempArr.push(currentPetId)
@@ -174,7 +179,8 @@ function likeCurrentPet() {
         localStorage.setItem("likedPets",JSON.stringify(tempArr));
     }
     displayNextAnimal();
-}
+};
+
 
 //Click event to switch between Preferences and Past Likes tabs
 pastLikesbtn.onclick = function() {
@@ -187,16 +193,6 @@ preferencesbtn.onclick = function() {
     preferences.style.display = "block";
 }
 
-//Functionality for submit and cancel buttons
-cancelButton.onclick = function() {
-    document.getElementByClassName('control').reset(); //Not working
-};
-
-searchButton.onclick = function() {
-    localStorage.clear("likedPets");
-    //likedPetsArray = []; --Clears array of previously liked pets. Need to create variable for this
-    
-}
 //Add past likes from local storage to Past Likes tab
 
 //Search button event listener
@@ -205,6 +201,6 @@ searchBtnEl.onclick = function() {
     //Clears array each time the Submit button is clicked by user so that we aren't getting previous searches
     arrayOfPetsInQueue = [];
     petFinderCall();
-}
+};
 
-init() //calls when page starts up leave at bottom
+init(); //calls when page starts up leave at
