@@ -1,103 +1,106 @@
+//! API PRESETS
+const dogAPIkey = 'c8cd1d33-b825-4d0b-aeca-b35206aec201';
+const petFinderAPIKey = '8iY0rDCqC9P4DVIu9eTVbZY5cUJW1QoDmuRxes5N6FQi72MxhF';
+const petFinderSecret = '5FxTpncHn5lzFXtfQykl1xpBtDX1O3q6QC8KWhrS';
 
-//global variables
-const secret = `5FxTpncHn5lzFXtfQykl1xpBtDX1O3q6QC8KWhrS`
-const apiKey = `8iY0rDCqC9P4DVIu9eTVbZY5cUJW1QoDmuRxes5N6FQi72MxhF`
-const url = `https://api.petfinder.com/v2/types`
-const dogapiKey = 'c8cd1d33-b825-4d0b-aeca-b35206aec201';
+//! HTML ELEMENTS
+var dislikeBtnEl = document.getElementById("dislikeBtn");
+var likeBtnEl = document.getElementById("likeBtn");
 
-//string must either be `city, state` or `zipcode`
-var userLocation = `austin, texas`
+//! GLOBAL VARIABLES
+var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 everytime it goes to next pet
+var currentPetId = 0; //id of currently displayed pet INTEGER
 
-//Button variables
-var swipeLeft = document.getElementById("dislikeBtn");
-var swipeRight = document.getElementById("likeBtn");
-var petCard = 0;
-var arrayOfCurrentPets = [];
-var currentPet = {};
-var likedPets = [];
+//! TEMPORARY PRESETS
+var userLocation = `houston, texas`; //implement grabbing users location
 
-//For clearing local storage
-//replace "search-button" with the new search button ID
-//var searchButton = document.getElementById("search-button");
-//Variable to include all of the search preference options. Replace "preferences" with whatever ID
-//var preferences = document.getElementById("preferences");
+//sets up js file when page loads put events and calls in here
+function init() {
+    //SETUP HTML ELEMENT EVENTS
+    dislikeBtnEl.addEventListener("click", dislikeCurrentPet);
+    likeBtnEl.addEventListener("click", likeCurrentPet);
 
-//Name and Characteristic variables
+    //CALL INITIAL FUNCTIONS
+    petFinderCall(); //call upon start to load up on api data
+}
 
 function petFinderCall() {
-    var pf = new petfinder.Client({ apiKey: apiKey, secret: secret });
-    pf.animal.search({
+    //object that calls the petfiner api
+    var pf = new petfinder.Client({
+        apiKey: petFinderAPIKey, //private api key (required)
+        secret: petFinderSecret //private secret key (required)
+    });
+
+    pf.animal.search({ //
+        //distance: 50, //miles range 1-500 default:100
+        status: "adoptable", //preset to only show adoptable pets
+        type: "dog", //preset to only show dogs so works with dogAPI
+        //TODO CONNECT PREFERENCE VALUES TO THESE SETTINGS
         location: userLocation,
-        distance: 15
+        /* age: "baby",
+        size: "small",
+        gender: "male", */
     })
-        .then(function (response) {
-            //response object from api
-            // for (let index = 0; index < response.data.animals.length; index++) {
-                // console.log(response.data.animals[0]);
-                arrayOfCurrentPets = response.data.animals;
-                console.log("perfinderCall: ", arrayOfCurrentPets)
-                //Appends pet name and age;
-
-                displayAnimalData(response.data.animals[petCard])
+        .then(function (response) { //response object from api
+            arrayOfPetsInQueue = arrayOfPetsInQueue.concat(response.data.animals);
+            displayAnimalData(arrayOfPetsInQueue[0]); //display first animal in queue
         })
-        .catch(function (error) {
-            // Handle the error
-            console.log("PetFinderAPI Error: ", error);
+        .catch(function (error) { //catches errors and prints it to console
+            alert("PetFinderAPI Error: ", error);
         });
+
+    return;
 }
 
+//sets elements in the card to current pet data
 function displayAnimalData (animalData) {
-    //sets elements in the card to current pet
-    console.log("displayAnimalData: ", arrayOfCurrentPets)
+    if (animalHasImage(animalData)) { //look and see if the animal has a image on file
+        currentPetId = animalData.id; //assignes current pet id to global for local storage if favorited
+        document.getElementById("petName").textContent = `${animalData.name}`;
+        document.getElementById("petAge").textContent = `Age: ${animalData.age}`;
+        document.getElementById("petPhoto").setAttribute("src", animalData.photos[0].large)
+        document.getElementById("petType").textContent = `Species: ${animalData.type}`;
+        document.getElementById("petGender").textContent = `Gender: ${animalData.gender}`;
+        document.getElementById("petBreed").textContent = `Breed: ${animalData.breeds.primary}`;
+        document.getElementById("petSize").textContent = `Size: ${animalData.size}`;
+        document.getElementById("petDescription").textContent = `Description: ${animalData.description}`;
 
-    document.getElementById("petName").textContent = `${animalData.name}`;
-    document.getElementById("petAge").textContent = `Age: ${animalData.age}`;
-    document.getElementById("petPhoto").setAttribute("src",animalData.photos[0].large)
-    document.getElementById("petType").textContent = `Species: ${animalData.type}`;
-    document.getElementById("petGender").textContent = `Gender: ${animalData.gender}`;
-    document.getElementById("petBreed").textContent = `Breed: ${animalData.breeds.primary}`;
-    document.getElementById("petSize").textContent = `Size: ${animalData.size}`;
-    document.getElementById("petDescription").textContent = `Description: ${animalData.description}`;
-
-    dogApiCall(animalData.breeds);
+        dogApiCall(animalData.breeds);
+    } else {
+        displayNextAnimal(); //if there is no image on file just skip this animal
+    }
 }
 
-//Button functionality
-swipeLeft.addEventListener("click", function() {
-    petCard ++;
-    arrayOfCurrentPets.shift();
-    displayAnimalData(arrayOfCurrentPets[petCard]);
-});
+//looks to see if a image is inside the animal data object
+function animalHasImage (animalData) {
+    var animalHasImage = true; //default to true to return
+    if (animalData.photos == undefined || animalData.photos === null) {
+        animalHasImage = false;
+    } else if (animalData.photos.length === 0){
+        animalHasImage = false;
+    }
 
-//Saves pet to local storage
-swipeRight.addEventListener("click", function() {
-    likedPets.push(currentPet);
-    localStorage.setItem("likedPets",JSON.stringify(likedPets));
-    petCard ++;
-    arrayOfCurrentPets.shift();
-    displayAnimalData(arrayOfCurrentPets[petCard]);
-});
+    return animalHasImage;
+}
+
+function displayNextAnimal() {
+    arrayOfPetsInQueue.shift();
+    displayAnimalData(arrayOfPetsInQueue[0]);
+}
 
 //Calls Dog API and provides info on the breed
 function dogApiCall(petBreed) {
-
-    var dogApiUrl = `https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`;
-    fetch(dogApiUrl,{
+    fetch(`https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`,{
     headers: {
         'X-Api-Key': 'c8cd1d33-b825-4d0b-aeca-b35206aec201'
     }
     })
     .then(response => response.json())
     .then(result => {
-    // console.log("dogCallApi: ", 'Success:', result);
-    // console.log("dogCallApi: ", result[0].life_span);
-    // console.log("dogCallApi: ", result[0].temperament);
-    // console.log("dogCallApi: ", result[0].weight.metric);
     // var lifeSpan = result[0].life_span;
     // var temperament = result[0].temperament
     var weightStr = result[0].weight.metric;
     weighArr = weightStr.split(" - ");
-    console.log("dogCallApi: ", weighArr);
     var usWeightArr = weighArr.map(Number);
     for(var i = 0;i < usWeightArr.length;i++){
         usWeightArr[i] *= 2.2046;
@@ -105,47 +108,44 @@ function dogApiCall(petBreed) {
     // console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
     usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
     // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
-    // console.log(tempStr)
 
     var tempStr = "";
     if (result[0].life_span != null || result[0].life_span != undefined) {
-        // document.getElementById("petBreed").setAttribute("data-tooltip","Life Span: " + result[0].life_span + "\n") 
         tempStr += "Life Span: " + result[0].life_span;
     }
 
     if (result[0].temperament != null || result[0].temperament != undefined) {
-        // document.getElementById("petBreed").setAttribute("data-tooltip","Temperament: " + result[0].temperament + "\n") 
         tempStr += "\n" + "Temperament: " + result[0].temperament;
     }
 
     if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
-        // document.getElementById("petBreed").setAttribute("data-tooltip","Weight (pounds): " + usWeightStr + "\n") 
         tempStr += "\n" + "Weight (pounds): " + usWeightStr;
     }
 
-    document.getElementById("petBreed").setAttribute("data-tooltip",tempStr);    
+    document.getElementById("petBreed").setAttribute("data-tooltip",tempStr);
     })
-    
-
     .catch (function (error) {
         console.log('Unable to connect to the Dog API' + error);
         document.getElementById("petBreed").setAttribute("data-tooltip", "  ")
     })
 }
 
-//TODO: use local storage to store preferences, display liked dogs
+//############################### Events #################################
+function dislikeCurrentPet() {
+    displayNextAnimal();
+}
 
-//Clears local storage upon new search
-// searchButton.addEventListener("click", function {
-//     localStorage.clear();
-// });
+function likeCurrentPet() {
+    tempArr = JSON.parse(localStorage.getItem("likedPets"));
+    if(tempArr != null) { //if there is already items in local storage
+        tempArr.push(currentPetId)
+        localStorage.setItem("likedPets",JSON.stringify(tempArr));
+    } else {
+        tempArr = [currentPetId];
+        console.log(tempArr);
+        localStorage.setItem("likedPets",JSON.stringify(tempArr));
+    }
+    displayNextAnimal();
+}
 
-
-
-// petfinderCall()
-//sets up js file when page loads put events and calls in here
-function init() {
-    petFinderCall()
-};
-//test
 init() //calls when page starts up leave at bottom
