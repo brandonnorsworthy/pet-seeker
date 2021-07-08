@@ -22,3 +22,17 @@ button {
 /* #tooltipBtn {
     border-radius: 50%;
 } */
+
+.content {
+    display: flex;
+}
+
+.content img {
+    margin-right: 10px;
+    display: block;
+}
+
+/* .content h3,
+.content p {
+    margin: 0;
+} */
