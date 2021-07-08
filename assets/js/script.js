@@ -6,6 +6,7 @@ const petFinderSecret = '5FxTpncHn5lzFXtfQykl1xpBtDX1O3q6QC8KWhrS';
 //! HTML ELEMENTS
 var dislikeBtnEl = document.getElementById("dislikeBtn");
 var likeBtnEl = document.getElementById("likeBtn");
+var petBreedToolTipEl = document.getElementById("petBreed");
 
 //! GLOBAL VARIABLES
 var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 everytime it goes to next pet
@@ -124,16 +125,16 @@ function dogApiCall(petBreed) {
             tempStr += "\n" + "Weight (pounds): " + usWeightStr;
         }
 
-        document.getElementById("petBreed").setAttribute("data-tooltip",tempStr);
+        petBreedToolTipEl.setAttribute("data-tooltip", tempStr);
     })
     .catch (function (error) {
         console.log('Unable to connect to the Dog API' + error);
-        document.getElementById("petBreed").setAttribute("data-tooltip", "")
-        //document.getElementById("petBreed").setAttribute("") need to hide tooltip if empty
+        delete petBreedToolTipEl.dataset.tooltip
     })
 }
 
 //############################### Events #################################
+
 function dislikeCurrentPet() {
     displayNextAnimal();
 }
