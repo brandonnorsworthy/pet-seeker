@@ -46,7 +46,7 @@ function petFinderCall() {
     var userAge = ageEl.value;
     var userSize = sizeEl.value;
     if (genderMaleEl === "Male") {
-        var userGender = "Male"; 
+        var userGender = "Male";
     } else {
         var userGender = "Female";
     }
@@ -150,6 +150,17 @@ function dogApiCall(petBreed) {
         console.log('Unable to connect to the Dog API' + error);
         delete petBreedToolTipEl.dataset.tooltip
     })
+}
+
+function displayPetsBeforeDate() {
+    var date = 0;
+    if (arrayOfPetsInQueue == null){
+        date = moment().toISOString();
+    } else {
+        date = arrayOfPetsInQueue[arrayOfPetsInQueue.length - 1].published_at;
+    }
+
+    return date; //Must be a valid ISO8601 date-time string (e.g. 2019-10-07T19:13:01+00:00)
 }
 
 //############################### Events #################################
