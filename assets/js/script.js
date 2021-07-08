@@ -133,6 +133,8 @@ function dogApiCall(petBreed) {
     })
 }
 
+//function
+
 //############################### Events #################################
 
 function dislikeCurrentPet() {
