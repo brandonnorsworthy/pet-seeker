@@ -24,6 +24,10 @@ var currentPetId = 0; //id of currently displayed pet INTEGER
 const presetArrayLength = 40; //amount the api gets per call and the ideal length the pet array should float around
 
 //! TEMPORARY PRESETS
+var petFinderClient = new petfinder.Client({
+    apiKey: petFinderAPIKey, //private api key (required)
+    secret: petFinderSecret //private secret key (required)
+});
 // var userLocation = `houston, texas`; //implement grabbing users location
 
 //sets up js file when page loads put events and calls in here
@@ -41,10 +45,6 @@ function init() {
 
 function petFinderCall() {
     //object that calls the petfiner api
-    var pf = new petfinder.Client({
-        apiKey: petFinderAPIKey, //private api key (required)
-        secret: petFinderSecret //private secret key (required)
-    });
 
     var userLocation = cityFormEl.value.trim();
     var userAge = ageEl.value;
@@ -55,7 +55,7 @@ function petFinderCall() {
         var userGender = "Female";
     }
 
-    pf.animal.search({
+    petFinderClient.animal.search({
         //presets do not change
         distance: 50, //miles range 1-500 default:100
         status: "adoptable", //preset to only show adoptable pets
@@ -169,6 +169,17 @@ function displayPetsBeforeDate() {
     }
 
     return date; //Must be a valid ISO8601 date-time string (e.g. 2019-10-07T19:13:01+00:00)
+}
+
+function getAnimalById(animalId) {
+    petFinderClient.animal.show(animalId)
+    .then(function (response) {
+        console.log(response.data.animal)
+        //create li in past liked
+            //response.data.animal.name
+            //response.data.animal.photos[0].small
+            //response.data.animal.url
+    });
 }
 
 //############################### Events #################################
