@@ -9,134 +9,144 @@
     <link rel="stylesheet" href="./assets/styles/styles.css">
     <link rel="shortcut icon" href="./assets/images/favicon.ico?" type="image/x-icon">
 	</head>
-  <body>
+<body>
     <div class="columns">
-      <div class="column is-3 ml-3">
-        <div class="tabs is-medium">
-          <ul>
-            <li id = "preferences-button" class="is-active"><a>Preferences</a></li>
-            <li id = "past-likes-button"><a>Past Likes</a></li>
-          </ul>
-        </div>
-        <div id="preferenceDiv" style="display: block;">
-          <section class="tab-content"></section>
+        <div class="column is-3 ml-3">
+            <div class="tabs is-medium">
+            <ul>
+                <li id = "preferences-button" class="is-active"><a>Preferences</a></li>
+                <li id = "past-likes-button"><a>Past Likes</a></li>
+            </ul>
+            </div>
+            <div>
             <div id="preferenceDiv" style="display: block;">
-                <section class="tab-content"></section>
-                <div class="field">
-                    <label class="label">City, State or Zip Code Search: </label>
-                    <div class="control">
-                      <input id = "user-city" class="input" type="text" placeholder="Text input">
-                    </div>
-                  </div>
-                  <div class="field">
-                    <label class="label">Age:</label>
-                    <div class="control">
-                      <div class="select">
-                        <select id = "user-age">
-                          <option>Baby</option>
-                          <option>Young</option>
-                          <option>Adult</option>
-                          <option>Senior</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="field">
-                    <label class="label">Size:</label>
-                    <div class="control">
-                      <div class="select">
-                        <select id = "user-size">
-                          <option>Small</option>
-                          <option>Medium</option>
-                          <option>Large</option>
-                          <option>XLarge</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="field">
-                    <div class="control">
-                        <label class="label">Gender:</label>
-                        <label class="checkbox">
-                            <input id = "user-gender-male" type="checkbox">
-                            Male
-                          </label>
-                          <label class="checkbox">
-                            <input id = "user-gender-female" type="checkbox">
-                            Female
-                          </label>
-                    </div>
-                  </div>
-                  <div class="field is-grouped">
-                    <div class="control">
-                      <button id = "searchButton" class="button is-link">Submit</button>
-                    </div>
-                    <div class="control">
-                      <button class="button is-link is-light" id="cancelButton">Cancel</button>
-                    </div>
-                  </div>
-                  <section class="tab-content"></section>
-            </div>
             <section class="tab-content"></section>
-          </div>
-          <div id="pastLikesDiv" style="display: none;">
-            <p>ojigreojirgoiejrgioj</p>
-          </div>
-      </div>
-      <div class="column is-9"> <!-- main content -->
-        <div class="columns is-vcentered "><!-- HEADER -->
-          <div class="column is-11">
-            <p class="subtitle is-3 has-text-centered" style="color: rgb(0, 207, 214);">Pet Seeker</p>
-          </div>
-          <div class="column is-1 is-flex is-justify-content-flex-end"> <!-- figure out how to align this to the end of the top header row -->
-            <img class="image is-64x64" src="./assets/images/logo/petseeker_logo.png" alt="petseeker logo">
-          </div>
-        </div>
-        <div class="columns is-vcentered">
-          <div class="column is-2 is-vcentered is-flex is-justify-content-flex-end">
-            <img class="button is-info" id="dislikeBtn" src="./assets/images/buttons/dislike-light.png" alt="" srcset="">
-            <!-- dislike -->
-          </div>
-          <div class="column is-8">
-            <!-- card -->
-            <div class="card">
-              <div class="card-image image is-16by9">
-                <img id="petPhoto" src="" alt="picture of dog">
-              </div>
-              <div class="card-content">
-                <div class="content" id="petData">
-                  <p class="title is-4" id="petName"></p>
-                  <p class="subtitle is-6"id = "petAge"></p>
-                  <p id="petType"></p>
-                  <p id="petGender"></p>
-                  <p><span class="has-tooltip-arrow has-tooltipl-multiline" id="petBreed" data-tooltip=""></span></p>
-                  <p id="petSize"></p>
-                  <p id="petDescription"></p>
-                </div>
-              </div>
+                    <div class="field">
+                        <label class="label">City, State or Zip Code Search: </label>
+                        <div class="control">
+                        <input id = "user-city" class="input" type="text" placeholder="Text input">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Age:</label>
+                        <div class="control">
+                            <div class="select">
+                            <select id = "user-age">
+                            <option>Baby</option>
+                            <option>Young</option>
+                            <option>Adult</option>
+                            <option>Senior</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Size:</label>
+                        <div class="control">
+                        <div class="select">
+                            <select id = "user-size">
+                            <option>Small</option>
+                            <option>Medium</option>
+                            <option>Large</option>
+                            <option>XLarge</option>
+                            </select>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <label class="label">Gender:</label>
+                            <label class="checkbox">
+                                <input id = "user-gender-male" type="checkbox">
+                                Male
+                            </label>
+                            <label class="checkbox">
+                                <input id = "user-gender-female" type="checkbox">
+                                Female
+                            </label>
+                        </div>
+                    </div>
+                    <div class="field is-grouped">
+                        <div class="control">
+                        <button id = "searchButton" class="button is-link">Submit</button>
+                        </div>
+                        <div class="control">
+                        <button class="button is-link is-light">Cancel</button>
+                        </div>
+                    </div>
+                    <section class="tab-content"></section>
             </div>
-          </div>
-          <div class="column is-2 is-vcentered">
-            <!-- like -->
-            <img class="button is-danger" id="likeBtn" src="./assets/images/buttons/like-light.png" alt="" srcset="">
-          </div>
+                <div id="pastLikesDiv" style="display: none;">
+                    <div class = "past-likes">
+                        <figure class="image is-48x48 past-liked-photo">
+                            <img src="https://bulma.io/images/placeholders/48x48.png">
+                        </figure>
+                        <span><strong>Pet Name </strong><br>Link to shelter website</span>
+                    </div>
+                    <div class = "past-likes">
+                        <figure class="image is-48x48 past-liked-photo">
+                            <img src="https://bulma.io/images/placeholders/48x48.png">
+                        </figure>
+                        <span><strong>Pet Name </strong><br>Link to shelter website</span>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="column is-9"> <!-- main content -->
+            <div class="columns is-vcentered "><!-- HEADER -->
+            <div class="column is-11">
+                <p class="subtitle is-3 has-text-centered" style="color: rgb(0, 207, 214);">Pet Seeker</p>
+            </div>
+            <div class="column is-1 is-flex is-justify-content-flex-end"> <!-- figure out how to align this to the end of the top header row -->
+                <img class="image is-64x64" src="./assets/images/logo/petseeker_logo.png" alt="petseeker logo">
+            </div>
+            </div>
+            <div class="columns is-vcentered">
+            <div class="column is-2 is-vcentered is-flex is-justify-content-flex-end">
+                <img class="button is-info" id="dislikeBtn" src="./assets/images/buttons/dislike-light.png" alt="" srcset="">
+                <!-- dislike -->
+            </div>
+            <div class="column is-8">
+                <!-- card -->
+                <div class="card">
+                    <div class="card-image image is-16by9">
+                        <img id="petPhoto" src="" alt="picture of dog">
+                    </div>
+                    <div class="card-content">
+                        <div class="content" id="petData">
+                            <p class="title is-4" id="petName"></p>
+                            <p class="subtitle is-6"id = "petAge"></p>
+                            <p id="petType"></p>
+                            <p id="petGender"></p>
+                            <p><span class="has-tooltip-arrow has-tooltipl-multiline" id="petBreed" data-tooltip=""></span></p>
+                            <p id="petSize"></p>
+                            <p id="petDescription"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-2 is-vcentered">
+                <!-- like -->
+                <img class="button is-danger" id="likeBtn" src="./assets/images/buttons/like-light.png" alt="" srcset="">
+            </div>
+            </div>
+        </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/@petfinder/petfinder-js/dist/petfinder.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js" integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="./assets/js/script.js"></script>
-	</body>
-  <footer class="footer">
+</body>
+<footer class="footer">
     <div class="content mt-7 has-text-centered">
-      <p>
+    <p>
         <strong>Pet Seeker</strong> by <a href="https://github.com/mguppy">@mguppy</a>,
         <a href="https://github.com/brandonnorsworthy">@brandonnorsworthy</a> and
         <a href="https://github.com/mwallis5110?tab=followers">@mwallis5110</a>. The source code is licensed
         <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. View the Source Code at
         <a class="is-justified-right" href="https://github.com/brandonnorsworthy/pet-seeker">GitHub</a>.
-      </p>
+    </p>
     </div>
-  </footer>
+</footer>
 </html>

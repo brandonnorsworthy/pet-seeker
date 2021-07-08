@@ -18,16 +18,20 @@ var cityFormEl = document.getElementById('user-city');
 var ageEl = document.getElementById('user-age');
 var sizeEl = document.getElementById('user-size');
 var genderMaleEl = document.getElementById('user-gender-male');
-var genderFemaleEl = document.getElementById('user-gender-female')
+var genderFemaleEl = document.getElementById('user-gender-female');
 var searchBtnEl = document.getElementById('searchButton');
 var descriptionEl = document.getElementById('petDescription');
 
-//Preference Buttons
-// var entireForm = document.getElementById("preferenceDiv");
-var submitButton = document.getElementById("submitButton");
-var cancelButton = document.getElementById("cancelButton");
+//! GLOBAL VARIABLES
+var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 everytime it goes to next pet
+var currentPetId = 0; //id of currently displayed pet INTEGER
+const presetArrayLength = 40; //amount the api gets per call and the ideal length the pet array should float around
 
 //! TEMPORARY PRESETS
+var petFinderClient = new petfinder.Client({
+    apiKey: petFinderAPIKey, //private api key (required)
+    secret: petFinderSecret //private secret key (required)
+});
 // var userLocation = `houston, texas`; //implement grabbing users location
 
 //sets up js file when page loads put events and calls in here
@@ -35,6 +39,9 @@ function init() {
     //SETUP HTML ELEMENT EVENTS
     dislikeBtnEl.addEventListener("click", dislikeCurrentPet);
     likeBtnEl.addEventListener("click", likeCurrentPet);
+
+    //CALL ANIMAL IDS THAT WERE SAVED FROM LOCAL STORAGE
+    showLikedPets();
 
     //CALL INITIAL FUNCTIONS
     // petFinderCall(); //call upon start to load up on api data
@@ -45,36 +52,35 @@ function petFinderCall() {
     arrayOfPetsInQueue = [];
 
     //object that calls the petfiner api
-    var pf = new petfinder.Client({
-        apiKey: petFinderAPIKey, //private api key (required)
-        secret: petFinderSecret //private secret key (required)
-    });
 
     var userLocation = cityFormEl.value.trim();
     var userAge = ageEl.value;
     var userSize = sizeEl.value;
     if (genderMaleEl === "Male") {
-        var userGender = "Male"; 
+        var userGender = "Male";
     } else {
         var userGender = "Female";
     }
 
-    pf.animal.search({ //
+    petFinderClient.animal.search({
+        //presets do not change
         distance: 50, //miles range 1-500 default:100
         status: "adoptable", //preset to only show adoptable pets
         type: "dog", //preset to only show dogs so works with dogAPI
+        limit: presetArrayLength,
+        //variables
+        before: displayPetsBeforeDate(),
         location: userLocation,
         age: userAge,
         size: userSize,
         gender: userGender
     })
         .then(function (response) { //response object from api
-            console.log(response);
             arrayOfPetsInQueue = arrayOfPetsInQueue.concat(response.data.animals);
             displayAnimalData(arrayOfPetsInQueue[0]); //display first animal in queue
         })
         .catch(function (error) { //catches errors and prints it to console
-            alert("PetFinderAPI Error: ", error);
+            console.log("PetFinderAPI Error: ", error);
         });
 
     return;
@@ -92,6 +98,7 @@ function displayAnimalData (animalData) {
         document.getElementById("petBreed").textContent = `Breed: ${animalData.breeds.primary}`;
         document.getElementById("petSize").textContent = `Size: ${animalData.size}`;
 
+        //Handles null description by 
         if (animalData.description !== null) {
             document.getElementById("petDescription").textContent = `Description: ${animalData.description}`;
         };
@@ -100,7 +107,7 @@ function displayAnimalData (animalData) {
     } else {
         displayNextAnimal(); //if there is no image on file just skip this animal
     }
-}
+};
 
 //looks to see if a image is inside the animal data object
 function animalHasImage (animalData) {
@@ -112,70 +119,94 @@ function animalHasImage (animalData) {
     }
 
     return animalHasImage;
-}
+};
 
 function displayNextAnimal() {
+    if (arrayOfPetsInQueue.length == presetArrayLength / 2) {
+        petFinderCall()
+    }
     arrayOfPetsInQueue.shift();
     displayAnimalData(arrayOfPetsInQueue[0]);
 }
 
 //Calls Dog API and provides info on the breed
 function dogApiCall(petBreed) {
-    fetch(`https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`,{
-    headers: {
-        'X-Api-Key': 'c8cd1d33-b825-4d0b-aeca-b35206aec201'
-    }
-    })
-    .then(response => response.json())
-    .then(result => {
-    // var lifeSpan = result[0].life_span;
-    // var temperament = result[0].temperament
-    var weightStr = result[0].weight.metric;
-    weighArr = weightStr.split(" - ");
-    var usWeightArr = weighArr.map(Number);
-    for(var i = 0;i < usWeightArr.length;i++){
-        usWeightArr[i] *= 2.2046;
-    }
-    // console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
-    usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
-    // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
+    if (petBreed.primary === null) {
+        fetch(`https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`, {
+        headers: {
+            'X-Api-Key': 'c8cd1d33-b825-4d0b-aeca-b35206aec201'
+        }})
+        .then(response => response.json())
+        .then(result => {
+            // var lifeSpan = result[0].life_span;
+            // var temperament = result[0].temperament
+            var weightStr = result[0].weight.metric;
+            weighArr = weightStr.split(" - ");
+            var usWeightArr = weighArr.map(Number);
+            for(var i = 0;i < usWeightArr.length;i++){
+                usWeightArr[i] *= 2.2046;
+            }
+            usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
+            // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
 
-    var tempStr = "";
-    if (result[0].life_span != null || result[0].life_span != undefined) {
-        tempStr += "Life Span: " + result[0].life_span;
+            var tempStr = "";
+            if (result[0].life_span != null || result[0].life_span != undefined) {
+                tempStr += "Life Span: " + result[0].life_span;
+            }
+
+            if (result[0].temperament != null || result[0].temperament != undefined) {
+                tempStr += "\n" + "Temperament: " + result[0].temperament;
+            }
+
+            if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
+                tempStr += "\n" + "Weight (pounds): " + usWeightStr;
+            }
+
+            petBreedToolTipEl.setAttribute("data-tooltip", tempStr);
+        })
+        .catch (function (error) {
+            console.log('Unable to connect to the Dog API' + error);
+            delete petBreedToolTipEl.dataset.tooltip
+        })
+    }
+}
+
+function displayPetsBeforeDate() {
+    var date = 0;
+    if (arrayOfPetsInQueue === null || arrayOfPetsInQueue.length === 0){
+        date = moment().toISOString();
+    } else {
+        date = arrayOfPetsInQueue[arrayOfPetsInQueue.length - 1].published_at;
     }
 
-    if (result[0].temperament != null || result[0].temperament != undefined) {
-        tempStr += "\n" + "Temperament: " + result[0].temperament;
-    }
+    return date; //Must be a valid ISO8601 date-time string (e.g. 2019-10-07T19:13:01+00:00)
+}
 
-    if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
-        tempStr += "\n" + "Weight (pounds): " + usWeightStr;
-    }
-
-    document.getElementById("petBreed").setAttribute("data-tooltip",tempStr);
-    })
-    .catch (function (error) {
-        console.log('Unable to connect to the Dog API' + error);
-        document.getElementById("petBreed").setAttribute("data-tooltip", "  ")
-    })
+function getAnimalById(animalId) {
+    petFinderClient.animal.show(animalId)
+    .then(function (response) {
+        console.log(response.data.animal)
+        //create li in past liked
+            //response.data.animal.name
+            //response.data.animal.photos[0].small
+            //response.data.animal.url
+    });
 }
 
 //############################### Events #################################
 function dislikeCurrentPet() {
-    document.getElementById("petDescription").textContent = ``;
+    document.getElementById("petDescription").textContent = ``; //Resets pet description 
     displayNextAnimal();
 }
 
 function likeCurrentPet() {
-    document.getElementById("petDescription").textContent = ``;
+    document.getElementById("petDescription").textContent = ``; //Resets pet description
     tempArr = JSON.parse(localStorage.getItem("likedPets"));
     if(tempArr != null) { //if there is already items in local storage
         tempArr.push(currentPetId)
         localStorage.setItem("likedPets",JSON.stringify(tempArr));
     } else {
         tempArr = [currentPetId];
-        console.log(tempArr);
         localStorage.setItem("likedPets",JSON.stringify(tempArr));
     }
     displayNextAnimal();
@@ -193,7 +224,21 @@ preferencesbtn.onclick = function() {
     preferences.style.display = "block";
 }
 
-//Add past likes from local storage to Past Likes tab
+//Add past likes from local storage to Past Likes tab 
+//On init, look at local storage, loop over all IDs saved, call get animal by ID one at a time and give id(inside this function, create these things to display)
+function showLikedPets() {
+    likedAnimalsArr = JSON.parse(localStorage.getItem("likedPets"));
+    console.log(likedAnimalsArr);
+
+    // var pastLikesInfo = document.getElementsByClassName ('past-likes');
+    var pastLikedPhotos = document.getElementsByClassName('past-liked-photo');
+
+    // var picture = 
+    // var pictureCall = 
+    // for (var i = 0; i < likedAnimalsArr.length; i++) {
+    //     pastLikedPhotos.setAttribute("src", pictureCall);
+    // }
+}
 
 //Search button event listener
 //If you hit submit button, clear out array first and then do petfinder call
