@@ -32,6 +32,9 @@ function init() {
     dislikeBtnEl.addEventListener("click", dislikeCurrentPet);
     likeBtnEl.addEventListener("click", likeCurrentPet);
 
+    //CALL ANIMAL IDS THAT WERE SAVED FROM LOCAL STORAGE
+    showLikedPets();
+
     //CALL INITIAL FUNCTIONS
     // petFinderCall(); //call upon start to load up on api data
 }
@@ -197,7 +200,21 @@ preferencesbtn.onclick = function() {
     preferences.style.display = "block";
 }
 
-//Add past likes from local storage to Past Likes tab
+//Add past likes from local storage to Past Likes tab 
+//On init, look at local storage, loop over all IDs saved, call get animal by ID one at a time and give id(inside this function, create these things to display)
+function showLikedPets() {
+    likedAnimalsArr = JSON.parse(localStorage.getItem("likedPets"));
+    console.log(likedAnimalsArr);
+
+    // var pastLikesInfo = document.getElementsByClassName ('past-likes');
+    var pastLikedPhotos = document.getElementsByClassName('past-liked-photo');
+
+    // var picture = 
+    // var pictureCall = 
+    // for (var i = 0; i < likedAnimalsArr.length; i++) {
+    //     pastLikedPhotos.setAttribute("src", pictureCall);
+    // }
+}
 
 //Search button event listener
 //If you hit submit button, clear out array first and then do petfinder call
