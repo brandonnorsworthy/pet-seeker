@@ -11,15 +11,14 @@
 	</head>
   <body>
     <div class="columns">
-        <div class="column is-3" style="background: rgb(0, 207, 214); 
-        margin-left: 10px;">
+        <div class="column is-3 ml-3" style="background: rgb(0, 207, 214);">
             <div class="tabs is-medium">
                 <ul>
                   <li class="is-active"><a>Preferences</a></li>
                   <li><a>Past Likes</a></li>
                 </ul>
             </div>
-            <div>
+            <div id="preferenceDiv" style="display: block;">
                 <section class="tab-content"></section>
                 <div class="field">
                     <label class="label">City Search: </label>
@@ -27,7 +26,6 @@
                       <input class="input" type="text" placeholder="Text input">
                     </div>
                   </div>
-                  
                   <div class="field">
                     <label class="label">Age:</label>
                     <div class="control">
@@ -41,7 +39,6 @@
                       </div>
                     </div>
                   </div>
-
                   <div class="field">
                     <label class="label">Size:</label>
                     <div class="control">
@@ -55,8 +52,6 @@
                       </div>
                     </div>
                   </div>
-
-
                   <div class="field">
                     <div class="control">
                       <label class="radio"> <strong>Gender:</strong> </label>
@@ -70,7 +65,6 @@
                       </label>
                     </div>
                   </div>
-                  
                   <div class="field is-grouped">
                     <div class="control">
                       <button class="button is-link">Submit</button>
@@ -80,6 +74,9 @@
                     </div>
                   </div>
                   <section class="tab-content"></section>
+            </div>
+            <div id="pastLikesDiv" style="display: none;">
+              <p>ojigreojirgoiejrgioj</p>
             </div>
         </div>
         <div class="column is-9"> <!-- main content -->
@@ -93,14 +90,14 @@
               </div>
               <div class="columns is-vcentered">
                 <div class="column is-2 is-vcentered is-flex is-justify-content-flex-end">
-                  <img class="button is-info" id="dislikeBtn" src="./assets/images/dislike.png" alt="" srcset="">
+                  <img class="button is-info" id="dislikeBtn" src="./assets/images/buttons/dislike-light.png" alt="" srcset="">
                     <!-- dislike -->
                 </div>
                 <div class="column is-8">
                     <!-- card -->
                     <div class="card">
-                        <div class="card-image">
-                            <img class="is-1280x960" id="petPhoto" src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                        <div class="card-image image is-16by9">
+                            <img id="petPhoto" src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
                         </div>
                         <div class="card-content">
                           <div class="content" id="petData">
@@ -108,7 +105,7 @@
                             <p class="subtitle is-6"id = "petAge"></p>
                             <p id="petType"></p>
                             <p id="petGender"></p>
-                            <p><span  class="has-tooltip-arrow has-tooltipl-multiline" id="petBreed" data-tooltip="Multiline&#10;Content&#10;World!"></span></p>
+                            <p><span class="has-tooltip-arrow has-tooltipl-multiline" id="petBreed" data-tooltip="Multiline&#10;Content&#10;World!"></span></p>
                             <p id="petSize"></p>
                             <p id="petDescription"></p>
                           </div>
@@ -117,7 +114,7 @@
                 </div>
                 <div class="column is-2 is-vcentered">
                     <!-- like -->
-                    <img class="button is-danger" id="likeBtn" src="./assets/images/like.png" alt="" srcset="">
+                    <img class="button is-danger" id="likeBtn" src="./assets/images/buttons/like-light.png" alt="" srcset="">
                 </div>
             </div>
         </div>
