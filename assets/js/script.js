@@ -21,6 +21,7 @@ var preferencesbtn = document.getElementById("preferences-button");
 //! GLOBAL VARIABLES
 var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 everytime it goes to next pet
 var currentPetId = 0; //id of currently displayed pet INTEGER
+const presetArrayLength = 40; //amount the api gets per call and the ideal length the pet array should float around
 
 //! TEMPORARY PRESETS
 // var userLocation = `houston, texas`; //implement grabbing users location
@@ -51,22 +52,26 @@ function petFinderCall() {
         var userGender = "Female";
     }
 
-    pf.animal.search({ //
+    pf.animal.search({
+        //presets do not change
         distance: 50, //miles range 1-500 default:100
         status: "adoptable", //preset to only show adoptable pets
         type: "dog", //preset to only show dogs so works with dogAPI
+        limit: presetArrayLength,
+        //variables
+        before: displayPetsBeforeDate(),
         location: userLocation,
         age: userAge,
         size: userSize,
         gender: userGender
     })
         .then(function (response) { //response object from api
-            console.log(response);
             arrayOfPetsInQueue = arrayOfPetsInQueue.concat(response.data.animals);
             displayAnimalData(arrayOfPetsInQueue[0]); //display first animal in queue
+            console.log(`petFinderCall:`, arrayOfPetsInQueue.length)
         })
         .catch(function (error) { //catches errors and prints it to console
-            alert("PetFinderAPI Error: ", error);
+            console.log("PetFinderAPI Error: ", error);
         });
 
     return;
@@ -104,7 +109,9 @@ function animalHasImage (animalData) {
 }
 
 function displayNextAnimal() {
-    if (arrayOfPetsInQueue.length < 5) {
+    console.log("displayNextAnimal array length: ", arrayOfPetsInQueue.length)
+    if (arrayOfPetsInQueue.length == presetArrayLength / 2) {
+        console.log("displayNextAnimal, arrayOfPetsInQueue.length under half refilling")
         petFinderCall()
     }
     arrayOfPetsInQueue.shift();
@@ -113,48 +120,50 @@ function displayNextAnimal() {
 
 //Calls Dog API and provides info on the breed
 function dogApiCall(petBreed) {
-    fetch(`https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`, {
-    headers: {
-        'X-Api-Key': 'c8cd1d33-b825-4d0b-aeca-b35206aec201'
-    }})
-    .then(response => response.json())
-    .then(result => {
-        // var lifeSpan = result[0].life_span;
-        // var temperament = result[0].temperament
-        var weightStr = result[0].weight.metric;
-        weighArr = weightStr.split(" - ");
-        var usWeightArr = weighArr.map(Number);
-        for(var i = 0;i < usWeightArr.length;i++){
-            usWeightArr[i] *= 2.2046;
-        }
-        // console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
-        usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
-        // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
+    if (petBreed.primary === null) {
+        fetch(`https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`, {
+        headers: {
+            'X-Api-Key': 'c8cd1d33-b825-4d0b-aeca-b35206aec201'
+        }})
+        .then(response => response.json())
+        .then(result => {
+            // var lifeSpan = result[0].life_span;
+            // var temperament = result[0].temperament
+            var weightStr = result[0].weight.metric;
+            weighArr = weightStr.split(" - ");
+            var usWeightArr = weighArr.map(Number);
+            for(var i = 0;i < usWeightArr.length;i++){
+                usWeightArr[i] *= 2.2046;
+            }
+            // console.log("dogCallApi: ", Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]));
+            usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
+            // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
 
-        var tempStr = "";
-        if (result[0].life_span != null || result[0].life_span != undefined) {
-            tempStr += "Life Span: " + result[0].life_span;
-        }
+            var tempStr = "";
+            if (result[0].life_span != null || result[0].life_span != undefined) {
+                tempStr += "Life Span: " + result[0].life_span;
+            }
 
-        if (result[0].temperament != null || result[0].temperament != undefined) {
-            tempStr += "\n" + "Temperament: " + result[0].temperament;
-        }
+            if (result[0].temperament != null || result[0].temperament != undefined) {
+                tempStr += "\n" + "Temperament: " + result[0].temperament;
+            }
 
-        if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
-            tempStr += "\n" + "Weight (pounds): " + usWeightStr;
-        }
+            if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
+                tempStr += "\n" + "Weight (pounds): " + usWeightStr;
+            }
 
-        petBreedToolTipEl.setAttribute("data-tooltip", tempStr);
-    })
-    .catch (function (error) {
-        console.log('Unable to connect to the Dog API' + error);
-        delete petBreedToolTipEl.dataset.tooltip
-    })
+            petBreedToolTipEl.setAttribute("data-tooltip", tempStr);
+        })
+        .catch (function (error) {
+            console.log('Unable to connect to the Dog API' + error);
+            delete petBreedToolTipEl.dataset.tooltip
+        })
+    }
 }
 
 function displayPetsBeforeDate() {
     var date = 0;
-    if (arrayOfPetsInQueue == null){
+    if (arrayOfPetsInQueue === null || arrayOfPetsInQueue.length === 0){
         date = moment().toISOString();
     } else {
         date = arrayOfPetsInQueue[arrayOfPetsInQueue.length - 1].published_at;
@@ -176,7 +185,6 @@ function likeCurrentPet() {
         localStorage.setItem("likedPets",JSON.stringify(tempArr));
     } else {
         tempArr = [currentPetId];
-        console.log(tempArr);
         localStorage.setItem("likedPets",JSON.stringify(tempArr));
     }
     displayNextAnimal();
