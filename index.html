@@ -21,16 +21,16 @@
             <div id="preferenceDiv" style="display: block;">
                 <section class="tab-content"></section>
                 <div class="field">
-                    <label class="label">City Search: </label>
+                    <label class="label">City, State or Zip Code Search: </label>
                     <div class="control">
-                      <input class="input" type="text" placeholder="Text input">
+                      <input id = "user-city" class="input" type="text" placeholder="Text input">
                     </div>
                   </div>
                   <div class="field">
                     <label class="label">Age:</label>
                     <div class="control">
                       <div class="select">
-                        <select>
+                        <select id = "user-age">
                           <option>Baby</option>
                           <option>Young</option>
                           <option>Adult</option>
@@ -43,7 +43,7 @@
                     <label class="label">Size:</label>
                     <div class="control">
                       <div class="select">
-                        <select>
+                        <select id = "user-size">
                           <option>Small</option>
                           <option>Medium</option>
                           <option>Large</option>
@@ -54,21 +54,20 @@
                   </div>
                   <div class="field">
                     <div class="control">
-       
-                        <label class="radio"> <strong>Gender:</strong> </label>
-                        <label>
-                        <input type="radio" name="question">
-                        Male
-                      </label>
-                      <label class="radio">
-                        <input type="radio" name="question">
-                        Female
-                      </label>
+                        <label class="label">Gender:</label>
+                        <label class="checkbox">
+                            <input id = "user-gender-male" type="checkbox">
+                            Male
+                          </label>
+                          <label class="checkbox">
+                            <input id = "user-gender-female" type="checkbox">
+                            Female
+                          </label>
                     </div>
                   </div>
                   <div class="field is-grouped">
                     <div class="control">
-                      <button class="button is-link" id="submitButton">Submit</button>
+                      <button id = "searchButton" class="button is-link">Submit</button>
                     </div>
                     <div class="control">
                       <button class="button is-link is-light" id="cancelButton">Cancel</button>
