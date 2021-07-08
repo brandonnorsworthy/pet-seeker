@@ -12,7 +12,7 @@ var ageEl = document.getElementById('user-age');
 var sizeEl = document.getElementById('user-size');
 var genderMaleEl = document.getElementById('user-gender-male');
 var genderFemaleEl = document.getElementById('user-gender-female');
-var SearchButton = document.getElementById('searchButton');
+var searchBtnEl = document.getElementById('searchButton');
 var preferences = document.getElementById("preferenceDiv");
 var pastLikes = document.getElementById("pastLikesDiv");
 var pastLikesbtn = document.getElementById("past-likes-button");
@@ -36,9 +36,6 @@ function init() {
 }
 
 function petFinderCall() {
-    //Clears array each time the Submit button is clicked by user so that we aren't getting previous searches
-    arrayOfPetsInQueue = [];
-
     //object that calls the petfiner api
     var pf = new petfinder.Client({
         apiKey: petFinderAPIKey, //private api key (required)
@@ -155,8 +152,6 @@ function dogApiCall(petBreed) {
     })
 }
 
-//function
-
 //############################### Events #################################
 
 function dislikeCurrentPet() {
@@ -191,6 +186,10 @@ preferencesbtn.onclick = function() {
 
 //Search button event listener
 //If you hit submit button, clear out array first and then do petfinder call
-SearchButton.addEventListener('click', petFinderCall);
+searchBtnEl.onclick = function() {
+    //Clears array each time the Submit button is clicked by user so that we aren't getting previous searches
+    arrayOfPetsInQueue = [];
+    petFinderCall();
+}
 
 init() //calls when page starts up leave at bottom
