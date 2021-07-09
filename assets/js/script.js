@@ -4,16 +4,12 @@ const petFinderAPIKey = '8iY0rDCqC9P4DVIu9eTVbZY5cUJW1QoDmuRxes5N6FQi72MxhF';
 const petFinderSecret = '5FxTpncHn5lzFXtfQykl1xpBtDX1O3q6QC8KWhrS';
 
 //! HTML ELEMENTS
-var dislikeBtnEl = document.getElementById("dislikeBtn");
-var likeBtnEl = document.getElementById("likeBtn");
-
-//! GLOBAL VARIABLES
-var preferences = document.getElementById("preferenceDiv");
-var pastLikes = document.getElementById("pastLikesDiv");
-var pastLikesbtn = document.getElementById("past-likes-button");
-var preferencesbtn = document.getElementById("preferences-button");
-var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 everytime it goes to next pet
-var currentPetId = 0; //id of currently displayed pet INTEGER
+var dislikeBtnEl = document.getElementById('dislikeBtn');
+var likeBtnEl = document.getElementById('likeBtn');
+var preferenceDivEl = document.getElementById('preferenceDiv');
+var pastLikesDivEl = document.getElementById('pastLikesDiv');
+var pasLikesBtnEl = document.getElementById('past-likes-button');
+var preferencesBtnEl = document.getElementById('preferences-button');
 var cityFormEl = document.getElementById('user-city');
 var ageEl = document.getElementById('user-age');
 var sizeEl = document.getElementById('user-size');
@@ -37,8 +33,8 @@ var petFinderClient = new petfinder.Client({
 //sets up js file when page loads put events and calls in here
 function init() {
     //SETUP HTML ELEMENT EVENTS
-    dislikeBtnEl.addEventListener("click", dislikeCurrentPet);
-    likeBtnEl.addEventListener("click", likeCurrentPet);
+    dislikeBtnEl.addEventListener('click', dislikeCurrentPet);
+    likeBtnEl.addEventListener('click', likeCurrentPet);
 
     //CALL ANIMAL IDS THAT WERE SAVED FROM LOCAL STORAGE
     showLikedPets();
@@ -60,8 +56,8 @@ function petFinderCall() {
     petFinderClient.animal.search({
         //presets do not change
         distance: 50, //miles range 1-500 default:100
-        status: "adoptable", //preset to only show adoptable pets
-        type: "dog", //preset to only show dogs so works with dogAPI
+        status: 'adoptable', //preset to only show adoptable pets
+        type: 'dog', //preset to only show dogs so works with dogAPI
         limit: presetArrayLength,
         //variables
         before: displayPetsBeforeDate(),
@@ -75,7 +71,7 @@ function petFinderCall() {
             displayAnimalData(arrayOfPetsInQueue[0]); //display first animal in queue
         })
         .catch(function (error) { //catches errors and prints it to console
-            console.log("PetFinderAPI Error: ", error);
+            console.log('PetFinderAPI Error: ', error);
         });
 
     return;
@@ -83,20 +79,20 @@ function petFinderCall() {
 
 //Returns string to give to petfinder api for selected gender based on checkboxes
 function getGenderCheckboxValues() {
-    var userSelectedGender = ""; //initialize string
+    var userSelectedGender = ''; //initialize string
 
     if (genderMaleEl.checked) { //if male is checked add to string
-        userSelectedGender = "male";
+        userSelectedGender = 'male';
     }
 
     if (genderFemaleEl.checked && userSelectedGender.length > 0){ //if female is checked and user selected male add comma
-        userSelectedGender += ",female";
+        userSelectedGender += ',female';
     } else if (genderFemaleEl.checked) { //if only selected female
-        userSelectedGender = "female";
+        userSelectedGender = 'female';
     }
 
     if (userSelectedGender.length === 0) {  //if nothing was checked default to both
-        userSelectedGender = "male,female";
+        userSelectedGender = 'male,female';
     }
 
     return userSelectedGender;
@@ -106,17 +102,17 @@ function getGenderCheckboxValues() {
 function displayAnimalData (animalData) {
     if (animalHasImage(animalData)) { //look and see if the animal has a image on file
         currentPetId = animalData.id; //assignes current pet id to global for local storage if favorited
-        document.getElementById("petName").textContent = `${animalData.name}`;
-        document.getElementById("petAge").textContent = `Age: ${animalData.age}`;
-        document.getElementById("petPhoto").setAttribute("src", animalData.photos[0].large)
-        document.getElementById("petType").textContent = `Species: ${animalData.type}`;
-        document.getElementById("petGender").textContent = `Gender: ${animalData.gender}`;
-        document.getElementById("petBreed").textContent = `Breed: ${animalData.breeds.primary}`;
-        document.getElementById("petSize").textContent = `Size: ${animalData.size}`;
+        document.getElementById('petName').textContent = `${animalData.name}`;
+        document.getElementById('petAge').textContent = `Age: ${animalData.age}`;
+        document.getElementById('petPhoto').setAttribute('src', animalData.photos[0].large)
+        document.getElementById('petType').textContent = `Species: ${animalData.type}`;
+        document.getElementById('petGender').textContent = `Gender: ${animalData.gender}`;
+        document.getElementById('petBreed').textContent = `Breed: ${animalData.breeds.primary}`;
+        document.getElementById('petSize').textContent = `Size: ${animalData.size}`;
 
         //Handles null description by
         if (animalData.description !== null) {
-            document.getElementById("petDescription").textContent = `Description: ${animalData.description}`;
+            document.getElementById('petDescription').textContent = `Description: ${animalData.description}`;
         };
 
         dogApiCall(animalData.breeds);
@@ -157,7 +153,7 @@ function dogApiCall(petBreed) {
             // var lifeSpan = result[0].life_span;
             // var temperament = result[0].temperament
             var weightStr = result[0].weight.metric;
-            weighArr = weightStr.split(" - ");
+            weighArr = weightStr.split(' - ');
             var usWeightArr = weighArr.map(Number);
             for(var i = 0;i < usWeightArr.length;i++){
                 usWeightArr[i] *= 2.2046;
@@ -165,20 +161,20 @@ function dogApiCall(petBreed) {
             usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
             // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
 
-            var tempStr = "";
+            var tempStr = '';
             if (result[0].life_span != null || result[0].life_span != undefined) {
-                tempStr += "Life Span: " + result[0].life_span;
+                tempStr += 'Life Span: ' + result[0].life_span;
             }
 
             if (result[0].temperament != null || result[0].temperament != undefined) {
-                tempStr += "\n" + "Temperament: " + result[0].temperament;
+                tempStr += '\n' + 'Temperament: ' + result[0].temperament;
             }
 
             if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
-                tempStr += "\n" + "Weight (pounds): " + usWeightStr;
+                tempStr += '\n' + 'Weight (pounds): ' + usWeightStr;
             }
 
-            petBreedToolTipEl.setAttribute("data-tooltip", tempStr);
+            petBreedToolTipEl.setAttribute('data-tooltip', tempStr);
         })
         .catch (function (error) {
             console.log('Unable to connect to the Dog API' + error);
@@ -215,7 +211,7 @@ function displayAnimalById(animalId) {
             <br>${tempDescriptionStr}</span>
         </a>
         `)
-        $("#pastLikesDiv").append(pastLikeEl);
+        $('#pastLikesDiv').append(pastLikeEl);
     });
 }
 
@@ -227,37 +223,37 @@ function dislikeCurrentPet() {
 
 function likeCurrentPet() {
     descriptionEl.textContent = ``; //Resets pet description
-    tempArr = JSON.parse(localStorage.getItem("likedPets"));
+    tempArr = JSON.parse(localStorage.getItem('likedPets'));
     if(tempArr != null) { //if there is already items in local storage
         if (tempArr.length > 9) {
             tempArr.shift(); //take out the item at the beginning to take length down by one to make room for new one
-            document.getElementById("pastLikesDiv").children[0].remove()
+            pastLikesDivEl.children[0].remove()
         }
         tempArr.push(currentPetId) //add current pet onto the end of exsisting array
-        localStorage.setItem("likedPets",JSON.stringify(tempArr));
+        localStorage.setItem('likedPets',JSON.stringify(tempArr));
     } else { //if nothing is already in storage set array to just current petid
         tempArr = [currentPetId];
-        localStorage.setItem("likedPets",JSON.stringify(tempArr));
+        localStorage.setItem('likedPets',JSON.stringify(tempArr));
     }
     displayAnimalById(currentPetId);
     displayNextAnimal();
 }
 
 //Click event to switch between Preferences and Past Likes tabs
-pastLikesbtn.onclick = function() {
-    preferences.style.display = "none";
-    pastLikes.style.display = "block";
+pasLikesBtnEl.onclick = function() {
+    preferenceDivEl.style.display = 'none';
+    pastLikesDivEl.style.display = 'block';
 }
 
-preferencesbtn.onclick = function() {
-    pastLikes.style.display = "none";
-    preferences.style.display = "block";
+preferencesBtnEl.onclick = function() {
+    pastLikesDivEl.style.display = 'none';
+    preferenceDivEl.style.display = 'block';
 }
 
 //Add past likes from local storage to Past Likes tab
 //On init, look at local storage, loop over all IDs saved, call get animal by ID one at a time and give id(inside this function, create these things to display)
 function showLikedPets() {
-    likedAnimalsArr = JSON.parse(localStorage.getItem("likedPets"));
+    likedAnimalsArr = JSON.parse(localStorage.getItem('likedPets'));
     //console.log(likedAnimalsArr);
     if (likedAnimalsArr !== null) { //error handling of empty localstorage no likes
         for (var i = 0; i < likedAnimalsArr.length; i++) {
