@@ -1,7 +1,7 @@
 //! API PRESETS
 const dogAPIkey = 'c8cd1d33-b825-4d0b-aeca-b35206aec201';
-const petFinderAPIKey = '8iY0rDCqC9P4DVIu9eTVbZY5cUJW1QoDmuRxes5N6FQi72MxhF';
-const petFinderSecret = '5FxTpncHn5lzFXtfQykl1xpBtDX1O3q6QC8KWhrS';
+const petFinderAPIKey = 'QDhMTsCNVacAcfQeVgMNE1LhWN6t4rxU2Gve8kdaMjJSzXyZNP';
+const petFinderSecret = 'BKDZv6RhOfrUMsc8WB87vod9eep61ZwZi1ZiUZWp';
 
 //! HTML ELEMENTS
 var dislikeBtnEl = document.getElementById("dislikeBtn");
@@ -198,6 +198,7 @@ function getAnimalById(animalId) {
             pastLikesFigure.setAttribute("class", "image is-48x48 past-liked-photo");
             //Set attributes
             pastLikesImg.setAttribute("src", response.data.animal.photos[0].small);
+            // pastLikesSpan.textContent = response.data.animal.name;
             //Append to parent and will probably have to create parent
             pastLikesFigure.appendChild(pastLikesImg);
             pastLikesChild.append(pastLikesFigure,pastLikesSpan,pastLikesLink);
