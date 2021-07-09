@@ -43,8 +43,11 @@ footer {
 }
 
 #mainCardHolder {
-    background: red;
     min-height: 80vh;
+}
+
+#settingsDiv {
+    min-width: 310px;
 }
 
 #pastLikesDiv > a {
