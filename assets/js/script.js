@@ -6,17 +6,21 @@ const petFinderSecret = '5FxTpncHn5lzFXtfQykl1xpBtDX1O3q6QC8KWhrS';
 //! HTML ELEMENTS
 var dislikeBtnEl = document.getElementById("dislikeBtn");
 var likeBtnEl = document.getElementById("likeBtn");
-var petBreedToolTipEl = document.getElementById("petBreed");
+
+//! GLOBAL VARIABLES
+var preferences = document.getElementById("preferenceDiv");
+var pastLikes = document.getElementById("pastLikesDiv");
+var pastLikesbtn = document.getElementById("past-likes-button");
+var preferencesbtn = document.getElementById("preferences-button");
+var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 everytime it goes to next pet
+var currentPetId = 0; //id of currently displayed pet INTEGER
 var cityFormEl = document.getElementById('user-city');
 var ageEl = document.getElementById('user-age');
 var sizeEl = document.getElementById('user-size');
 var genderMaleEl = document.getElementById('user-gender-male');
 var genderFemaleEl = document.getElementById('user-gender-female');
 var searchBtnEl = document.getElementById('searchButton');
-var preferences = document.getElementById("preferenceDiv");
-var pastLikes = document.getElementById("pastLikesDiv");
-var pastLikesbtn = document.getElementById("past-likes-button");
-var preferencesbtn = document.getElementById("preferences-button");
+var descriptionEl = document.getElementById('petDescription');
 
 //! GLOBAL VARIABLES
 var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 everytime it goes to next pet
@@ -44,6 +48,8 @@ function init() {
 }
 
 function petFinderCall() {
+    //Clears array each time the Submit button is clicked by user so that we aren't getting previous searches
+
     //object that calls the petfiner api
 
     var userLocation = cityFormEl.value.trim();
@@ -107,11 +113,15 @@ function displayAnimalData (animalData) {
         document.getElementById("petGender").textContent = `Gender: ${animalData.gender}`;
         document.getElementById("petBreed").textContent = `Breed: ${animalData.breeds.primary}`;
         document.getElementById("petSize").textContent = `Size: ${animalData.size}`;
-        document.getElementById("petDescription").textContent = `Description: ${animalData.description}`;
 
-        dogApiCall(animalData.breeds); //calls dogApi to display facts about the breed
-    } else {  //if there is no image on file just skip this animal
-        displayNextAnimal();
+        //Handles null description by
+        if (animalData.description !== null) {
+            document.getElementById("petDescription").textContent = `Description: ${animalData.description}`;
+        };
+
+        dogApiCall(animalData.breeds);
+    } else {
+        displayNextAnimal(); //if there is no image on file just skip this animal
     }
 }
 
@@ -200,12 +210,13 @@ function getAnimalById(animalId) {
 }
 
 //############################### Events #################################
-
 function dislikeCurrentPet() {
+    document.getElementById("petDescription").textContent = ``; //Resets pet description
     displayNextAnimal();
 }
 
 function likeCurrentPet() {
+    document.getElementById("petDescription").textContent = ``; //Resets pet description
     tempArr = JSON.parse(localStorage.getItem("likedPets"));
     if(tempArr != null) { //if there is already items in local storage
         tempArr.push(currentPetId)
@@ -216,6 +227,7 @@ function likeCurrentPet() {
     }
     displayNextAnimal();
 }
+
 
 //Click event to switch between Preferences and Past Likes tabs
 pastLikesbtn.onclick = function() {
@@ -228,7 +240,7 @@ preferencesbtn.onclick = function() {
     preferences.style.display = "block";
 }
 
-//Add past likes from local storage to Past Likes tab 
+//Add past likes from local storage to Past Likes tab
 //On init, look at local storage, loop over all IDs saved, call get animal by ID one at a time and give id(inside this function, create these things to display)
 function showLikedPets() {
     likedAnimalsArr = JSON.parse(localStorage.getItem("likedPets"));
@@ -237,8 +249,8 @@ function showLikedPets() {
     // var pastLikesInfo = document.getElementsByClassName ('past-likes');
     var pastLikedPhotos = document.getElementsByClassName('past-liked-photo');
 
-    // var picture = 
-    // var pictureCall = 
+    // var picture =
+    // var pictureCall =
     // for (var i = 0; i < likedAnimalsArr.length; i++) {
     //     pastLikedPhotos.setAttribute("src", pictureCall);
     // }
