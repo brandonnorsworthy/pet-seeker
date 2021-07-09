@@ -17,6 +17,7 @@ var genderMaleEl = document.getElementById('user-gender-male');
 var genderFemaleEl = document.getElementById('user-gender-female');
 var searchBtnEl = document.getElementById('searchButton');
 var descriptionEl = document.getElementById('petDescription');
+var petBreedToolTipEl = document.getElementById("petBreed");
 var deleteButtonEl = document.getElementById('deleteButton');
 
 //! GLOBAL VARIABLES
@@ -155,46 +156,40 @@ function displayNextAnimal() {
 
 //Calls Dog API and provides info on the breed
 function dogApiCall(petBreed) {
-    if (petBreed.primary === null) {
+    if (petBreed.primary !== null) {
         fetch(`https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`, {
         headers: {
-            'X-Api-Key': 'c8cd1d33-b825-4d0b-aeca-b35206aec201'
+            'x-api-key': 'c8cd1d33-b825-4d0b-aeca-b35206aec201'
         }})
         .then(response => response.json())
         .then(result => {
-            // var lifeSpan = result[0].life_span;
-            // var temperament = result[0].temperament
             var weightStr = result[0].weight.metric;
-            weighArr = weightStr.split(' - ');
+            var weighArr = weightStr.split(" - ");
             var usWeightArr = weighArr.map(Number);
+            var usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
+            var tempStr = "";
+
             for(var i = 0;i < usWeightArr.length;i++){
                 usWeightArr[i] *= 2.2046;
             }
-            usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
-            // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
 
-            var tempStr = '';
             if (result[0].life_span != null || result[0].life_span != undefined) {
-                tempStr += 'Life Span: ' + result[0].life_span;
+                tempStr += "Life Span: " + result[0].life_span;
             }
-
             if (result[0].temperament != null || result[0].temperament != undefined) {
-                tempStr += '\n' + 'Temperament: ' + result[0].temperament;
+                tempStr += "\n" + "Temperament: " + result[0].temperament;
             }
-
             if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
-                tempStr += '\n' + 'Weight (pounds): ' + usWeightStr;
+                tempStr += "\n" + "Weight (pounds): " + usWeightStr;
             }
 
-            petBreedToolTipEl.setAttribute('data-tooltip', tempStr);
+            petBreedToolTipEl.setAttribute("data-tooltip", tempStr);
         })
         .catch (function (error) {
             console.log('Unable to connect to the Dog API' + error);
-            delete petBreedToolTipEl.dataset.tooltip
+            delete petBreedToolTipEl.dataset.tooltip;
         })
     }
-
-    return;
 }
 
 function displayPetsBeforeDate() {
@@ -208,27 +203,17 @@ function displayPetsBeforeDate() {
     return date; //Must be a valid ISO8601 date-time string (e.g. 2019-10-07T19:13:01+00:00)
 }
 
-function displayAnimalById(animalId) {
-    updateApiCallAmount(); //show amount of times called
-
-    petFinderClient.animal.show(animalId)
-    .then(function (response) {
-        if (response.data.animal.description === null) {
-            var tempDescriptionStr = response.data.animal.breeds.primary;
-        } else {
-            var tempDescriptionStr = response.data.animal.description.slice(0, 30);
-        }
-        var pastLikeEl = $(`
-        <a class="past-likes" href="${response.data.animal.url}" target="_blank">
-            <figure class="image is-48x48 past-liked-photo">
-                <img class="is-48x48" src="${response.data.animal.photos[0].medium}">
-            </figure>
-            <span><strong>${response.data.animal.name}</strong>
-            <br>${tempDescriptionStr}</span>
-        </a>
-        `)
-        $('#pastLikesDiv').prepend(pastLikeEl);
-    });
+function updatePastLikes(animalObject) {
+    var pastLikeEl = $(`
+    <a class="past-likes" href="${animalObject.url}" target="_blank">
+        <figure class="image is-48x48 past-liked-photo">
+            <img class="is-48x48" src="${animalObject.image}">
+        </figure>
+        <span><strong>${animalObject.name}</strong>
+        <br>${animalObject.description}</span>
+    </a>
+    `)
+    $('#pastLikesDiv').prepend(pastLikeEl);
 
     return;
 }
@@ -245,18 +230,32 @@ function dislikeCurrentPet() {
 function likeCurrentPet() {
     descriptionEl.textContent = ``; //Resets pet description
     tempArr = JSON.parse(localStorage.getItem('likedPets'));
+
+    if (arrayOfPetsInQueue[0].description === null) { //if the animal doesnt have a description
+        var tempDescriptionStr = arrayOfPetsInQueue[0].breeds.primary;
+    } else {
+        var tempDescriptionStr = arrayOfPetsInQueue[0].description.slice(0, 30);
+    }
+
+    tempObject = { //build the object to put in the storage array
+        name: arrayOfPetsInQueue[0].name,
+        image: arrayOfPetsInQueue[0].photos[0].medium,
+        url: arrayOfPetsInQueue[0].url,
+        description: tempDescriptionStr,
+    }
+
     if(tempArr != null) { //if there is already items in local storage
-        if (tempArr.length >= maxPastLikes) {
+        if (tempArr.length >= maxPastLikes) { //cap at maxPastLikes and start overwriting
             tempArr.shift(); //take out the item at the beginning to take length down by one to make room for new one
             pastLikesDivEl.children[pastLikesDivEl.children.length - 1].remove()
         }
-        tempArr.push(currentPetId) //add current pet onto the end of exsisting array
+        tempArr.push(tempObject) //add current pet onto the end of exsisting array
         localStorage.setItem('likedPets',JSON.stringify(tempArr));
     } else { //if nothing is already in storage set array to just current petid
-        tempArr = [currentPetId];
+        tempArr = [tempObject];
         localStorage.setItem('likedPets',JSON.stringify(tempArr));
     }
-    displayAnimalById(currentPetId);
+    updatePastLikes(tempObject);
     displayNextAnimal();
 
     return;
@@ -284,7 +283,7 @@ function showLikedPets() {
     //console.log(likedAnimalsArr);
     if (likedAnimalsArr !== null) { //error handling of empty localstorage no likes
         for (var i = likedAnimalsArr.length - 1; i >= 0; i--) {
-            displayAnimalById(likedAnimalsArr[i])
+            updatePastLikes(likedAnimalsArr[i])
         }
     }
 

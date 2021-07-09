@@ -1,3 +1,5 @@
+/* 40BEDD,40BEDD,40BEDD */
+
 header {
     text-align: center;
 }
@@ -48,6 +50,7 @@ footer {
 
 #settingsDiv {
     min-width: 310px;
+    background: #40BEDD;
 }
 
 
