@@ -40,6 +40,7 @@ function init() {
     //SETUP HTML ELEMENT EVENTS
     dislikeBtnEl.addEventListener('click', dislikeCurrentPet);
     likeBtnEl.addEventListener('click', likeCurrentPet);
+    document.getElementById('pastLikesDiv').addEventListener("click", deletePastLikeElement) 
 
     //CALL ANIMAL IDS THAT WERE SAVED FROM LOCAL STORAGE
     showLikedPets();
@@ -205,6 +206,7 @@ function displayPetsBeforeDate() {
 
 function updatePastLikes(animalObject) {
     var pastLikeEl = $(`
+    <div>
     <a class="past-likes" href="${animalObject.url}" target="_blank">
         <figure class="image is-48x48 past-liked-photo">
             <img class="is-48x48" src="${animalObject.image}">
@@ -212,6 +214,8 @@ function updatePastLikes(animalObject) {
         <span><strong>${animalObject.name}</strong>
         <br>${animalObject.description}</span>
     </a>
+    <button id="deleteButton" class="button is-danger">Delete</button>
+    </div>
     `)
     $('#pastLikesDiv').prepend(pastLikeEl);
 
@@ -290,12 +294,28 @@ function showLikedPets() {
     return;
 }
 
-//Delete button - clears past likes and local storage
-deleteButtonEl.addEventListener("click", function() {
-    likedAnimalsArr.clear;
-    localStorage.clear;
-});
+function deletePastLikeElement(event) {
+   if (event.target.id === "deleteButton") {
+    //    console.log(event.target.parentElement.parentElement.children);
+       likedAnimalsArr = JSON.parse(localStorage.getItem('likedPets'));
+       console.log(likedAnimalsArr);
+        var animalName = event.target.parentElement.children[0].children[1].children[0].textContent;
+        var savedIndex = 0;
 
+        for (let index = 0; index < likedAnimalsArr.length; index++) { 
+            // console.log(likedAnimalsArr[index].name);
+            if (likedAnimalsArr[index].name === animalName) {
+                savedIndex = index;
+                break;
+            }          
+       }
+       likedAnimalsArr.splice(savedIndex, 1);
+       console.log(likedAnimalsArr)
+       localStorage.setItem('likedPets',JSON.stringify(likedAnimalsArr));
+       event.target.parentElement.remove();
+
+   }
+} 
 
 //Search button event listener
 //If you hit submit button, clear out array first and then do petfinder call
