@@ -296,8 +296,24 @@ function showLikedPets() {
 
 function deletePastLikeElement(event) {
    if (event.target.id === "deleteButton") {
-       console.log(event.target.parentElement.parentElement.children)
+    //    console.log(event.target.parentElement.parentElement.children);
+       likedAnimalsArr = JSON.parse(localStorage.getItem('likedPets'));
+       console.log(likedAnimalsArr);
+        var animalName = event.target.parentElement.children[0].children[1].children[0].textContent;
+        var savedIndex = 0;
+
+        for (let index = 0; index < likedAnimalsArr.length; index++) { 
+            // console.log(likedAnimalsArr[index].name);
+            if (likedAnimalsArr[index].name === animalName) {
+                savedIndex = index;
+                break;
+            }          
+       }
+       likedAnimalsArr.splice(savedIndex, 1);
+       console.log(likedAnimalsArr)
+       localStorage.setItem('likedPets',JSON.stringify(likedAnimalsArr));
        event.target.parentElement.remove();
+
    }
 } 
 
