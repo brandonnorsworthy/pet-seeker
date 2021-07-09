@@ -19,6 +19,10 @@ button {
     height: 30px;
 }
 
+footer {
+    max-height: 8vh;
+}
+
 /* #tooltipBtn {
     border-radius: 50%;
 } */
@@ -36,4 +40,34 @@ button {
 .past-likes span {
     vertical-align: middle;
     padding-left: 10px;
+}
+
+#mainCardHolder {
+    min-height: 80vh;
+}
+
+#settingsDiv {
+    min-width: 310px;
+}
+
+
+#pastLikesDiv > a {
+    color: black;
+    border-bottom: 1px solid rgb(224, 224, 224);
+    text-decoration: none;
+}
+
+#pastLikesDiv > a:last-child {
+    border: 0px;
+}
+
+#pastLikesDiv > a:hover {
+    color: rgb(46, 88, 200);
+}
+
+#pastLikesDiv > a img {
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    border-radius: 50%;
 }
