@@ -17,7 +17,7 @@ var genderMaleEl = document.getElementById('user-gender-male');
 var genderFemaleEl = document.getElementById('user-gender-female');
 var searchBtnEl = document.getElementById('searchButton');
 var descriptionEl = document.getElementById('petDescription');
-var deleteButtonEl = document.getElementById('deleteButton');
+var deleteButtonEl = document.getElementById('deleteButton')
 
 //! GLOBAL VARIABLES
 const maxPastLikes = 10; //max amount of likes saved and displayed on past likes tab &&keep low because each save is a single api request
@@ -39,6 +39,7 @@ function init() {
     //SETUP HTML ELEMENT EVENTS
     dislikeBtnEl.addEventListener('click', dislikeCurrentPet);
     likeBtnEl.addEventListener('click', likeCurrentPet);
+    document.getElementById('pastLikesDiv').addEventListener("click", deletePastLikeElement) 
 
     //CALL ANIMAL IDS THAT WERE SAVED FROM LOCAL STORAGE
     showLikedPets();
@@ -219,6 +220,7 @@ function displayAnimalById(animalId) {
             var tempDescriptionStr = response.data.animal.description.slice(0, 30);
         }
         var pastLikeEl = $(`
+        <div>
         <a class="past-likes" href="${response.data.animal.url}" target="_blank">
             <figure class="image is-48x48 past-liked-photo">
                 <img class="is-48x48" src="${response.data.animal.photos[0].medium}">
@@ -226,6 +228,8 @@ function displayAnimalById(animalId) {
             <span><strong>${response.data.animal.name}</strong>
             <br>${tempDescriptionStr}</span>
         </a>
+        <button id="deleteButton" class="button is-danger">Delete</button>
+        </div>
         `)
         $('#pastLikesDiv').prepend(pastLikeEl);
     });
@@ -292,11 +296,17 @@ function showLikedPets() {
 }
 
 //Delete button - clears past likes and local storage
-deleteButtonEl.addEventListener("click", function() {
-    likedAnimalsArr.clear;
-    localStorage.clear;
-});
+// deleteButtonEl.onclick (function() {
+//     pastLikesDivEl.removeChild(pastLikeEl);
+//     localStorage.clear();
+// });
 
+function deletePastLikeElement(event) {
+   if (event.target.id === "deleteButton") {
+       console.log(event.target.parentElement.parentElement)
+       event.target.parentElement.remove();
+   }
+} 
 
 //Search button event listener
 //If you hit submit button, clear out array first and then do petfinder call
