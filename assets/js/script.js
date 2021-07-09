@@ -49,11 +49,7 @@ function petFinderCall() {
     var userLocation = cityFormEl.value.trim();
     var userAge = ageEl.value;
     var userSize = sizeEl.value;
-    if (genderMaleEl === "Male") {
-        var userGender = "Male";
-    } else {
-        var userGender = "Female";
-    }
+    var userSelectedGender = getGenderCheckboxValues();
 
     petFinderClient.animal.search({
         //presets do not change
@@ -66,7 +62,7 @@ function petFinderCall() {
         location: userLocation,
         age: userAge,
         size: userSize,
-        gender: userGender
+        gender: userSelectedGender,
     })
         .then(function (response) { //response object from api
             arrayOfPetsInQueue = arrayOfPetsInQueue.concat(response.data.animals);
@@ -77,6 +73,27 @@ function petFinderCall() {
         });
 
     return;
+}
+
+//Returns string to give to petfinder api for selected gender based on checkboxes
+function getGenderCheckboxValues() {
+    var userSelectedGender = ""; //initialize string
+
+    if (genderMaleEl.checked) { //if male is checked add to string
+        userSelectedGender = "male";
+    }
+
+    if (genderFemaleEl.checked && userSelectedGender.length > 0){ //if female is checked and user selected male add comma
+        userSelectedGender += ",female";
+    } else if (genderFemaleEl.checked) { //if only selected female
+        userSelectedGender = "female";
+    }
+
+    if (userSelectedGender.length === 0) {  //if nothing was checked default to both
+        userSelectedGender = "male,female";
+    }
+
+    return userSelectedGender;
 }
 
 //sets elements in the card to current pet data
@@ -215,7 +232,7 @@ preferencesbtn.onclick = function() {
 //On init, look at local storage, loop over all IDs saved, call get animal by ID one at a time and give id(inside this function, create these things to display)
 function showLikedPets() {
     likedAnimalsArr = JSON.parse(localStorage.getItem("likedPets"));
-    console.log(likedAnimalsArr);
+    //console.log(likedAnimalsArr);
 
     // var pastLikesInfo = document.getElementsByClassName ('past-likes');
     var pastLikedPhotos = document.getElementsByClassName('past-liked-photo');
