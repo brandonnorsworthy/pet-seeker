@@ -30,6 +30,9 @@ var petFinderClient = new petfinder.Client({ //petfinder api object (called in 2
     secret: petFinderSecret //private secret key (required)
 });
 
+//!TEMP VARIABLES
+var timesApiIsCalled = 0;
+
 //sets up js file when page loads put events and calls in here
 function init() {
     //SETUP HTML ELEMENT EVENTS
@@ -40,7 +43,13 @@ function init() {
     showLikedPets();
 }
 
+function updateApiCallAmount() {
+    timesApiIsCalled += 1;
+    console.log('updateApiCallAmount', timesApiIsCalled);
+}
+
 function petFinderCall() {
+    updateApiCallAmount(); //show amount of times called
     var userLocation = cityFormEl.value.trim();
     var userAge = ageEl.value;
     var userSize = sizeEl.value;
@@ -199,6 +208,8 @@ function displayPetsBeforeDate() {
 }
 
 function displayAnimalById(animalId) {
+    updateApiCallAmount(); //show amount of times called
+
     petFinderClient.animal.show(animalId)
     .then(function (response) {
         if (response.data.animal.description === null) {

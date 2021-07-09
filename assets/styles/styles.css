@@ -20,7 +20,7 @@ button {
 }
 
 footer {
-    max-height: 10vh;
+    max-height: 8vh;
 }
 
 /* #tooltipBtn {
@@ -50,11 +50,24 @@ footer {
     min-width: 310px;
 }
 
+
 #pastLikesDiv > a {
     color: black;
+    border-bottom: 1px solid rgb(224, 224, 224);
     text-decoration: none;
+}
+
+#pastLikesDiv > a:last-child {
+    border: 0px;
 }
 
 #pastLikesDiv > a:hover {
     color: rgb(46, 88, 200);
+}
+
+#pastLikesDiv > a img {
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    border-radius: 50%;
 }
