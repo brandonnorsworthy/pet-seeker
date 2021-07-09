@@ -198,14 +198,25 @@ function displayPetsBeforeDate() {
     return date; //Must be a valid ISO8601 date-time string (e.g. 2019-10-07T19:13:01+00:00)
 }
 
-function getAnimalById(animalId) {
+function displayAnimalById(animalId) {
     petFinderClient.animal.show(animalId)
     .then(function (response) {
-        console.log(response.data.animal)
-        //create li in past liked
-            //response.data.animal.name
-            //response.data.animal.photos[0].small
-            //response.data.animal.url
+        var tempDescriptionStr = ""
+        if (response.data.animal.description === null) {
+            tempDescriptionStr = "";
+        } else {
+            tempDescriptionStr = response.data.animal.description.slice(0, 30);
+        }
+        var pastLikeEl = $(`
+        <a class="past-likes" href="${response.data.animal.url}" target="_blank">
+            <figure class="image is-48x48 past-liked-photo">
+                <img class="is-48x48" src="${response.data.animal.photos[0].medium}">
+            </figure>
+            <span><strong>${response.data.animal.name}</strong>
+            <br>${tempDescriptionStr}</span>
+        </a>
+        `)
+        $("#pastLikesDiv").append(pastLikeEl);
     });
 }
 
@@ -219,8 +230,9 @@ function likeCurrentPet() {
     descriptionEl.textContent = ``; //Resets pet description
     tempArr = JSON.parse(localStorage.getItem("likedPets"));
     if(tempArr != null) { //if there is already items in local storage
-        if (tempArr.length > 10) {
-            tempArr.shift() //take out the item at the beginning to take length down by one to make room for new one
+        if (tempArr.length > 9) {
+            tempArr.shift(); //take out the item at the beginning to take length down by one to make room for new one
+            document.getElementById("pastLikesDiv").children[0].remove()
         }
         tempArr.push(currentPetId) //add current pet onto the end of exsisting array
         localStorage.setItem("likedPets",JSON.stringify(tempArr));
@@ -228,6 +240,7 @@ function likeCurrentPet() {
         tempArr = [currentPetId];
         localStorage.setItem("likedPets",JSON.stringify(tempArr));
     }
+    displayAnimalById(currentPetId);
     displayNextAnimal();
 }
 
@@ -247,15 +260,11 @@ preferencesbtn.onclick = function() {
 function showLikedPets() {
     likedAnimalsArr = JSON.parse(localStorage.getItem("likedPets"));
     //console.log(likedAnimalsArr);
-
-    // var pastLikesInfo = document.getElementsByClassName ('past-likes');
-    var pastLikedPhotos = document.getElementsByClassName('past-liked-photo');
-
-    // var picture =
-    // var pictureCall =
-    // for (var i = 0; i < likedAnimalsArr.length; i++) {
-    //     pastLikedPhotos.setAttribute("src", pictureCall);
-    // }
+    if (likedAnimalsArr !== null) { //error handling of empty localstorage no likes
+        for (var i = 0; i < likedAnimalsArr.length; i++) {
+            displayAnimalById(likedAnimalsArr[i])
+        }
+    }
 }
 
 //Search button event listener
