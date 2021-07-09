@@ -1,5 +1,5 @@
 //! API PRESETS
-const dogAPIkey = 'c8cd1d33-b825-4d0b-aeca-b35206aec201';
+const dogAPIkey = 'cb98a1ba-6033-4739-b0ae-ae27ef62f23e';
 const petFinderAPIKey = 'QDhMTsCNVacAcfQeVgMNE1LhWN6t4rxU2Gve8kdaMjJSzXyZNP';
 const petFinderSecret = 'BKDZv6RhOfrUMsc8WB87vod9eep61ZwZi1ZiUZWp';
 
@@ -17,6 +17,7 @@ var genderMaleEl = document.getElementById('user-gender-male');
 var genderFemaleEl = document.getElementById('user-gender-female');
 var searchBtnEl = document.getElementById('searchButton');
 var descriptionEl = document.getElementById('petDescription');
+var petBreedToolTipEl = document.getElementById("petBreed");
 
 //! GLOBAL VARIABLES
 const maxPastLikes = 10; //max amount of likes saved and displayed on past likes tab &&keep low because each save is a single api request
@@ -154,46 +155,40 @@ function displayNextAnimal() {
 
 //Calls Dog API and provides info on the breed
 function dogApiCall(petBreed) {
-    if (petBreed.primary === null) {
+    if (petBreed.primary !== null) {
         fetch(`https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`, {
         headers: {
-            'X-Api-Key': 'c8cd1d33-b825-4d0b-aeca-b35206aec201'
+            'x-api-key': 'c8cd1d33-b825-4d0b-aeca-b35206aec201'
         }})
         .then(response => response.json())
         .then(result => {
-            // var lifeSpan = result[0].life_span;
-            // var temperament = result[0].temperament
             var weightStr = result[0].weight.metric;
-            weighArr = weightStr.split(' - ');
+            var weighArr = weightStr.split(" - ");
             var usWeightArr = weighArr.map(Number);
+            var usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
+            var tempStr = "";
+
             for(var i = 0;i < usWeightArr.length;i++){
                 usWeightArr[i] *= 2.2046;
             }
-            usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
-            // var tempStr = [lifeSpan,temperament,usWeightStr].filter(Boolean).join(', ');
 
-            var tempStr = '';
             if (result[0].life_span != null || result[0].life_span != undefined) {
-                tempStr += 'Life Span: ' + result[0].life_span;
+                tempStr += "Life Span: " + result[0].life_span;
             }
-
             if (result[0].temperament != null || result[0].temperament != undefined) {
-                tempStr += '\n' + 'Temperament: ' + result[0].temperament;
+                tempStr += "\n" + "Temperament: " + result[0].temperament;
             }
-
             if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
-                tempStr += '\n' + 'Weight (pounds): ' + usWeightStr;
+                tempStr += "\n" + "Weight (pounds): " + usWeightStr;
             }
 
-            petBreedToolTipEl.setAttribute('data-tooltip', tempStr);
+            petBreedToolTipEl.setAttribute("data-tooltip", tempStr);
         })
         .catch (function (error) {
             console.log('Unable to connect to the Dog API' + error);
-            delete petBreedToolTipEl.dataset.tooltip
+            delete petBreedToolTipEl.dataset.tooltip;
         })
     }
-
-    return;
 }
 
 function displayPetsBeforeDate() {
