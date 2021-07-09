@@ -19,10 +19,12 @@ var searchBtnEl = document.getElementById('searchButton');
 var descriptionEl = document.getElementById('petDescription');
 
 //! GLOBAL VARIABLES
+const maxPastLikes = 10; //max amount of likes saved and displayed on past likes tab &&keep low because each save is a single api request
+const animalArrayLength = 40; //amount the api gets per call and the ideal length the pet array should float around
+
 var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 everytime it goes to next pet
 var currentPetId = 0; //id of currently displayed pet INTEGER
-const presetArrayLength = 40; //amount the api gets per call and the ideal length the pet array should float around
-const maxPastLikes = 10; //max amount of likes saved and displayed on past likes tab &&keep low because each save is a single api request
+var userRange = 50; //miles range 1-500 default:100 (gets bigger if no animals are found in area)
 var petFinderClient = new petfinder.Client({ //petfinder api object (called in 2 places so up here)
     apiKey: petFinderAPIKey, //private api key (required)
     secret: petFinderSecret //private secret key (required)
@@ -46,18 +48,22 @@ function petFinderCall() {
 
     petFinderClient.animal.search({
         //presets do not change
-        distance: 50, //miles range 1-500 default:100
         status: 'adoptable', //preset to only show adoptable pets
         type: 'dog', //preset to only show dogs so works with dogAPI
-        limit: presetArrayLength,
+        limit: animalArrayLength,
         //variables
-        before: displayPetsBeforeDate(),
         location: userLocation,
+        distance: userRange, //miles range 1-500 default:100
+        before: displayPetsBeforeDate(),
         age: userAge,
         size: userSize,
         gender: userSelectedGender,
     })
         .then(function (response) { //response object from api
+            if (response.data.animals.length < animalArrayLength && userRange < 500) {
+                userRange += 50; //if animals are starting to run out then start to increase the range
+                petFinderCall();
+            }
             arrayOfPetsInQueue = arrayOfPetsInQueue.concat(response.data.animals);
             displayAnimalData(arrayOfPetsInQueue[0]); //display first animal in queue
         })
@@ -128,7 +134,7 @@ function animalHasImage (animalData) {
 
 //deletes the index 0 pet and then just displays the new animal at index 0
 function displayNextAnimal() {
-    if (arrayOfPetsInQueue.length == presetArrayLength / 2) { //if we are under half of what we should have get more pets
+    if (arrayOfPetsInQueue.length == animalArrayLength / 2) { //if we are under half of what we should have get more pets
         petFinderCall()
     }
     arrayOfPetsInQueue.shift(); //removed index 0
