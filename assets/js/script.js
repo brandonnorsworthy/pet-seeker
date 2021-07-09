@@ -22,6 +22,7 @@ var descriptionEl = document.getElementById('petDescription');
 var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 everytime it goes to next pet
 var currentPetId = 0; //id of currently displayed pet INTEGER
 const presetArrayLength = 40; //amount the api gets per call and the ideal length the pet array should float around
+const maxPastLikes = 10; //max amount of likes saved and displayed on past likes tab &&keep low because each save is a single api request
 
 //! TEMPORARY PRESETS
 var petFinderClient = new petfinder.Client({
@@ -211,7 +212,7 @@ function displayAnimalById(animalId) {
             <br>${tempDescriptionStr}</span>
         </a>
         `)
-        $('#pastLikesDiv').append(pastLikeEl);
+        $('#pastLikesDiv').prepend(pastLikeEl);
     });
 }
 
@@ -225,9 +226,9 @@ function likeCurrentPet() {
     descriptionEl.textContent = ``; //Resets pet description
     tempArr = JSON.parse(localStorage.getItem('likedPets'));
     if(tempArr != null) { //if there is already items in local storage
-        if (tempArr.length > 9) {
+        if (tempArr.length >= maxPastLikes) {
             tempArr.shift(); //take out the item at the beginning to take length down by one to make room for new one
-            pastLikesDivEl.children[0].remove()
+            pastLikesDivEl.children[pastLikesDivEl.children.length - 1].remove()
         }
         tempArr.push(currentPetId) //add current pet onto the end of exsisting array
         localStorage.setItem('likedPets',JSON.stringify(tempArr));
@@ -256,7 +257,7 @@ function showLikedPets() {
     likedAnimalsArr = JSON.parse(localStorage.getItem('likedPets'));
     //console.log(likedAnimalsArr);
     if (likedAnimalsArr !== null) { //error handling of empty localstorage no likes
-        for (var i = 0; i < likedAnimalsArr.length; i++) {
+        for (var i = likedAnimalsArr.length - 1; i >= 0; i--) {
             displayAnimalById(likedAnimalsArr[i])
         }
     }
