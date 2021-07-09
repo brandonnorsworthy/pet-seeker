@@ -46,6 +46,7 @@ footer {
 
 #mainCardHolder {
     min-height: 80vh;
+    padding: 4%;
 }
 
 #settingsDiv {
@@ -73,4 +74,27 @@ footer {
     height: 48px;
     overflow: hidden;
     border-radius: 50%;
+}
+
+.likeAndDislikeBtn {
+    border-radius: 50%;
+}
+
+#petPhoto {
+    border-top-left-radius: 4%;
+    border-bottom-left-radius: 4%;
+}
+
+#petDataHolder {
+    border-top-right-radius: 4%;
+    border-bottom-right-radius: 4%;
+    background-color: #40BEDD;
+    color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+#petDataHolder p {
+    color:#ffffff
 }
