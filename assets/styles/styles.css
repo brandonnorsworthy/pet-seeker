@@ -37,3 +37,12 @@ button {
     vertical-align: middle;
     padding-left: 10px;
 }
+
+#pastLikesDiv > a {
+    color: black;
+    text-decoration: none;
+}
+
+#pastLikesDiv > a:hover {
+    color: rgb(46, 88, 200);
+}

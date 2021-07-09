@@ -201,11 +201,10 @@ function displayPetsBeforeDate() {
 function displayAnimalById(animalId) {
     petFinderClient.animal.show(animalId)
     .then(function (response) {
-        var tempDescriptionStr = ""
         if (response.data.animal.description === null) {
-            tempDescriptionStr = "";
+            var tempDescriptionStr = response.data.animal.breeds.primary;
         } else {
-            tempDescriptionStr = response.data.animal.description.slice(0, 30);
+            var tempDescriptionStr = response.data.animal.description.slice(0, 30);
         }
         var pastLikeEl = $(`
         <a class="past-likes" href="${response.data.animal.url}" target="_blank">
