@@ -23,13 +23,10 @@ var arrayOfPetsInQueue = []; //array of pets to go through deletes index 0 every
 var currentPetId = 0; //id of currently displayed pet INTEGER
 const presetArrayLength = 40; //amount the api gets per call and the ideal length the pet array should float around
 const maxPastLikes = 10; //max amount of likes saved and displayed on past likes tab &&keep low because each save is a single api request
-
-//! TEMPORARY PRESETS
-var petFinderClient = new petfinder.Client({
+var petFinderClient = new petfinder.Client({ //petfinder api object (called in 2 places so up here)
     apiKey: petFinderAPIKey, //private api key (required)
     secret: petFinderSecret //private secret key (required)
 });
-// var userLocation = `houston, texas`; //implement grabbing users location
 
 //sets up js file when page loads put events and calls in here
 function init() {
@@ -39,16 +36,9 @@ function init() {
 
     //CALL ANIMAL IDS THAT WERE SAVED FROM LOCAL STORAGE
     showLikedPets();
-
-    //CALL INITIAL FUNCTIONS
-    // petFinderCall(); //call upon start to load up on api data
 }
 
 function petFinderCall() {
-    //Clears array each time the Submit button is clicked by user so that we aren't getting previous searches
-
-    //object that calls the petfiner api
-
     var userLocation = cityFormEl.value.trim();
     var userAge = ageEl.value;
     var userSize = sizeEl.value;
@@ -120,26 +110,31 @@ function displayAnimalData (animalData) {
     } else {
         displayNextAnimal(); //if there is no image on file just skip this animal
     }
+
+    return;
 }
 
 //looks to see if a image is inside the animal data object
 function animalHasImage (animalData) {
     var animalHasImage = true; //default to true to return
-    if (animalData.photos == undefined || animalData.photos === null) {
+    if (animalData.photos == undefined || animalData.photos === null) { //test if undefined first so no errors
         animalHasImage = false;
-    } else if (animalData.photos.length === 0){
+    } else if (animalData.photos.length === 0){ //if array is just empty still no photos so return false
         animalHasImage = false;
     }
 
     return animalHasImage;
 }
 
+//deletes the index 0 pet and then just displays the new animal at index 0
 function displayNextAnimal() {
-    if (arrayOfPetsInQueue.length == presetArrayLength / 2) {
+    if (arrayOfPetsInQueue.length == presetArrayLength / 2) { //if we are under half of what we should have get more pets
         petFinderCall()
     }
-    arrayOfPetsInQueue.shift();
+    arrayOfPetsInQueue.shift(); //removed index 0
     displayAnimalData(arrayOfPetsInQueue[0]);
+
+    return;
 }
 
 //Calls Dog API and provides info on the breed
@@ -182,6 +177,8 @@ function dogApiCall(petBreed) {
             delete petBreedToolTipEl.dataset.tooltip
         })
     }
+
+    return;
 }
 
 function displayPetsBeforeDate() {
@@ -214,12 +211,17 @@ function displayAnimalById(animalId) {
         `)
         $('#pastLikesDiv').prepend(pastLikeEl);
     });
+
+    return;
 }
 
 //############################### Events #################################
+
 function dislikeCurrentPet() {
     descriptionEl.textContent = ``; //Resets pet description
     displayNextAnimal();
+
+    return;
 }
 
 function likeCurrentPet() {
@@ -238,17 +240,23 @@ function likeCurrentPet() {
     }
     displayAnimalById(currentPetId);
     displayNextAnimal();
+
+    return;
 }
 
 //Click event to switch between Preferences and Past Likes tabs
 pasLikesBtnEl.onclick = function() {
     preferenceDivEl.style.display = 'none';
     pastLikesDivEl.style.display = 'block';
+
+    return;
 }
 
 preferencesBtnEl.onclick = function() {
     pastLikesDivEl.style.display = 'none';
     preferenceDivEl.style.display = 'block';
+
+    return;
 }
 
 //Add past likes from local storage to Past Likes tab
@@ -261,6 +269,8 @@ function showLikedPets() {
             displayAnimalById(likedAnimalsArr[i])
         }
     }
+
+    return;
 }
 
 //Search button event listener
@@ -269,6 +279,8 @@ searchBtnEl.onclick = function() {
     //Clears array each time the Submit button is clicked by user so that we aren't getting previous searches
     arrayOfPetsInQueue = [];
     petFinderCall();
+
+    return;
 }
 
 init() //calls when page starts up leave at bottom
