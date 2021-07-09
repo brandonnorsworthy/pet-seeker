@@ -1,7 +1,7 @@
 //! API PRESETS
-const dogAPIkey = 'cb98a1ba-6033-4739-b0ae-ae27ef62f23e';
-const petFinderAPIKey = 'QDhMTsCNVacAcfQeVgMNE1LhWN6t4rxU2Gve8kdaMjJSzXyZNP';
-const petFinderSecret = 'BKDZv6RhOfrUMsc8WB87vod9eep61ZwZi1ZiUZWp';
+const dogAPIkey = 'c8cd1d33-b825-4d0b-aeca-b35206aec201';
+const petFinderAPIKey = 'RcXYh4mDw2b7Y8vdtikNqfAq4DnlTjpFXttwGIxMBSGQWBJBNx';
+const petFinderSecret = '4zBV99JLvPpoicS8Efy8Bb6TFvDumlTyMylQ4z56';
 
 //! HTML ELEMENTS
 var dislikeBtnEl = document.getElementById('dislikeBtn');
@@ -18,6 +18,7 @@ var genderFemaleEl = document.getElementById('user-gender-female');
 var searchBtnEl = document.getElementById('searchButton');
 var descriptionEl = document.getElementById('petDescription');
 var petBreedToolTipEl = document.getElementById("petBreed");
+var deleteButtonEl = document.getElementById('deleteButton');
 
 //! GLOBAL VARIABLES
 const maxPastLikes = 10; //max amount of likes saved and displayed on past likes tab &&keep low because each save is a single api request
@@ -288,6 +289,13 @@ function showLikedPets() {
 
     return;
 }
+
+//Delete button - clears past likes and local storage
+deleteButtonEl.addEventListener("click", function() {
+    likedAnimalsArr.clear;
+    localStorage.clear;
+});
+
 
 //Search button event listener
 //If you hit submit button, clear out array first and then do petfinder call
