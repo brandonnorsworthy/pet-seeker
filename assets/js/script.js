@@ -49,7 +49,6 @@ function init() {
 
 function petFinderCall() {
     //Clears array each time the Submit button is clicked by user so that we aren't getting previous searches
-    arrayOfPetsInQueue = [];
 
     //object that calls the petfiner api
 
@@ -98,7 +97,7 @@ function displayAnimalData (animalData) {
         document.getElementById("petBreed").textContent = `Breed: ${animalData.breeds.primary}`;
         document.getElementById("petSize").textContent = `Size: ${animalData.size}`;
 
-        //Handles null description by 
+        //Handles null description by
         if (animalData.description !== null) {
             document.getElementById("petDescription").textContent = `Description: ${animalData.description}`;
         };
@@ -107,7 +106,7 @@ function displayAnimalData (animalData) {
     } else {
         displayNextAnimal(); //if there is no image on file just skip this animal
     }
-};
+}
 
 //looks to see if a image is inside the animal data object
 function animalHasImage (animalData) {
@@ -119,7 +118,7 @@ function animalHasImage (animalData) {
     }
 
     return animalHasImage;
-};
+}
 
 function displayNextAnimal() {
     if (arrayOfPetsInQueue.length == presetArrayLength / 2) {
@@ -195,7 +194,7 @@ function getAnimalById(animalId) {
 
 //############################### Events #################################
 function dislikeCurrentPet() {
-    document.getElementById("petDescription").textContent = ``; //Resets pet description 
+    document.getElementById("petDescription").textContent = ``; //Resets pet description
     displayNextAnimal();
 }
 
@@ -210,7 +209,7 @@ function likeCurrentPet() {
         localStorage.setItem("likedPets",JSON.stringify(tempArr));
     }
     displayNextAnimal();
-};
+}
 
 
 //Click event to switch between Preferences and Past Likes tabs
@@ -246,6 +245,6 @@ searchBtnEl.onclick = function() {
     //Clears array each time the Submit button is clicked by user so that we aren't getting previous searches
     arrayOfPetsInQueue = [];
     petFinderCall();
-};
+}
 
 init(); //calls when page starts up leave at
