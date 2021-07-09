@@ -211,23 +211,25 @@ function getAnimalById(animalId) {
 
 //############################### Events #################################
 function dislikeCurrentPet() {
-    document.getElementById("petDescription").textContent = ``; //Resets pet description
+    descriptionEl.textContent = ``; //Resets pet description
     displayNextAnimal();
 }
 
 function likeCurrentPet() {
-    document.getElementById("petDescription").textContent = ``; //Resets pet description
+    descriptionEl.textContent = ``; //Resets pet description
     tempArr = JSON.parse(localStorage.getItem("likedPets"));
     if(tempArr != null) { //if there is already items in local storage
-        tempArr.push(currentPetId)
+        if (tempArr.length > 10) {
+            tempArr.shift() //take out the item at the beginning to take length down by one to make room for new one
+        }
+        tempArr.push(currentPetId) //add current pet onto the end of exsisting array
         localStorage.setItem("likedPets",JSON.stringify(tempArr));
-    } else {
+    } else { //if nothing is already in storage set array to just current petid
         tempArr = [currentPetId];
         localStorage.setItem("likedPets",JSON.stringify(tempArr));
     }
     displayNextAnimal();
 }
-
 
 //Click event to switch between Preferences and Past Likes tabs
 pastLikesbtn.onclick = function() {
