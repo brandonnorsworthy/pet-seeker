@@ -176,6 +176,23 @@ function getAnimalById(animalId) {
     .then(function (response) {
         console.log(response.data.animal)
         //create li in past liked
+            
+            //Create item
+            var pastLikesChild = document.createElement("div");
+            var pastLikesFigure = document.createElement("figure");
+            var pastLikesImg = document.createElement("img");
+            var pastLikesSpan = document.createElement("span");
+            var pastLikesLink = document.createElement("p");
+            //Set classes
+            pastLikesChild.setAttribute("class","past-likes");
+            pastLikesFigure.setAttribute("class", "image is-48x48 past-liked-photo");
+            //Set attributes
+            pastLikesImg.setAttribute("src", response.data.animal.photos[0].small);
+            //Append to parent and will probably have to create parent
+            pastLikesFigure.appendChild(pastLikesImg);
+            pastLikesChild.append(pastLikesFigure,pastLikesSpan,pastLikesLink);
+            pastLikes.append(pastLikesChild);
+
             //response.data.animal.name
             //response.data.animal.photos[0].small
             //response.data.animal.url
@@ -218,13 +235,12 @@ function showLikedPets() {
     console.log(likedAnimalsArr);
 
     // var pastLikesInfo = document.getElementsByClassName ('past-likes');
-    var pastLikedPhotos = document.getElementsByClassName('past-liked-photo');
+    // var pastLikedPhotos = document.getElementsByClassName('past-liked-photo');
 
-    // var picture = 
-    // var pictureCall = 
-    // for (var i = 0; i < likedAnimalsArr.length; i++) {
-    //     pastLikedPhotos.setAttribute("src", pictureCall);
-    // }
+    
+    for (var i = 0; i < likedAnimalsArr.length; i++) {
+        getAnimalById(likedAnimalsArr[i]);
+    }
 }
 
 //Search button event listener
