@@ -6,19 +6,8 @@ const petFinderSecret = '4zBV99JLvPpoicS8Efy8Bb6TFvDumlTyMylQ4z56';
 //! HTML ELEMENTS
 var dislikeBtnEl = document.getElementById('dislikeBtn');
 var likeBtnEl = document.getElementById('likeBtn');
-var preferenceDivEl = document.getElementById('preferenceDiv');
-var pastLikesDivEl = document.getElementById('pastLikesDiv');
-var pasLikesBtnEl = document.getElementById('past-likes-button');
-var preferencesBtnEl = document.getElementById('preferences-button');
-var cityFormEl = document.getElementById('user-city');
-var ageEl = document.getElementById('user-age');
-var sizeEl = document.getElementById('user-size');
-var genderMaleEl = document.getElementById('user-gender-male');
-var genderFemaleEl = document.getElementById('user-gender-female');
 var searchBtnEl = document.getElementById('searchButton');
 var descriptionEl = document.getElementById('petDescription');
-var petBreedToolTipEl = document.getElementById("petBreed");
-var deleteButtonEl = document.getElementById('deleteButton');
 
 //! GLOBAL VARIABLES
 const maxPastLikes = 10; //max amount of likes saved and displayed on past likes tab &&keep low because each save is a single api request
@@ -64,9 +53,6 @@ function updateApiCallAmount() {
 
 function petFinderCall() {
     updateApiCallAmount(); //show amount of times called
-    var userLocation = cityFormEl.value.trim();
-    var userAge = ageEl.value;
-    var userSize = sizeEl.value;
 
     petFinderClient.animal.search({
         //presets do not change
@@ -74,11 +60,11 @@ function petFinderCall() {
         type: 'dog', //preset to only show dogs so works with dogAPI
         limit: animalArrayLength,
         //variables
-        location: userLocation,
+        location: document.getElementById('user-city').value.trim(),
         distance: userRange, //miles range 1-500 default:100
         before: displayPetsBeforeDate(),
-        age: userAge,
-        size: userSize,
+        age: document.getElementById('user-age').value,
+        size: document.getElementById('user-size').value,
         gender: getGenderCheckboxValues(),
     })
         .then(function (response) { //response object from api
@@ -96,25 +82,35 @@ function petFinderCall() {
     return;
 }
 
+function getAgeCheckboxValues() {
+    var userSelectedAges = '';
+
+
+
+    return userSelectedAges;
+}
+
 //Returns string to give to petfinder api for selected gender based on checkboxes
 function getGenderCheckboxValues() {
-    var userSelectedGender = ''; //initialize string
+    var genderMaleEl = document.getElementById('user-gender-male');
+    var genderFemaleEl = document.getElementById('user-gender-female');
+    var userSelectedGenders = ''; //initialize string
 
     if (genderMaleEl.checked) { //if male is checked add to string
-        userSelectedGender = 'male';
+        userSelectedGenders = 'male';
     }
 
-    if (genderFemaleEl.checked && userSelectedGender.length > 0){ //if female is checked and user selected male add comma
-        userSelectedGender += ',female';
+    if (genderFemaleEl.checked && userSelectedGenders.length > 0){ //if female is checked and user selected male add comma
+        userSelectedGenders += ',female';
     } else if (genderFemaleEl.checked) { //if only selected female
-        userSelectedGender = 'female';
+        userSelectedGenders = 'female';
     }
 
-    if (userSelectedGender.length === 0) {  //if nothing was checked default to both
-        userSelectedGender = 'male,female';
+    if (userSelectedGenders.length === 0) {  //if nothing was checked default to both
+        userSelectedGenders = 'male,female';
     }
 
-    return userSelectedGender;
+    return userSelectedGenders;
 }
 
 //sets elements in the card to current pet data
@@ -167,6 +163,8 @@ function displayNextAnimal() {
 
 //Calls Dog API and provides info on the breed
 function dogApiCall(petBreed) {
+    var petBreedToolTipEl = document.getElementById("petBreed");
+
     if (petBreed.primary !== null) {
         fetch(`https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`, {
         headers: {
@@ -242,8 +240,9 @@ function dislikeCurrentPet() {
 }
 
 function likeCurrentPet() {
+    var pastLikesDivEl = document.getElementById('pastLikesDiv');
+    var tempArr = JSON.parse(localStorage.getItem('likedPets'));
     descriptionEl.textContent = ``; //Resets pet description
-    tempArr = JSON.parse(localStorage.getItem('likedPets'));
 
     if (arrayOfPetsInQueue[0].description === null) { //if the animal doesnt have a description
         var tempDescriptionStr = arrayOfPetsInQueue[0].breeds.primary;
@@ -251,7 +250,7 @@ function likeCurrentPet() {
         var tempDescriptionStr = arrayOfPetsInQueue[0].description.slice(0, 30);
     }
 
-    tempObject = { //build the object to put in the storage array
+    var tempObject = { //build the object to put in the storage array
         name: arrayOfPetsInQueue[0].name,
         image: arrayOfPetsInQueue[0].photos[0].medium,
         url: arrayOfPetsInQueue[0].url,
@@ -278,7 +277,7 @@ function likeCurrentPet() {
 //Add past likes from local storage to Past Likes tab
 //On init, look at local storage, loop over all IDs saved, call get animal by ID one at a time and give id(inside this function, create these things to display)
 function showLikedPets() {
-    likedAnimalsArr = JSON.parse(localStorage.getItem('likedPets'));
+    var likedAnimalsArr = JSON.parse(localStorage.getItem('likedPets'));
     if (likedAnimalsArr !== null) { //error handling of empty localstorage no likes
         for (var i = likedAnimalsArr.length - 1; i >= 0; i--) {
             updatePastLikes(likedAnimalsArr[i])
@@ -289,8 +288,8 @@ function showLikedPets() {
 }
 
 function deletePastLikeElement(event) {
-     if (event.target.id === "deleteButton") {
-         likedAnimalsArr = JSON.parse(localStorage.getItem('likedPets'));
+    if (event.target.id === "deleteButton") {
+        likedAnimalsArr = JSON.parse(localStorage.getItem('likedPets'));
         var animalName = event.target.parentElement.children[0].children[1].children[0].textContent;
         var savedIndex = 0;
 
