@@ -1,4 +1,9 @@
 /* 40BEDD,40BEDD,40BEDD */
+:root {
+    --main-color: #40BEDD;
+    --default-grey: #6b6b6b;
+    --default-white: #ffffff;
+}
 
 header {
     text-align: center;
@@ -44,14 +49,10 @@ footer {
     padding-left: 10px;
 }
 
-#mainCardHolder {
-    min-height: 80vh;
-    padding: 4%;
-}
 
 #settingsDiv {
-    min-width: 310px;
-    background: #40BEDD;
+    /* min-width: 310px; */
+    background: var(--default-white);
 }
 
 
@@ -76,8 +77,37 @@ footer {
     border-radius: 50%;
 }
 
+.hideAndSettings,
 .likeAndDislikeBtn {
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
+}
+
+#showModal,
+#likeBtn {
+    background-color: var(--default-white);
+    border: 1px solid var(--main-color);
+    color: var(--main-color);
+}
+
+#showHideBtn,
+#dislikeBtn {
+    color: var(--default-grey);
+    border: 1px solid var(--default-grey);
+}
+
+#showModal:hover,
+#likeBtn:hover {
+    color: var(--default-white);
+    border: 0px;
+    background-color: var(--main-color);
+}
+
+#showHideBtn:hover,
+#dislikeBtn:hover {
+    color: var(--default-white);
+    background: var(--default-grey);
 }
 
 #petPhoto {
