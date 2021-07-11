@@ -49,13 +49,6 @@ footer {
     padding-left: 10px;
 }
 
-
-#settingsDiv {
-    /* min-width: 310px; */
-    background: var(--default-white);
-}
-
-
 #pastLikesDiv > div {
     color: var(--default-white);
     border-bottom: 1px solid var(--default-grey);
@@ -156,4 +149,30 @@ footer {
 
 .card-text {
     font-size: 1.75rem;
+}
+
+.delete-button {
+    color: var(--default-grey)
+}
+
+.delete-button:hover {
+    color: rgb(255, 115, 115);
+    transition: color 0.5s;
+    cursor: pointer;
+}
+
+.past-liked-photo {
+    border-radius: 50%;
+}
+
+.past-liked-photo img {
+    border: 3px solid var(--main-color);
+    padding: 3px;
+    width: 64px;
+    height: 64px;
+    border-radius:50%;
+}
+
+#deleteButton {
+    border-radius: 50%;
 }

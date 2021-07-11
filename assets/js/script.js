@@ -29,21 +29,21 @@ function init() {
     //SETUP HTML ELEMENT EVENTS
     dislikeBtnEl.addEventListener('click', dislikeCurrentPet);
     likeBtnEl.addEventListener('click', likeCurrentPet);
-    document.getElementById("showModal").addEventListener('click', function(){
-        console.log("showing modal");
-        document.getElementById("settingsModal").classList.add("is-active");
+    document.getElementById('showModal').addEventListener('click', function(){
+        console.log('showing modal');
+        document.getElementById('settingsModal').classList.add('is-active');
     })
-    document.getElementById("hideModalCancelBtn").addEventListener("click", hideSettingsModal)
-    document.getElementById("hideModalDeleteBtn").addEventListener("click", hideSettingsModal)
-    document.getElementById('pastLikesDiv').addEventListener("click", deletePastLikeElement) 
+    document.getElementById('hideModalCancelBtn').addEventListener('click', hideSettingsModal)
+    document.getElementById('hideModalDeleteBtn').addEventListener('click', hideSettingsModal)
+    document.getElementById('pastLikesDiv').addEventListener('click', deletePastLikeElement)
 
     //CALL ANIMAL IDS THAT WERE SAVED FROM LOCAL STORAGE
     showLikedPets();
 }
 
 function hideSettingsModal() {
-    console.log("hide modal");
-    document.getElementById("settingsModal").classList.remove("is-active");
+    console.log('hide modal');
+    document.getElementById('settingsModal').classList.remove('is-active');
 }
 
 function updateApiCallAmount() {
@@ -162,7 +162,7 @@ function displayNextAnimal() {
 
 //Calls Dog API and provides info on the breed
 function dogApiCall(petBreed) {
-    var petBreedToolTipEl = document.getElementById("petBreed");
+    var petBreedToolTipEl = document.getElementById('petBreed');
 
     if (petBreed.primary !== null) {
         fetch(`https://api.thedogapi.com/v1/breeds/search?q=${petBreed.primary}`, {
@@ -172,26 +172,26 @@ function dogApiCall(petBreed) {
         .then(response => response.json())
         .then(result => {
             var weightStr = result[0].weight.metric;
-            var weighArr = weightStr.split(" - ");
+            var weighArr = weightStr.split(' - ');
             var usWeightArr = weighArr.map(Number);
             var usWeightStr = Math.round(usWeightArr[0]) + '-' + Math.round(usWeightArr[1]);
-            var tempStr = "";
+            var tempStr = '';
 
             for(var i = 0;i < usWeightArr.length;i++){
                 usWeightArr[i] *= 2.2046;
             }
 
             if (result[0].life_span != null || result[0].life_span != undefined) {
-                tempStr += "Life Span: " + result[0].life_span;
+                tempStr += 'Life Span: ' + result[0].life_span;
             }
             if (result[0].temperament != null || result[0].temperament != undefined) {
-                tempStr += "\n" + "Temperament: " + result[0].temperament;
+                tempStr += '\n' + 'Temperament: ' + result[0].temperament;
             }
             if (result[0].weight.metric != null || result[0].weight.metric != undefined) {
-                tempStr += "\n" + "Weight (pounds): " + usWeightStr;
+                tempStr += '\n' + 'Weight (pounds): ' + usWeightStr;
             }
 
-            petBreedToolTipEl.setAttribute("data-tooltip", tempStr);
+            petBreedToolTipEl.setAttribute('data-tooltip', tempStr);
         })
         .catch (function (error) {
             console.log('Unable to connect to the Dog API' + error);
@@ -213,15 +213,19 @@ function displayPetsBeforeDate() {
 
 function updatePastLikes(animalObject) {
     var pastLikeEl = $(`
-    <div>
-    <a class="past-likes" href="${animalObject.url}" target="_blank">
-        <figure class="image is-48x48 past-liked-photo">
-            <img class="is-48x48" src="${animalObject.image}">
-        </figure>
-        <span><strong>${animalObject.name}</strong>
-        <br>${animalObject.description}</span>
-    </a>
-    <button id="deleteButton" class="button is-danger">Delete</button>
+    <div class="columns m-0">
+        <a class="column is-11 my-3 p-0 past-likes is-align-items-center" href="${animalObject.url}" target="_blank">
+            <figure class="image past-liked-photo">
+                <img class="is-64x64" src="${animalObject.image}">
+            </figure>
+            <span><strong>${animalObject.name}</strong>
+            <br>${animalObject.description}</span>
+        </a>
+        <div class="column is-1 p-0 is-flex is-align-items-center is-justify-content-center content">
+            <span class="material-icons delete-button" id="deleteButton">
+                remove_circle
+            </span>
+        </div>
     </div>
     `)
     $('#pastLikesDiv').prepend(pastLikeEl);
@@ -287,7 +291,7 @@ function showLikedPets() {
 }
 
 function deletePastLikeElement(event) {
-    if (event.target.id === "deleteButton") {
+    if (event.target.id === 'deleteButton') {
         likedAnimalsArr = JSON.parse(localStorage.getItem('likedPets'));
         var animalName = event.target.parentElement.children[0].children[1].children[0].textContent;
         var savedIndex = 0;
