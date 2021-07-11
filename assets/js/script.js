@@ -250,7 +250,7 @@ function likeCurrentPet() {
     if (arrayOfPetsInQueue[0].description === null) { //if the animal doesnt have a description
         var tempDescriptionStr = arrayOfPetsInQueue[0].breeds.primary;
     } else {
-        var tempDescriptionStr = arrayOfPetsInQueue[0].description.slice(0, 30);
+        var tempDescriptionStr = arrayOfPetsInQueue[0].description.slice(0, 40);
     }
 
     var tempObject = { //build the object to put in the storage array

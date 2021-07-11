@@ -178,10 +178,15 @@ footer {
     border-radius:50%;
 }
 
-#pastLikesDiv span strong {
+#pastLikesDiv > div > a {
     color: var(--default-dark-grey);
 }
 
-#pastLikesDiv span {
-    color: var(--default-grey);
+#pastLikesDiv > div > a:hover {
+    color: var(--main-color);
+}
+
+#pastLikesDiv > div > a > span {
+    white-space: nowrap;
+    overflow: hidden;
 }
