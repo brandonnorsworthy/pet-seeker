@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="columns">
-        <div class="column is-3-tablet is-full-mobile"> <!-- left side div -->
+        <div class="column is-3-fullhd is-6-tablet is-full-touch p-0"> <!-- left side div -->
             <div class="modal is-clipped is-active" id="settingsModal">
                 <div class="modal-background"></div>
                 <div class="modal-card">
@@ -77,12 +77,12 @@
                   </footer>
                 </div>
             </div>
-            <div class="columns m-0 pt-3 pl-3">
+            <div class="columns is-12 m-0 pt-3 pl-3" id="scroll-box-holder">
                 <div class="column m-0 p-0 is-12">
                     <div class="columns m-0">
                         <div class="column is-12 my-3 is-align-items-center" id="pastLikesHeader">
                             <figure class="image is-64x64">
-                                <img class="is-64x64" src="./assets/images/logo/petseeker_logo.png" alt="logo of pet seeker pawprint in magnifying glass">
+                                <img class="is-64x64" src="./assets/images/logo/petseeker_logo_sm.png" alt="logo of pet seeker pawprint in magnifying glass">
                             </figure>
                             <span class="pl-4">
                                 Pet Finder
@@ -94,7 +94,7 @@
                             Liked Pets
                         </div>
                     </div>
-                    <div class="columns m-0">
+                    <div class="columns m-0" id="scroll-box">
                         <div class="column is-12" id="pastLikesDiv">
                             <!-- DYNAMIC CONTENT GOES HERE -->
                         </div>
@@ -102,8 +102,8 @@
                 </div>
             </div>
         </div>
-        <div class="column is-9-tablet is-full-mobile m-0 p-6" id="main-content"> <!-- main content -->
-            <div class="columns is-mobile"> <!-- hide and settings buttons -->
+        <div class="column is-9-fullhd is-6-tablet is-full-mobile m-0 p-6" id="main-content"> <!-- main content -->
+            <div class="columns is-mobile is-full-tablet"> <!-- hide and settings buttons -->
                 <div class="column is-half-mobile is-flex is-justify-content-flex-start p-0"> <!-- hide likes -->
                     <button class="button hideAndSettings" id="showHideBtn">
                         <span class="material-icons md-48">
@@ -122,10 +122,10 @@
             <div class="columns is-vcentered is-centered pt-3" id="mainCardHolder">
                 <div class="column">
                     <div class="columns">
-                        <div class="column is-6 image is-16by9">
+                        <div class="column is-12-tablet is-6-widescreen image is-16by9">
                             <img id="petPhoto" src="./assets/images/jack.jpg" alt="picture of dog">
                         </div>
-                        <div class="column is-6 pr-6" id="right-side-of-card">
+                        <div class="column is-12-tablet is-6-widescreen pr-6" id="right-side-of-card">
                             <div class="columns">
                                 <div class="column is-12 p-0 is-flex is-align-items-end">
                                     <div class="content pb-2">
