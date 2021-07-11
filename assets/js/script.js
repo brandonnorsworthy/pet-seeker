@@ -284,7 +284,6 @@ preferencesBtnEl.onclick = function() {
 //On init, look at local storage, loop over all IDs saved, call get animal by ID one at a time and give id(inside this function, create these things to display)
 function showLikedPets() {
     likedAnimalsArr = JSON.parse(localStorage.getItem('likedPets'));
-    //console.log(likedAnimalsArr);
     if (likedAnimalsArr !== null) { //error handling of empty localstorage no likes
         for (var i = likedAnimalsArr.length - 1; i >= 0; i--) {
             updatePastLikes(likedAnimalsArr[i])
@@ -295,27 +294,22 @@ function showLikedPets() {
 }
 
 function deletePastLikeElement(event) {
-   if (event.target.id === "deleteButton") {
-    //    console.log(event.target.parentElement.parentElement.children);
-       likedAnimalsArr = JSON.parse(localStorage.getItem('likedPets'));
-       console.log(likedAnimalsArr);
+    if (event.target.id === "deleteButton") {
+        likedAnimalsArr = JSON.parse(localStorage.getItem('likedPets'));
         var animalName = event.target.parentElement.children[0].children[1].children[0].textContent;
         var savedIndex = 0;
 
         for (let index = 0; index < likedAnimalsArr.length; index++) { 
-            // console.log(likedAnimalsArr[index].name);
             if (likedAnimalsArr[index].name === animalName) {
                 savedIndex = index;
                 break;
             }          
-       }
-       likedAnimalsArr.splice(savedIndex, 1);
-       console.log(likedAnimalsArr)
-       localStorage.setItem('likedPets',JSON.stringify(likedAnimalsArr));
-       event.target.parentElement.remove();
-
-   }
-} 
+        }
+        likedAnimalsArr.splice(savedIndex, 1);
+        localStorage.setItem('likedPets',JSON.stringify(likedAnimalsArr));
+        event.target.parentElement.remove();
+    }
+}; 
 
 //Search button event listener
 //If you hit submit button, clear out array first and then do petfinder call
