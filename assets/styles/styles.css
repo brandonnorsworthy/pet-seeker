@@ -36,6 +36,7 @@ footer {
     border-radius: 50%;
 } */
 
+#pastLikesHeader,
 .past-likes {
     display: flex;
     padding: 10px;
@@ -70,6 +71,7 @@ footer {
     color: var(--main-color);
 }
 
+#pastLikesHeader img,
 #pastLikesDiv > a img {
     width: 48px;
     height: 48px;
@@ -170,6 +172,7 @@ footer {
     border-radius: 50%;
 }
 
+#pastLikesHeader img,
 .past-liked-photo img {
     border: 3px solid var(--main-color);
     padding: 3px;
@@ -186,7 +189,13 @@ footer {
     color: var(--main-color);
 }
 
-#pastLikesDiv > div > a > span {
-    white-space: nowrap;
-    overflow: hidden;
+#pastLikesHeader span {
+    font-size: 2rem;
+    color: var(--main-color);
+}
+
+#pastLikesTitle {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--default-dark-grey);
 }
