@@ -1,7 +1,9 @@
 /* 40BEDD,40BEDD,40BEDD */
 :root {
     --main-color: #1599d6;
+    --default-dark-grey: #575757;
     --default-grey: #6b6b6b;
+    --dafault-light-grey: #cfcfcf;
     --default-white: #ffffff;
 }
 
@@ -51,7 +53,7 @@ footer {
 
 #pastLikesDiv > div {
     color: var(--default-white);
-    border-bottom: 1px solid var(--default-grey);
+    border-bottom: 1px solid #cfcfcf;
     text-decoration: none;
 }
 
@@ -153,8 +155,8 @@ footer {
 
 .delete-button {
     border-radius: 50%;
-    border: 2px solid var(--default-grey);
-    color: var(--default-grey);
+    border: 2px solid var(--dafault-light-grey);
+    color: var(--dafault-light-grey);
 }
 
 .delete-button:hover {
@@ -174,4 +176,12 @@ footer {
     width: 64px;
     height: 64px;
     border-radius:50%;
+}
+
+#pastLikesDiv span strong {
+    color: var(--default-dark-grey);
+}
+
+#pastLikesDiv span {
+    color: var(--default-grey);
 }
