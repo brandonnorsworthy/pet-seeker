@@ -9,10 +9,10 @@ Pet Seeker is a user-friendly website that can help you find your new four-legge
 ### Demo 💻
 
 🖥 **Desktop Webpage Demo**  
-![demo gif of webpage - desktop version][]
+![demo gif of webpage - desktop version](assets/images/PetSeekerGIFDesktop.gif)
 
 📱 **Mobile Device Demo**  
-![demo gif of webpage - mobile version][]
+![demo gif of webpage - mobile version](assets/images/PetSeekerGIFMobile.gif)
 
 ### Functionality ⚙
 
