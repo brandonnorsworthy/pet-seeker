@@ -1,34 +1,17 @@
 /* 40BEDD,40BEDD,40BEDD */
-
-header {
-    text-align: center;
-}
-
-header img {
-    width: 70px;
-    height: 70px;
-    height: auto;
-}
-
-main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-button {
-    width: 70px;
-    height: 30px;
+:root {
+    --main-color: #1589d6;
+    --default-dark-grey: #575757;
+    --default-grey: #6b6b6b;
+    --dafault-light-grey: #cfcfcf;
+    --default-white: #ffffff;
 }
 
 footer {
     max-height: 8vh;
 }
 
-/* #tooltipBtn {
-    border-radius: 50%;
-} */
-
+#pastLikesHeader,
 .past-likes {
     display: flex;
     padding: 10px;
@@ -44,31 +27,73 @@ footer {
     padding-left: 10px;
 }
 
-#mainCardHolder {
-    min-height: 80vh;
-    padding: 4%;
+.pet-data {
+    height: 50%;
+    width:100%
 }
 
-#settingsDiv {
-    min-width: 310px;
-    background: #40BEDD;
+.card-title {
+    font-size: 3rem;
 }
 
+.card-subtitle {
+    font-size: 2rem;
+}
 
-#pastLikesDiv > a {
-    color: black;
-    border-bottom: 1px solid rgb(224, 224, 224);
+.card-text {
+    font-size: 1.75rem;
+}
+
+.delete-button {
+    border-radius: 50%;
+    border: 2px solid var(--dafault-light-grey);
+    color: var(--dafault-light-grey);
+}
+
+.delete-button:hover {
+    color: var(--default-white);
+    background: rgb(255, 115, 115);
+    border: 0px;
+    cursor: pointer;
+}
+
+.past-liked-photo {
+    border-radius: 50%;
+}
+
+.likeAndDislikeBtn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.hideAndSettings {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+#pastLikesDiv > div {
+    color: var(--default-white);
+    border-bottom: 1px solid #cfcfcf;
     text-decoration: none;
 }
 
-#pastLikesDiv > a:last-child {
-    border: 0px;
+#pastLikesDiv > div a {
+    color: var(--main-color);
+    text-decoration: none;
 }
 
-#pastLikesDiv > a:hover {
-    color: rgb(46, 88, 200);
+#pastLikesDiv > div:last-child {
+    border-bottom: 0px;
 }
 
+#pastLikesDiv > div:hover a,
+#pastLikesDiv > div:active a {
+    color: var(--main-color);
+}
+
+#pastLikesHeader img,
 #pastLikesDiv > a img {
     width: 48px;
     height: 48px;
@@ -76,25 +101,108 @@ footer {
     border-radius: 50%;
 }
 
-.likeAndDislikeBtn {
-    border-radius: 50%;
+#showModal,
+#likeBtn {
+    background-color: var(--default-white);
+    border: 1px solid var(--main-color);
+    color: var(--main-color);
+}
+
+#showHideBtn,
+#dislikeBtn {
+    color: var(--default-grey);
+    border: 1px solid var(--default-grey);
+}
+
+#showModal:hover,
+#showModal:active,
+#likeBtn:hover,
+#likeBtn:active {
+    color: var(--default-white);
+    border: 0px;
+    background-color: var(--main-color);
+}
+
+#showHideBtn:hover,
+#showHideBtn:active,
+#dislikeBtn:hover,
+#dislikeBtn:active {
+    color: var(--default-white);
+    background: var(--default-grey);
 }
 
 #petPhoto {
     border-top-left-radius: 4%;
-    border-bottom-left-radius: 4%;
-}
-
-#petDataHolder {
     border-top-right-radius: 4%;
-    border-bottom-right-radius: 4%;
-    background-color: #40BEDD;
-    color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
+    border-bottom-left-radius: 0%;
 }
 
-#petDataHolder p {
-    color:#ffffff
+#right-side-of-card {
+    border-top-right-radius: 0%;
+    border-bottom-right-radius: 4%;
+    border-bottom-left-radius: 4%;
+    padding-left: 3vw;
+    background-color: var(--main-color);
+    color: var(--default-white);
+}
+
+#right-side-of-card > div {
+    height: 50%;
+}
+
+#right-side-of-card * {
+    color:var(--default-white)
+}
+
+#pastLikesHeader img,
+.past-liked-photo img {
+    border: 3px solid var(--main-color);
+    padding: 3px;
+    width: 64px;
+    height: 64px;
+    border-radius:50%;
+}
+
+#pastLikesDiv > div > a {
+    color: var(--default-dark-grey);
+}
+
+#pastLikesDiv > div > a:hover,
+#pastLikesDiv > div > a:active {
+    color: var(--main-color);
+}
+
+#pastLikesHeader span {
+    font-size: 2rem;
+    color: var(--main-color);
+}
+
+#pastLikesTitle {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--default-dark-grey);
+}
+
+#scroll-box-holder {
+    overflow: hidden;
+    height: 92vh;
+}
+
+#scroll-box {
+    height: 76vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+@media screen and (min-width: 768px) {
+    #petPhoto {
+        border-top-left-radius: 4%;
+        border-top-right-radius: 0%;
+        border-bottom-left-radius: 4%;
+    }
+
+    #right-side-of-card {
+        border-top-right-radius: 4%;
+        border-bottom-left-radius: 0%;
+    }
 }

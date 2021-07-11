@@ -6,17 +6,13 @@
     <title>Pet Seeker</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="./assets/styles/styles.css">
     <link rel="shortcut icon" href="./assets/images/favicon.ico?" type="image/x-icon">
 </head>
 <body>
     <div class="columns">
-        <div class="column is-3 ml-3" id="settingsDiv"> <!-- left side div -->
-            <div class="tabs is-medium">
-                <ul>
-                    <li id = "past-likes-button"><a>Past Likes</a></li>
-                </ul>
-            </div>
+        <div class="column is-3-fullhd is-6-tablet is-full-touch p-0"> <!-- left side div -->
             <div class="modal is-clipped is-active" id="settingsModal">
                 <div class="modal-background"></div>
                 <div class="modal-card">
@@ -27,7 +23,7 @@
                   <section class="modal-card-body">
                     <!-- Content ... -->
                     <div>
-                        <div id="preferenceDiv" style="display: block;">
+                        <div style="display: block;">
                             <section class="tab-content"></section>
                             <div class="field">
                                 <label class="label">City, State or Zip Code Search: </label>
@@ -81,45 +77,103 @@
                   </footer>
                 </div>
             </div>
-            <div id="pastLikesDiv">
-                <!-- DYNAMIC CONTENT GOES HERE -->
-                <div class="control"> <!-- working area -->
-                    <button class="button is-danger is-light" id="showModal">ghjoilkeriojklg</button>
+            <div class="columns is-12 m-0 pt-3 pl-3" id="scroll-box-holder">
+                <div class="column m-0 p-0 is-12">
+                    <div class="columns m-0">
+                        <div class="column is-12 my-3 is-align-items-center" id="pastLikesHeader">
+                            <figure class="image is-64x64">
+                                <img class="is-64x64" src="./assets/images/logo/petseeker_logo_sm.png" alt="logo of pet seeker pawprint in magnifying glass">
+                            </figure>
+                            <span class="pl-4">
+                                Pet Finder
+                            </span>
+                        </div>
+                    </div>
+                    <div class="columns m-0">
+                        <div class="column is-12 m-0 p-0 is-flex is-justify-content-center" id="pastLikesTitle">
+                            Liked Pets
+                        </div>
+                    </div>
+                    <div class="columns m-0" id="scroll-box">
+                        <div class="column is-12" id="pastLikesDiv">
+                            <!-- DYNAMIC CONTENT GOES HERE -->
+                        </div>
+                    </div>
                 </div>
             </div>
-
-    </div>
-        <div class="column is-9"> <!-- main content -->
-            <div class="columns is-vcentered "><!-- HEADER -->
+        </div>
+        <div class="column is-9-fullhd is-6-tablet is-full-mobile m-0 p-6" id="main-content"> <!-- main content -->
+            <div class="columns is-mobile is-full-tablet"> <!-- hide and settings buttons -->
+                <div class="column is-half-mobile is-flex is-justify-content-flex-start p-0"> <!-- hide likes -->
+                    <button class="button hideAndSettings" id="showHideBtn">
+                        <span class="material-icons md-48">
+                            west
+                        </span>
+                    </button>
+                </div>
+                <div class="column is-half-mobile is-flex is-justify-content-end p-0"> <!-- settings -->
+                    <button class="button hideAndSettings p-0" id="showModal">
+                        <span class="material-icons md-48">
+                            settings
+                        </span>
+                    </button>
+                </div>
             </div>
-            <div class="columns is-vcentered is-centered" id="mainCardHolder">
+            <div class="columns is-vcentered is-centered pt-3" id="mainCardHolder">
                 <div class="column">
                     <div class="columns">
-                        <div class="column is-6 image is-16by9">
-                            <img id="petPhoto" src="" alt="picture of dog">
+                        <div class="column is-12-tablet is-6-widescreen image is-16by9">
+                            <img id="petPhoto" src="./assets/images/jack.jpg" alt="picture of dog">
                         </div>
-                        <div class="column is-6 p-5" id="petDataHolder">
-                            <div class="content" id="petData">
-                                <p class="title is-4" id="petName"></p>
-                                <p class="subtitle is-6"id = "petAge"></p>
-                                <p id="petType"></p>
-                                <p id="petGender"></p>
-                                <p><span class="has-tooltip-arrow has-tooltipl-multiline" id="petBreed" data-tooltip=""></span></p>
-                                <p id="petSize"></p>
-                                <p id="petDescription"></p>
+                        <div class="column is-12-tablet is-6-widescreen pr-6" id="right-side-of-card">
+                            <div class="columns">
+                                <div class="column is-12 p-0 is-flex is-align-items-end">
+                                    <div class="content pb-2">
+                                        <span class="card-title" id="petName">
+                                            Boskco
+                                        </span>
+                                        <span class="card-title">
+                                        ,
+                                        </span>
+                                        <span class="card-title material-icons" id="petGender">
+                                            female
+                                        </span>
+                                        <br>
+                                        <span class="card-subtitle has-tooltip-arrow has-tooltipl-multiline" id="petBreed" data-tooltip="">
+                                            Chihuahua
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-12 p-0">
+                                    <div class="content pt-2">
+                                        <span class="card-text" id="petAge">Age: Young</span>
+                                        <br>
+                                        <span class="card-text" id="petSize">Size: Large</span>
+                                        <br>
+                                        <span class="card-text" id="petDescription">Lorem ipsum dolor sit amet consectetur adipisicing elit. A molestiae maxime doloribus</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="columns is-justify-content-center is-align-content-center">
-                <div class="column is-2 is-flex is-justify-content-flex-end">
-                    <img class="button is-info is-48x48 px-1 py-1 likeAndDislikeBtn" id="dislikeBtn" src="./assets/images/buttons/dislike-light.png" alt="" srcset="">
-                    <!-- dislike -->
+            <div class="columns is-mobile is-justify-content-center is-align-content-center pt-5"> <!-- like and dislike buttons -->
+                <div class="column is-half-mobile is-flex is-justify-content-flex-end py-0 px-4"> <!-- dislike -->
+                    <button class="button is-48x48 px-1 py-1 likeAndDislikeBtn" id="dislikeBtn">
+                        <span class="material-icons md-48">
+                            not_interested
+                        </span>
+                    </button>
                 </div>
-                <div class="column is-2">
-                    <!-- like -->
-                    <img class="button is-danger is-48x48 px-1 py-1 likeAndDislikeBtn" id="likeBtn" src="./assets/images/buttons/like-light.png" alt="" srcset="">
+                <div class="column is-half-mobile is-flex is-justify-content-start py-0 px-4"> <!-- like -->
+                    <button class="button is-48x48 px-1 py-1 likeAndDislikeBtn" id="likeBtn">
+                        <span class="material-icons md-48">
+                            favorite
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
