@@ -31,3 +31,4 @@ Pet Seeker is a user-friendly website that can help you find your new four-legge
 3. [jQuery](https://jquery.com/)
 4. [PetFinder API](https://www.petfinder.com/) used to grab adoptable pets in shelters
 5. [The Dog API](https://thedogapi.com/) used to grab information to give to user about the breed avaliable
+6. [Google Fonts Icons](https://fonts.google.com/icons) used for all page icons
