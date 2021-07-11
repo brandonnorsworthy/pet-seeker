@@ -1,6 +1,6 @@
 /* 40BEDD,40BEDD,40BEDD */
 :root {
-    --main-color: #40BEDD;
+    --main-color: #1599d6;
     --default-grey: #6b6b6b;
     --default-white: #ffffff;
 }
@@ -56,18 +56,23 @@ footer {
 }
 
 
-#pastLikesDiv > a {
-    color: black;
-    border-bottom: 1px solid rgb(224, 224, 224);
+#pastLikesDiv > div {
+    color: var(--default-white);
+    border-bottom: 1px solid var(--default-grey);
     text-decoration: none;
 }
 
-#pastLikesDiv > a:last-child {
-    border: 0px;
+#pastLikesDiv > div a {
+    color: var(--main-color);
+    text-decoration: none;
 }
 
-#pastLikesDiv > a:hover {
-    color: rgb(46, 88, 200);
+#pastLikesDiv > div:last-child {
+    border-bottom: 0px;
+}
+
+#pastLikesDiv > div:hover a {
+    color: var(--main-color);
 }
 
 #pastLikesDiv > a img {
@@ -77,10 +82,15 @@ footer {
     border-radius: 50%;
 }
 
-.hideAndSettings,
 .likeAndDislikeBtn {
     width: 60px;
     height: 60px;
+    border-radius: 50%;
+}
+
+.hideAndSettings {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
 }
 
@@ -115,16 +125,35 @@ footer {
     border-bottom-left-radius: 4%;
 }
 
-#petDataHolder {
+#right-side-of-card {
+    padding-left: 3vw;
     border-top-right-radius: 4%;
     border-bottom-right-radius: 4%;
-    background-color: #40BEDD;
-    color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
+    background-color: var(--main-color);
+    color: var(--default-white);
 }
 
-#petDataHolder p {
-    color:#ffffff
+#right-side-of-card > div {
+    height: 50%;
+}
+
+#right-side-of-card * {
+    color:var(--default-white)
+}
+
+.pet-data {
+    height: 50%;
+    width:100%
+}
+
+.card-title {
+    font-size: 3rem;
+}
+
+.card-subtitle {
+    font-size: 2rem;
+}
+
+.card-text {
+    font-size: 1.5rem;
 }

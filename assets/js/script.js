@@ -118,16 +118,15 @@ function displayAnimalData (animalData) {
     if (animalHasImage(animalData)) { //look and see if the animal has a image on file
         currentPetId = animalData.id; //assignes current pet id to global for local storage if favorited
         document.getElementById('petName').textContent = `${animalData.name}`;
-        document.getElementById('petAge').textContent = `Age: ${animalData.age}`;
+        document.getElementById('petGender').textContent = `${animalData.gender.toLowerCase()}`;
+        document.getElementById('petBreed').textContent = `${animalData.breeds.primary}`;
         document.getElementById('petPhoto').setAttribute('src', animalData.photos[0].large)
-        document.getElementById('petType').textContent = `Species: ${animalData.type}`;
-        document.getElementById('petGender').textContent = `Gender: ${animalData.gender}`;
-        document.getElementById('petBreed').textContent = `Breed: ${animalData.breeds.primary}`;
+        document.getElementById('petAge').textContent = `Age: ${animalData.age}`;
         document.getElementById('petSize').textContent = `Size: ${animalData.size}`;
 
         //Handles null description by
         if (animalData.description !== null) {
-            document.getElementById('petDescription').textContent = `Description: ${animalData.description}`;
+            document.getElementById('petDescription').textContent = `${animalData.description}`;
         };
 
         dogApiCall(animalData.breeds);

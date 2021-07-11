@@ -105,31 +105,52 @@
                 <div class="column">
                     <div class="columns">
                         <div class="column is-6 image is-16by9">
-                            <img id="petPhoto" src="" alt="picture of dog">
+                            <img id="petPhoto" src="./assets/images/jack.jpg" alt="picture of dog">
                         </div>
-                        <div class="column is-6 p-5" id="petDataHolder">
-                            <div class="content" id="petData">
-                                <p class="title is-4" id="petName"></p>
-                                <p class="subtitle is-6"id = "petAge"></p>
-                                <p id="petType"></p>
-                                <p id="petGender"></p>
-                                <p><span class="has-tooltip-arrow has-tooltipl-multiline" id="petBreed" data-tooltip=""></span></p>
-                                <p id="petSize"></p>
-                                <p id="petDescription"></p>
+                        <div class="column is-6 pr-6" id="right-side-of-card">
+                            <div class="columns">
+                                <div class="column is-12 p-0 is-flex is-align-items-end">
+                                    <div class="content pb-2">
+                                        <span class="card-title" id="petName">
+                                            Boskco
+                                        </span>
+                                        <span class="card-title">
+                                        ,
+                                        </span>
+                                        <span class="card-title material-icons" id="petGender">
+                                            female
+                                        </span>
+                                        <br>
+                                        <span class="card-subtitle has-tooltip-arrow has-tooltipl-multiline" id="petBreed" data-tooltip="">
+                                            Chihuahua
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-12 p-0">
+                                    <div class="content pt-2">
+                                        <span class="card-text" id="petAge">Age: Young</span>
+                                        <br>
+                                        <span class="card-text" id="petSize">Size: Large</span>
+                                        <br>
+                                        <span class="card-text" id="petDescription">Lorem ipsum dolor sit amet consectetur adipisicing elit. A molestiae maxime doloribus</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="columns is-mobile is-justify-content-center is-align-content-center pt-3"> <!-- like and dislike buttons -->
-                <div class="column is-half-mobile is-flex is-justify-content-flex-end py-0 px-5"> <!-- dislike -->
+            <div class="columns is-mobile is-justify-content-center is-align-content-center pt-5"> <!-- like and dislike buttons -->
+                <div class="column is-half-mobile is-flex is-justify-content-flex-end py-0 px-4"> <!-- dislike -->
                     <button class="button is-48x48 px-1 py-1 likeAndDislikeBtn" id="dislikeBtn">
                         <span class="material-icons md-48">
                             not_interested
                         </span>
                     </button>
                 </div>
-                <div class="column is-half-mobile is-flex is-justify-content-start py-0 px-5"> <!-- like -->
+                <div class="column is-half-mobile is-flex is-justify-content-start py-0 px-4"> <!-- like -->
                     <button class="button is-48x48 px-1 py-1 likeAndDislikeBtn" id="likeBtn">
                         <span class="material-icons md-48">
                             favorite
