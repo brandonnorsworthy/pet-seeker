@@ -108,7 +108,7 @@ footer {
     color: var(--main-color);
 }
 
-#showHideBtn,
+/* #showHideBtn, */
 #dislikeBtn {
     color: var(--default-grey);
     border: 1px solid var(--default-grey);
@@ -123,8 +123,8 @@ footer {
     background-color: var(--main-color);
 }
 
-#showHideBtn:hover,
-#showHideBtn:active,
+/* #showHideBtn:hover, */
+/* #showHideBtn:active, */
 #dislikeBtn:hover,
 #dislikeBtn:active {
     color: var(--default-white);
