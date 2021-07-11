@@ -189,7 +189,7 @@ footer {
 }
 
 #scroll-box {
-    height: 76vh;
+    height: 80vh;
     overflow-y: scroll;
     overflow-x: hidden;
 }
