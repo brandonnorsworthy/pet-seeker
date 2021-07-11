@@ -152,12 +152,15 @@ footer {
 }
 
 .delete-button {
-    color: var(--default-grey)
+    border-radius: 50%;
+    border: 2px solid var(--default-grey);
+    color: var(--default-grey);
 }
 
 .delete-button:hover {
-    color: rgb(255, 115, 115);
-    transition: color 0.5s;
+    color: var(--default-white);
+    background: rgb(255, 115, 115);
+    border: 0px;
     cursor: pointer;
 }
 
@@ -171,8 +174,4 @@ footer {
     width: 64px;
     height: 64px;
     border-radius:50%;
-}
-
-#deleteButton {
-    border-radius: 50%;
 }

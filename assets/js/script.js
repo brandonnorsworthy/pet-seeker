@@ -223,7 +223,7 @@ function updatePastLikes(animalObject) {
         </a>
         <div class="column is-1 p-0 is-flex is-align-items-center is-justify-content-center content">
             <span class="material-icons delete-button" id="deleteButton">
-                remove_circle
+                remove
             </span>
         </div>
     </div>
@@ -293,7 +293,7 @@ function showLikedPets() {
 function deletePastLikeElement(event) {
     if (event.target.id === 'deleteButton') {
         likedAnimalsArr = JSON.parse(localStorage.getItem('likedPets'));
-        var animalName = event.target.parentElement.children[0].children[1].children[0].textContent;
+        var animalName = event.target.parentElement.parentElement.children[0].children[1].children[0].textContent;
         var savedIndex = 0;
 
         for (let index = 0; index < likedAnimalsArr.length; index++) {
@@ -304,8 +304,8 @@ function deletePastLikeElement(event) {
         }
         likedAnimalsArr.splice(savedIndex, 1);
         localStorage.setItem('likedPets',JSON.stringify(likedAnimalsArr));
-        event.target.parentElement.remove();
-   }
+        event.target.parentElement.parentElement.remove();
+    }
 }
 
 //Search button event listener
