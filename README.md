@@ -1,6 +1,6 @@
 # Pet Seeker 🧑💘🐶
 
-deployment:  https://brandonnorsworthy.github.io/pet-seeker/
+deployment:  https://mguppy.github.io/pet-seeker/
 
 ### About 🐶
 
